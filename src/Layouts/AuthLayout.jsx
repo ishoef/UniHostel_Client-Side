@@ -3,11 +3,13 @@ import SignUp from "../Auth/SignUp/SignUp";
 import SignIn from "../Auth/SignIn/SignIn";
 import Logo from "../Components/Logo/Logo";
 
+
 export default function AuthPage() {
   const [tab, setTab] = useState("signup"); // or "signin"
 
   return (
-    <div className="min-h-screen bg-[#FFF4EC] flex items-center justify-center p-4">
+      <div className="min-h-screen bg-[#FFF4EC] flex items-center justify-center p-4">
+         
       <div className="max-w-7xl w-full grid grid-cols-1 md:grid-cols-2 gap-10">
         {/* Info Left Side */}
         <div className="flex flex-col gap-3 justify-center px-4 sm:px-6 py-6 sm:py-10">
