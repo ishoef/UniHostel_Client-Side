@@ -1,0 +1,24 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+
+/* Custom Theme Color */
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+  --color-primary: #FF6B35;     /* Orange - Primary Button */
+  --color-secondary: #008080;   /* Teal - Secondary elements */
+  --color-accent: #E85D04;      /* Accent Hover Button */
+  --color-neutral: #212121;     /* Dark Text */
+  --color-base-100: #FFFFFF;    /* White Cards */
+  --color-base-200: #F9F6F2;    /* Light Beige Background */
+  --color-muted: #7D7D7D;       /* Gray Text */
+}
+
+
+
+body{
+  width: 100%;
+  height: 100vh;
+  background-color: #F9F6F2;
+}
