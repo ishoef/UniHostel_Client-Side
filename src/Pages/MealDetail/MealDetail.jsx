@@ -46,7 +46,7 @@ const MealDetail = () => {
       {/* Top Section */}
       <div className="flex flex-col md:flex-row gap-6 bg-white p-6 rounded-lg shadow-sm">
         {/* Image */}
-        <div className="w-full md:w-1/2 bg-gray-100 h-64 flex items-center justify-center rounded">
+        <div className="w-full md:w-1/2 bg-gray-100 h-78 flex items-center justify-center rounded">
           <span className="text-gray-400 text-3xl">📷</span>
         </div>
 

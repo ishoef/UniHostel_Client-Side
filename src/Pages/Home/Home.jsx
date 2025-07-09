@@ -13,10 +13,10 @@ const Home = () => {
       <Hero />
       <FeaturedMeals />
       <OurImpact />
-      <WhyChooseUs />
       <HowItWorks />
-      <Testimonials />
+      <WhyChooseUs />
       <MembershipPlans />
+      <Testimonials />
     </div>
   );
 };

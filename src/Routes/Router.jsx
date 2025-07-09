@@ -10,6 +10,7 @@ import PrivateRoute from "./PrivateRoute";
 import Meals from "../Pages/Meals/Meals";
 import UpCommingMeals from "../Pages/UpCommingMeals/UpCommingMeals";
 import MealDetail from "../Pages/MealDetail/MealDetail";
+import SignUpPage from "../Auth/SignUp/SignUp";
 
 export const router = createBrowserRouter([
   {
@@ -31,7 +32,7 @@ export const router = createBrowserRouter([
         Component: Meals,
       },
       {
-        path: '/details',
+        path: "/details",
         Component: MealDetail,
       },
       {
@@ -42,19 +43,19 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+    ],
+  },
+  {
+    path: "/auth",
+    Component: AuthLayout,
+    children: [
       {
-        path: "/auth",
-        Component: AuthLayout,
-        children: [
-          {
-            path: "/auth/register",
-            Component: Register,
-          },
-          {
-            path: "/auth/login",
-            Component: Login,
-          },
-        ],
+        path: "/auth/register",
+        Component: SignUpPage,
+      },
+      {
+        path: "/auth/login",
+        Component: Login,
       },
     ],
   },
