@@ -1,12 +1,56 @@
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import SignUp from "../Auth/SignUp/SignUp";
 import SignIn from "../Auth/SignIn/SignIn";
 import Logo from "../Components/Logo/Logo";
 import AuthHeader from "../Components/AuthHeader/AuthHeader";
-
+import { FcGoogle } from "react-icons/fc";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { AuthContext } from "../Context/AuthProvider";
+import { useLocation, useNavigate } from "react-router";
+import Swal from "sweetalert2";
+import { toast } from "react-toastify";
 
 export default function AuthPage() {
   const [tab, setTab] = useState("signup"); // or "signin"
+
+  const { auth } = use(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+  // Google Login
+
+  const provider = new GoogleAuthProvider();
+
+  const handleloginWithGoogle = () => {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        console.log(result);
+        navigate(`${location.state ? location.state : "/"}`);
+
+        Swal.fire({
+          title: "Congratulation! Welcome to Our World",
+          icon: "success",
+          draggable: true,
+        });
+      })
+      .catch((error) => {
+        const errorMessages = {
+          "auth/popup-blocked":
+            "The popup was blocked by the browser. Please allow popups and try again.",
+          "auth/popup-closed-by-user":
+            "The popup was closed before completing sign in.",
+          "auth/cancelled-popup-request":
+            "Only one popup request is allowed at a time. Please try again.",
+          "auth/operation-not-allowed":
+            "Google sign-in is not enabled. Please contact support.",
+          "auth/account-exists-with-different-credential":
+            "An account already exists with the same email but different sign-in credentials.",
+          default: "Google sign-in failed. Please try again.",
+        };
+
+        const message = errorMessages[error.code] || errorMessages.default;
+        toast.error(message);
+      });
+  };
 
   return (
     <div className="min-h-screen bg-[#FFF4EC] flex items-center justify-between flex-col p-4">
@@ -140,14 +184,17 @@ export default function AuthPage() {
                 Sign Up
               </button>
             </div>
-            {tab === "signup" ? <SignUp /> : <SignIn />}
+            <div>{tab === "signup" ? <SignUp /> : <SignIn />}</div>
+            <p className="text-center divider">or</p>
+            <button onClick={handleloginWithGoogle} className="btn w-full">
+              {" "}
+              <FcGoogle />
+              Google
+            </button>
           </div>
         </div>
       </div>
-      <div className="basis-1/4">
-
-      </div>
-     
+      <div className="basis-1/4"></div>
     </div>
   );
 }
