@@ -1,22 +1,22 @@
 import React, { use, useState } from "react";
 import { AuthContext } from "../../Context/AuthProvider";
 import { toast } from "react-toastify";
-import { CiCircleAlert } from "react-icons/ci";
-import { FaEye, FaEyeSlash } from "react-icons/fa"; // 👈 added
+import { FaEye, FaEyeSlash } from "react-icons/fa"; // Eye icons for password toggle
 import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
 
 const SignUp = () => {
-  const { createUser, setUser } = use(AuthContext);
-  const [showError, setShowError] = useState(null);
-  const [showPassword, setShowPassword] = useState(false); // 👈 added
+  const { createUser, setUser } = use(AuthContext); 
+  const [showError, setShowError] = useState(null); 
+  const [showPassword, setShowPassword] = useState(false); 
 
-  const navigate = useNavigate();
+  const navigate = useNavigate(); 
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault(); 
     console.log("i am clicked");
 
+    // Retrieve form field values
     const firstName = e.target.firstName.value;
     const lastName = e.target.lastName.value;
     const email = e.target.email.value;
@@ -28,10 +28,12 @@ const SignUp = () => {
 
     console.log(firstName, lastName, email, tel, password, agreed);
 
+    // Password validation rules
     const hasUppercase = /[A-Z]/.test(password);
     const hasLowercase = /[a-z]/.test(password);
     const hasMinLength = password.length >= 6;
 
+    // Error messages for password validation
     const errorMessages = {
       hasUppercase: "Password must contain at least one uppercase letter.",
       hasLowercase: "Password must contain at least one lowercase letter.",
@@ -39,6 +41,7 @@ const SignUp = () => {
       hasMinLength: "Password must be at least 6 characters long.",
     };
 
+    // Validate password and show error if any rule fails
     if (!hasUppercase) {
       toast.error(errorMessages.hasUppercase);
       setShowError(errorMessages.hasUppercase);
@@ -55,12 +58,15 @@ const SignUp = () => {
       return;
     }
 
+    // Call createUser from AuthContext
     createUser(email, password)
       .then((result) => {
         console.log("after create user", result);
         const user = result.user;
-        setUser(user);
-        navigate("/");
+        setUser(user); // Set the current user in context
+        navigate("/"); // Redirect to home page
+
+        // Show success alert using SweetAlert2
         Swal.fire({
           icon: "success",
           title: "Registration Successful",
@@ -68,6 +74,7 @@ const SignUp = () => {
         });
       })
       .catch((error) => {
+        // Firebase auth errors to user-friendly messages
         const createErrorMessages = {
           "auth/email-already-in-use": "This email is already in use.",
           "auth/invalid-email": "The email address is invalid.",
@@ -79,14 +86,16 @@ const SignUp = () => {
           "auth/missing-email": "Please enter an email address.",
           default: "An unexpected error occurred. Please try again.",
         };
+
         const message =
           createErrorMessages[error.code] || createErrorMessages.default;
-        toast.error(message);
+        toast.error(message); // Show error toast
       });
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
+      {/* Name fields */}
       <div className="flex gap-3">
         <input
           type="text"
@@ -104,6 +113,7 @@ const SignUp = () => {
         />
       </div>
 
+      {/* Email field */}
       <input
         type="email"
         name="email"
@@ -112,6 +122,7 @@ const SignUp = () => {
         required
       />
 
+      {/* Phone number field */}
       <input
         type="tel"
         name="tel"
@@ -120,25 +131,27 @@ const SignUp = () => {
         required
       />
 
-      {/* Password with Eye Button */}
+      {/* Password field with show/hide functionality */}
       <div className="relative">
         <input
-          type={showPassword ? "text" : "password"} // 👈 dynamic type
+          type={showPassword ? "text" : "password"}
           name="password"
           placeholder="Create a strong password"
           className="w-full border border-gray-300 rounded-md p-2 text-[#111827]"
           required
         />
         <span
-          onClick={() => setShowPassword(!showPassword)} // 👈 toggle
+          onClick={() => setShowPassword(!showPassword)} 
           className="absolute right-3 top-3 text-gray-500 cursor-pointer"
         >
           {showPassword ? <FaEyeSlash /> : <FaEye />}
         </span>
       </div>
 
+      {/* Show password error message */}
       <p className="text-red-400 flex items-center gap-2">{showError}</p>
 
+      {/* Terms and conditions agreement */}
       <div className="flex items-start text-sm text-[#111827]">
         <input type="checkbox" name="agreed" required className="mr-2 mt-1" />
         <label>
@@ -153,6 +166,7 @@ const SignUp = () => {
         </label>
       </div>
 
+      {/* Submit button */}
       <button className="w-full bg-gradient-to-r from-orange-500 to-pink-500 text-white py-2 rounded-md font-semibold hover:bg-[#1f2937]">
         Create Account
       </button>
