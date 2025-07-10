@@ -1,9 +1,20 @@
-export default function SignIn() {
+import { useRef, useEffect } from "react";
+
+const SignIn = () => {
+  const emailRef = useRef();
+
+  useEffect(() => {
+    document.title = "login | UniHostel";
+  }, []);
+
   return (
     <form className="space-y-4">
       <input
+        placeholder="Enter Your Email"
         type="email"
-        placeholder="Enter your email"
+        name="email"
+        ref={emailRef}
+        required
         className="w-full border border-gray-300 rounded-md p-2 text-[#111827] focus:outline-none focus:ring-2 focus:ring-[#F97316] transition"
       />
       <input
@@ -12,9 +23,9 @@ export default function SignIn() {
         className="w-full border border-gray-300 rounded-md p-2 text-[#111827] focus:outline-none focus:ring-2 focus:ring-[#F97316] transition"
       />
       <select className="w-full border border-gray-300 rounded-md p-2 text-[#111827] focus:outline-none focus:ring-2 focus:ring-[#F97316] transition">
-        <option>Customer</option>
-        <option>Driver</option>
-        <option>Merchant</option>
+        <option>Student</option>
+        
+        <option>Admin</option>
       </select>
 
       <div className="flex justify-between text-sm text-[#6B7280]">
@@ -32,4 +43,6 @@ export default function SignIn() {
       </button>
     </form>
   );
-}
+};
+
+export default SignIn;

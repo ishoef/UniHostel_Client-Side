@@ -1,44 +1,47 @@
 import React from "react";
 
-export default function SignUp() {
+const SignUp = () => {
   return (
     <form className="space-y-4">
       <div className="flex gap-3">
         <input
           type="text"
+          name="firstName"
           placeholder="First Name"
           className="w-1/2 border border-gray-300 rounded-md p-2 text-[#111827]"
+          required
         />
         <input
           type="text"
+          name="lastName"
           placeholder="Last Name"
           className="w-1/2 border border-gray-300 rounded-md p-2 text-[#111827]"
+          required
         />
       </div>
 
       <input
         type="email"
+        name="email"
         placeholder="Email"
         className="w-full border border-gray-300 rounded-md p-2 text-[#111827]"
+        required
       />
 
       <input
         type="tel"
         placeholder="Phone Number"
         className="w-full border border-gray-300 rounded-md p-2 text-[#111827]"
+        required
       />
 
       <input
         type="password"
         placeholder="Create a strong password"
         className="w-full border border-gray-300 rounded-md p-2 text-[#111827]"
+        required
       />
 
-      <select className="w-full border border-gray-300 rounded-md p-2 text-[#111827]">
-        <option>Customer</option>
-        <option>Driver</option>
-        <option>Merchant</option>
-      </select>
 
       <div className="flex items-start text-sm text-[#111827]">
         <input type="checkbox" className="mr-2 mt-1" />
@@ -60,3 +63,5 @@ export default function SignUp() {
     </form>
   );
 }
+
+export default SignUp;

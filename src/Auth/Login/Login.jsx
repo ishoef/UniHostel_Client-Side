@@ -19,7 +19,7 @@ const Login = () => {
   const emailRef = useRef();
 
   useEffect(() => {
-    document.title = "App Godaun | login";
+    document.title = "login | UniHostel";
   }, []);
 
   // Manual Login
