@@ -2,10 +2,16 @@ import React, { use, useState } from "react";
 import { AuthContext } from "../../Context/AuthProvider";
 import { toast } from "react-toastify";
 import { CiCircleAlert } from "react-icons/ci";
+import { FaEye, FaEyeSlash } from "react-icons/fa"; // 👈 added
+import { useNavigate } from "react-router";
+import Swal from "sweetalert2";
 
 const SignUp = () => {
   const { createUser, setUser } = use(AuthContext);
   const [showError, setShowError] = useState(null);
+  const [showPassword, setShowPassword] = useState(false); // 👈 added
+
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -16,46 +22,50 @@ const SignUp = () => {
     const email = e.target.email.value;
     const tel = e.target.tel.value;
     const password = e.target.password.value;
+    const agreed = e.target.agreed.checked;
+    const name = firstName + lastName;
+    console.log(name);
 
-    console.log(firstName, lastName, email, tel, password);
+    console.log(firstName, lastName, email, tel, password, agreed);
 
     const hasUppercase = /[A-Z]/.test(password);
-        const hasLowercase = /[a-z]/.test(password);
-        // const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-        const hasMinLength = password.length >= 6;
-    
-        const errorMessages = {
-          hasUppercase: "Password must contain at least one uppercase letter.",
-          hasLowercase: "Password must contain at least one lowercase letter.",
-          hasSpecialChar: "Password must contain at least one special character.",
-          hasMinLength: "Password must be at least 6 characters long.",
-        };
-    
-        if (!hasUppercase) {
-          toast.error(errorMessages.hasUppercase);
-          setShowError(errorMessages.hasUppercase);
-          return;
-        }
-        if (!hasLowercase) {
-          toast.error(errorMessages.hasLowercase);
-          setShowError(errorMessages.hasLowercase);
-          return;
-        }
-        // if (!hasSpecialChar) {
-        //   toast.error(errorMessages.hasSpecialChar);
-        //   setShowError(errorMessages.hasSpecialChar);
-        //   return;
-        // }
-        if (!hasMinLength) {
-          toast.error(errorMessages.hasMinLength);
-          setShowError(errorMessages.hasMinLength);
-          return;
-        }
+    const hasLowercase = /[a-z]/.test(password);
+    const hasMinLength = password.length >= 6;
+
+    const errorMessages = {
+      hasUppercase: "Password must contain at least one uppercase letter.",
+      hasLowercase: "Password must contain at least one lowercase letter.",
+      hasSpecialChar: "Password must contain at least one special character.",
+      hasMinLength: "Password must be at least 6 characters long.",
+    };
+
+    if (!hasUppercase) {
+      toast.error(errorMessages.hasUppercase);
+      setShowError(errorMessages.hasUppercase);
+      return;
+    }
+    if (!hasLowercase) {
+      toast.error(errorMessages.hasLowercase);
+      setShowError(errorMessages.hasLowercase);
+      return;
+    }
+    if (!hasMinLength) {
+      toast.error(errorMessages.hasMinLength);
+      setShowError(errorMessages.hasMinLength);
+      return;
+    }
 
     createUser(email, password)
       .then((result) => {
         console.log("after create user", result);
-        setUser(result.user);
+        const user = result.user;
+        setUser(user);
+        navigate("/");
+        Swal.fire({
+          icon: "success",
+          title: "Registration Successful",
+          text: "You have successfully registered!",
+        });
       })
       .catch((error) => {
         const createErrorMessages = {
@@ -72,14 +82,12 @@ const SignUp = () => {
         const message =
           createErrorMessages[error.code] || createErrorMessages.default;
         toast.error(message);
-        // setShowError(message);
       });
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="flex gap-3">
-        {/* first Name */}
         <input
           type="text"
           name="firstName"
@@ -87,8 +95,6 @@ const SignUp = () => {
           className="w-1/2 border border-gray-300 rounded-md p-2 text-[#111827]"
           required
         />
-
-        {/* Last Name */}
         <input
           type="text"
           name="lastName"
@@ -98,7 +104,6 @@ const SignUp = () => {
         />
       </div>
 
-      {/* Email */}
       <input
         type="email"
         name="email"
@@ -107,7 +112,6 @@ const SignUp = () => {
         required
       />
 
-      {/* Phone Number */}
       <input
         type="tel"
         name="tel"
@@ -116,21 +120,27 @@ const SignUp = () => {
         required
       />
 
-      {/* Password */}
-      <input
-        type="password"
-        name="password"
-        placeholder="Create a strong password"
-        className="w-full border border-gray-300 rounded-md p-2 text-[#111827]"
-        required
-      />
-      <p className="text-red-400 flex items-center gap-2">
-        {/* <CiCircleAlert /> */}
-        {showError}
-      </p>
-      {/* Terms Of Service */}
+      {/* Password with Eye Button */}
+      <div className="relative">
+        <input
+          type={showPassword ? "text" : "password"} // 👈 dynamic type
+          name="password"
+          placeholder="Create a strong password"
+          className="w-full border border-gray-300 rounded-md p-2 text-[#111827]"
+          required
+        />
+        <span
+          onClick={() => setShowPassword(!showPassword)} // 👈 toggle
+          className="absolute right-3 top-3 text-gray-500 cursor-pointer"
+        >
+          {showPassword ? <FaEyeSlash /> : <FaEye />}
+        </span>
+      </div>
+
+      <p className="text-red-400 flex items-center gap-2">{showError}</p>
+
       <div className="flex items-start text-sm text-[#111827]">
-        <input type="checkbox" className="mr-2 mt-1" />
+        <input type="checkbox" name="agreed" required className="mr-2 mt-1" />
         <label>
           I agree to the{" "}
           <a href="#" className="text-[#F97316] font-medium hover:underline">
@@ -143,7 +153,6 @@ const SignUp = () => {
         </label>
       </div>
 
-      {/* Submit Button */}
       <button className="w-full bg-gradient-to-r from-orange-500 to-pink-500 text-white py-2 rounded-md font-semibold hover:bg-[#1f2937]">
         Create Account
       </button>
