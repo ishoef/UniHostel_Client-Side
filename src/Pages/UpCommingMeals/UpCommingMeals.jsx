@@ -152,9 +152,12 @@ const UpcomingMeals = () => {
   return (
     <div className="max-w-7xl mx-auto p-5">
       <header className="text-center mb-8">
-        <h1 className="text-4xl font-bold mb-2 text-[#111827]">
-          Upcoming Meals
-        </h1>
+        <h2 className="text-center text-3xl sm:text-4xl lg:text-5xl font-bold my-4">
+          Upcomming{" "}
+          <span className="bg-gradient-to-r from-orange-500 to-pink-500 text-transparent bg-clip-text">
+            Meals
+          </span>
+        </h2>
         <p className="text-gray-500 max-w-2xl mx-auto">
           Discover what our talented chefs are preparing for you. Pre-order your
           favorites and never miss out on special dishes!
@@ -213,12 +216,13 @@ const UpcomingMeals = () => {
         </div>
 
         {/* Clear Filters Button */}
-        <button className="flex items-center gap-2 bg-gradient-to-r from-orange-500 to-pink-500 text-white px-5 py-2 rounded-md font-semibold hover:opacity-90 transition">
+        <button className="cursor-pointer flex items-center gap-2 bg-gradient-to-r from-orange-500 to-pink-500 text-white px-5 py-2 rounded-md font-semibold hover:opacity-90 transition">
           <IoFilter className="text-lg" />
           Clear Filters
         </button>
       </div>
 
+      {/* Meals Showcase */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
         {meals.map((meal) => (
           <div

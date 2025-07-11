@@ -106,8 +106,16 @@ export default function Footer() {
       </div>
 
       {/* Bottom */}
-      <div className="max-w-7xl mx-auto mt-6 flex flex-col sm:flex-row justify-between text-sm text-gray-500 px-2">
+      <div className="max-w-7xl mx-auto mt-6 flex flex-col sm:flex-row items-center justify-center sm:justify-between text-sm text-gray-500 px-2">
         <p>© 2024 UniHostel. All rights reserved.</p>
+        <p>
+          Developed by{" "}
+          <span className="text-primary underline cursor-pointer">
+            <a href="https://portfolio-rose-two-uimck3sec9.vercel.app/" target="_blank">
+              Ismail Nayef
+            </a>
+          </span>
+        </p>
         <div className="flex gap-4 mt-2 sm:mt-0">
           <a href="#" className="hover:underline">
             Privacy Policy
