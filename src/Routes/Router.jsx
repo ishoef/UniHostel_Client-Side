@@ -11,12 +11,13 @@ import Meals from "../Pages/Meals/Meals";
 import UpCommingMeals from "../Pages/UpCommingMeals/UpCommingMeals";
 import MealDetail from "../Pages/MealDetail/MealDetail";
 import SignUpPage from "../Auth/SignUp/SignUp";
+import UpcomingMeals from "../Pages/UpCommingMeals/UpCommingMeals";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     Component: MainLayout,
-    errorElement: Error,
+    errorElement: <Error />,
     children: [
       {
         path: "/",
@@ -25,7 +26,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/upcommingmeals",
-        Component: UpCommingMeals,
+        Component: UpcomingMeals,
       },
       {
         path: "/meals",

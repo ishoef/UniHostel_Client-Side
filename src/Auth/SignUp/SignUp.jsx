@@ -101,14 +101,14 @@ const SignUp = () => {
           type="text"
           name="firstName"
           placeholder="First Name"
-          className="w-1/2 border border-gray-300 rounded-md p-2 text-[#111827]"
+          className="w-1/2 border focus-within:outline-primary border-gray-300 rounded-md p-2 text-[#111827]"
           required
         />
         <input
           type="text"
           name="lastName"
           placeholder="Last Name"
-          className="w-1/2 border border-gray-300 rounded-md p-2 text-[#111827]"
+          className="w-1/2 border focus-within:outline-primary border-gray-300 rounded-md p-2 text-[#111827]"
           required
         />
       </div>
@@ -118,7 +118,7 @@ const SignUp = () => {
         type="email"
         name="email"
         placeholder="Email"
-        className="w-full border border-gray-300 rounded-md p-2 text-[#111827]"
+        className="w-full border border-gray-300 focus-within:outline-primary rounded-md p-2 text-[#111827]"
         required
       />
 
@@ -127,7 +127,7 @@ const SignUp = () => {
         type="tel"
         name="tel"
         placeholder="Phone Number"
-        className="w-full border border-gray-300 rounded-md p-2 text-[#111827]"
+        className="w-full border border-gray-300 focus-within:outline-primary rounded-md p-2 text-[#111827]"
         required
       />
 
@@ -137,11 +137,11 @@ const SignUp = () => {
           type={showPassword ? "text" : "password"}
           name="password"
           placeholder="Create a strong password"
-          className="w-full border border-gray-300 rounded-md p-2 text-[#111827]"
+          className="w-full border border-gray-300 focus-within:outline-primary rounded-md p-2 text-[#111827]"
           required
         />
         <span
-          onClick={() => setShowPassword(!showPassword)} 
+          onClick={() => setShowPassword(!showPassword)}
           className="absolute right-3 top-3 text-gray-500 cursor-pointer"
         >
           {showPassword ? <FaEyeSlash /> : <FaEye />}

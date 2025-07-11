@@ -22,7 +22,7 @@ const Error = () => {
           </p>
           <Link to="./">
             <button className="btn rounded-3xl text-white bg-primary text-[18px] hover:bg-transparent hover:text-primary">
-              Chill With Our Apps
+              Chill With Our Meals
             </button>
           </Link>
         </div>
