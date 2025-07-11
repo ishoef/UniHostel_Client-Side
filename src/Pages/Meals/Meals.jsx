@@ -55,48 +55,48 @@ function AllMeals() {
   return (
     <div className="max-w-7xl mx-auto p-5">
       <h2 className="text-center text-3xl sm:text-4xl lg:text-5xl font-bold my-4">
-        All {" "}
+        All{" "}
         <span className="bg-gradient-to-r from-orange-500 to-pink-500 text-transparent bg-clip-text">
           Meals
         </span>
       </h2>
 
       {/* Search & Category & Price */}
-      <div className="border border-gray-300 rounded-md bg-white p-5 flex flex-wrap justify-between items-center my-6">
-        <div className=" flex flex-wrap gap-3">
+      <div className="border border-gray-300 rounded-md bg-white p-5 flex gap-4 justify-between items-center my-6">
+        <div className="w-full grid grid-cols-2 md:grid-cols-3 gap-5">
           <input
             type="text"
             placeholder="Search Meals"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="p-2 shadow w-52 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
+            className="p-2 shadow rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
           />
 
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-            className="p-2 shadow w-52 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
+            className="p-2 shadow rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
           >
             <option>All Categories</option>
             <option>Breakfast</option>
             <option>Lunch</option>
             <option>Dinner</option>
           </select>
-        </div>
 
-        <div className="border p-2 border-gray-300 shadow rounded-xl flex items-center gap-3">
-          <span className="text-sm">Price: Up to ${price}</span>
-          <input
-            type="range"
-            min="2"
-            max="50"
-            value={price}
-            onChange={(e) => setPrice(Number(e.target.value))}
-            className="accent-orange-500"
-          />
-          <button className="bg-orange-500 p-2 rounded-md hover:bg-orange-600 text-white">
-            Apply Filters
-          </button>
+          <div className="border p-2 col-span-2 border-gray-300 shadow rounded flex items-center gap-3">
+            <span className="text-sm">Price: Up to ${price}</span>
+            <input
+              type="range"
+              min="2"
+              max="50"
+              value={price}
+              onChange={(e) => setPrice(Number(e.target.value))}
+              className="accent-orange-500 w-full"
+            />
+            <button className="hidden bg-orange-500 p-2 rounded-md hover:bg-orange-600 text-white">
+              Apply Filters
+            </button>
+          </div>
         </div>
       </div>
 
