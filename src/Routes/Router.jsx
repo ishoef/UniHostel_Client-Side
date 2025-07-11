@@ -12,6 +12,7 @@ import UpCommingMeals from "../Pages/UpCommingMeals/UpCommingMeals";
 import MealDetail from "../Pages/MealDetail/MealDetail";
 import SignUpPage from "../Auth/SignUp/SignUp";
 import UpcomingMeals from "../Pages/UpCommingMeals/UpCommingMeals";
+import StudentDashBoard from "../admin/StudentsDashBoard/StudentDashBoard";
 
 export const router = createBrowserRouter([
   {
@@ -44,6 +45,10 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+      {
+        path: "/student_dashboard",
+        Component: StudentDashBoard,
+      }
     ],
   },
   {

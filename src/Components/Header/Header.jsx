@@ -1,13 +1,15 @@
-import React, { use, useState } from "react";
+import React, { use, useEffect, useRef, useState } from "react";
 import { Link, NavLink } from "react-router";
 import Swal from "sweetalert2";
 import { TiThMenu } from "react-icons/ti";
 import { AuthContext } from "../../Context/AuthProvider";
 import Logo from "../Logo/Logo";
-import SectionContent from "../SectionContent/SectionContent";
+import { LuLayoutDashboard } from "react-icons/lu";
 
 const Header = () => {
   const { user, logOut } = use(AuthContext);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef(null); // use it on the main parent div of the
 
   const handleLogOut = () => {
     logOut()
@@ -26,7 +28,19 @@ const Header = () => {
       });
   };
 
-  const [showTooltip, setShowTooltip] = useState(false);
+  // Close the dorpdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <div className="sticky top-0 z-50 bg-white">
@@ -80,11 +94,8 @@ const Header = () => {
 
           <div className="flex gap-5 items-center">
             {user ? (
-              <Link to="/myprofile">
-                <div
-                  onMouseEnter={() => setShowTooltip(true)}
-                  onMouseLeave={() => setShowTooltip(false)}
-                >
+              <Link>
+                <div onClick={() => setMenuOpen((prev) => !prev)}>
                   <img
                     className="w-[40px] h-[40px] rounded-full border-2 border-green-600"
                     src={`${
@@ -101,14 +112,7 @@ const Header = () => {
             )}
 
             {/* login & Logout Button */}
-            {user ? (
-              <button
-                onClick={handleLogOut}
-                className="hidden lg:block btn btn-primary"
-              >
-                Log Out
-              </button>
-            ) : (
+            {!user && (
               <Link to="/auth/login">
                 <button className="btn btn-primary text-[16px] ">Login</button>
               </Link>
@@ -176,10 +180,41 @@ const Header = () => {
             </div>
           </div>
         </div>
-        {showTooltip && (
-          <div className="absolute right-2 top-16 lg:right-60 lg:top-[70px] bg-primary text-white text-sm px-4 py-5 rounded shadow-md z-10">
-            <p className="text-end text-xl">{user.displayName}</p>
-            <p>{user.email}</p>
+        {menuOpen && (
+          <div
+            ref={menuRef}
+            className="absolute right-2 top-16 lg:right-60 lg:top-[70px] bg-white border border-gray-200 text-sm rounded shadow-md z-10"
+          >
+            <div className="border-b-2 border-b-gray-300 p-3 rounded-t">
+              <p className="text-center text-primary text-xl">
+                {user.displayName}
+              </p>
+              <p className="text-gray-400">{user.email}</p>
+            </div>
+
+            <ul className="p-4">
+              <li className="border border-gray-200 rounded hover:bg-gray-300 py-2 text-center text-xl">
+                <Link
+                  to={"/student_dashboard"}
+                  className="flex items-center justify-center"
+                >
+                  <div className="flex items-center gap-2">
+                    <LuLayoutDashboard />
+                    Dashboard
+                  </div>
+                </Link>
+              </li>
+              <li>
+                {user && (
+                  <button
+                    onClick={handleLogOut}
+                    className=" btn btn-primary w-full mt-2"
+                  >
+                    Log Out
+                  </button>
+                )}
+              </li>
+            </ul>
           </div>
         )}
       </header>
