@@ -1,8 +1,6 @@
 import React from "react";
 import {
   FaCalendarAlt,
-  FaHeart,
-  FaStar,
   FaClock,
   FaUser,
 } from "react-icons/fa";

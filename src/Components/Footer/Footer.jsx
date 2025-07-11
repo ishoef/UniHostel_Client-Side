@@ -107,7 +107,7 @@ export default function Footer() {
 
       {/* Bottom */}
       <div className="max-w-7xl mx-auto mt-6 flex flex-col sm:flex-row items-center justify-center sm:justify-between text-sm text-gray-500 px-2">
-        <p>© 2024 UniHostel. All rights reserved.</p>
+        <p>© 2025 UniHostel. All rights reserved.</p>
         <p>
           Developed by{" "}
           <span className="text-primary underline cursor-pointer">

@@ -61,6 +61,12 @@ function AllMeals() {
         </span>
       </h2>
 
+      <p className="w-11/12 md:w-7/12 mx-auto text-center text-gray-500">
+        Explore a wide variety of delicious meals prepared by our talented
+        chefs. Browse by category, discover new flavors, and pre-order your
+        favorites to enjoy on campus.
+      </p>
+
       {/* Search & Category & Price */}
       <div className="border border-gray-300 rounded-md bg-white p-5 flex gap-4 justify-between items-center my-6">
         <div className="w-full grid grid-cols-2 md:grid-cols-3 gap-5">
@@ -83,7 +89,7 @@ function AllMeals() {
             <option>Dinner</option>
           </select>
 
-          <div className="border p-2 col-span-2 border-gray-300 shadow rounded flex items-center gap-3">
+          <div className="border p-2 col-span-2 md:col-span-1 border-gray-300 shadow rounded flex items-center gap-3">
             <span className="text-sm">Price: Up to ${price}</span>
             <input
               type="range"
