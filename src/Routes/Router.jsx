@@ -13,6 +13,7 @@ import MealDetail from "../Pages/MealDetail/MealDetail";
 import SignUpPage from "../Auth/SignUp/SignUp";
 import UpcomingMeals from "../Pages/UpCommingMeals/UpCommingMeals";
 import StudentDashBoard from "../admin/StudentsDashBoard/StudentDashBoard";
+import Dashboard from "../admin/Dashboard/Dashboard";
 
 export const router = createBrowserRouter([
   {
@@ -48,6 +49,10 @@ export const router = createBrowserRouter([
       {
         path: "/student_dashboard",
         Component: StudentDashBoard,
+      },
+      {
+        path: "/admin_dashboard",
+        Component: Dashboard,
       }
     ],
   },

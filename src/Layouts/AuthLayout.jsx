@@ -157,10 +157,10 @@ export default function AuthPage() {
           {/* Right Form Section */}
           <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8 w-full max-w-md mx-auto">
             <h2 className="text-lg sm:text-xl font-bold text-center mb-1">
-              Create Account
+              Join UniHostel
             </h2>
             <p className="text-xs sm:text-sm text-center text-gray-500 mb-6">
-              Join SwiftParcel and start delivering today
+              Join UniHostel and Enjoy Our Juicy Meals
             </p>
             <div className="flex justify-center gap-2 mb-4">
               <button

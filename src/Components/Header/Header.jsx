@@ -1,5 +1,5 @@
 import React, { use, useEffect, useRef, useState } from "react";
-import { Link, NavLink } from "react-router";
+import { Link, NavLink, useLocation } from "react-router";
 import Swal from "sweetalert2";
 import { TiThMenu } from "react-icons/ti";
 import { AuthContext } from "../../Context/AuthProvider";
@@ -7,25 +7,33 @@ import Logo from "../Logo/Logo";
 import { LuLayoutDashboard } from "react-icons/lu";
 
 const Header = () => {
-  const { user, logOut } = use(AuthContext);
+  const { user, setUser, logOut } = use(AuthContext);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null); // use it on the main parent div of the
+  const location = useLocation();
 
   const handleLogOut = () => {
-    logOut()
-      .then(() => {
-        // Sign-out successful.
-        //  alert("you are loged out successfully");
-        Swal.fire({
-          title: "You Are Loged Out!",
-          icon: "success",
-          draggable: true,
-        });
-      })
-      .catch((error) => {
-        // An error happened.
-        alert(error);
-      });
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to log out?",
+      icon: "warning",
+      confirmButtonText: "Yes, log out!",
+      confirmButtonColor: "#14b8a6",
+      showCancelButton: true,
+      cancelButtonText: "No, cancel!",
+      cancelButtonColor: "red",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        logOut()
+          .then(() => {
+            Swal.fire("Logged out!", "You have been logged out.", "success");
+            setUser(null);
+          })
+          .catch((error) => {
+            Swal.fire("Error!", error.message, "error");
+          });
+      }
+    });
   };
 
   // Close the dorpdown on outside click
@@ -41,6 +49,11 @@ const Header = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  // Close the dropdown on the route change
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [location.pathname]);
 
   return (
     <div className="sticky top-0 z-50 bg-white">
@@ -93,28 +106,24 @@ const Header = () => {
           </div>
 
           <div className="flex gap-5 items-center">
-            {user ? (
-              <Link>
-                <div onClick={() => setMenuOpen((prev) => !prev)}>
-                  <img
-                    className="w-[40px] h-[40px] rounded-full border-2 border-green-600"
-                    src={`${
-                      user.photoURL
-                        ? user.photoURL
-                        : "https://w7.pngwing.com/pngs/946/556/png-transparent-computer-icons-login-user-profile-client-smiley-%D0%B7%D0%BD%D0%B0%D1%87%D0%BA%D0%B8-windows-10-thumbnail.png"
-                    }`}
-                    alt=""
-                  />
-                </div>
-              </Link>
-            ) : (
-              ""
+            {user && (
+              <div onClick={() => setMenuOpen((prev) => !prev)}>
+                <img
+                  className="cursor-pointer w-[40px] h-[40px] rounded-full border-2 border-green-600"
+                  src={`${
+                    user.photoURL
+                      ? user.photoURL
+                      : "https://w7.pngwing.com/pngs/946/556/png-transparent-computer-icons-login-user-profile-client-smiley-%D0%B7%D0%BD%D0%B0%D1%87%D0%BA%D0%B8-windows-10-thumbnail.png"
+                  }`}
+                  alt=""
+                />
+              </div>
             )}
 
             {/* login & Logout Button */}
             {!user && (
               <Link to="/auth/login">
-                <button className="btn btn-primary text-[16px] ">Login</button>
+                <button className="btn btn-primary text-[16px] ">Join</button>
               </Link>
             )}
 
@@ -195,7 +204,7 @@ const Header = () => {
             <ul className="p-4">
               <li className="border border-gray-200 rounded hover:bg-gray-300 py-2 text-center text-xl">
                 <Link
-                  to={"/student_dashboard"}
+                  to={"/admin_dashboard"}
                   className="flex items-center justify-center"
                 >
                   <div className="flex items-center gap-2">
