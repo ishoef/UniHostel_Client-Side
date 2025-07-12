@@ -61,6 +61,7 @@ const AddMealForm = ({ distributorName, distributorEmail }) => {
         onSubmit={handleSubmit}
         className="grid grid-cols-1 md:grid-cols-2 gap-8"
       >
+        {/* Meal Title */}
         <div>
           <label className="block font-semibold text-gray-700 mb-1">
             Meal Title
@@ -74,19 +75,28 @@ const AddMealForm = ({ distributorName, distributorEmail }) => {
           />
         </div>
 
+        {/* Meal Category */}
         <div>
           <label className="block font-semibold text-gray-700 mb-1">
             Category
           </label>
-          <input
+          <select
             name="category"
             onChange={handleChange}
-            className="w-full border border-gray-400 focus-within:outline-primary p-3 rounded  hover:shadow-md transition"
-            placeholder="e.g. Dinner"
+            value={formData.category}
+            className="w-full h-[52px] border border-gray-400 focus:outline-primary p-3 rounded hover:shadow-md transition bg-white"
             required
-          />
+          >
+            <option value="" disabled>
+              -- Select Category --
+            </option>
+            <option value="Breakfast">Breakfast</option>
+            <option value="Lunch">Lunch</option>
+            <option value="Dinner">Dinner</option>
+          </select>
         </div>
 
+        {/* Upload Image */}
         <div className="md:col-span-2">
           <label className="block font-semibold text-gray-700 mb-1">
             Upload Image
@@ -95,7 +105,7 @@ const AddMealForm = ({ distributorName, distributorEmail }) => {
             type="file"
             accept="image/*"
             onChange={handleImageUpload}
-            className="w-full file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-pink-50 file:text-pink-700 hover:file:bg-pink-100 transition"
+            className="w-fit file:mr-4 border file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-pink-50 file:text-pink-700 hover:file:bg-pink-100 transition"
             required
           />
           {loading && (
@@ -110,6 +120,7 @@ const AddMealForm = ({ distributorName, distributorEmail }) => {
           )}
         </div>
 
+        {/* Ingredients */}
         <div className="md:col-span-2">
           <label className="block font-semibold text-gray-700 mb-1">
             Ingredients
@@ -124,6 +135,7 @@ const AddMealForm = ({ distributorName, distributorEmail }) => {
           />
         </div>
 
+        {/* Description */}
         <div className="md:col-span-2">
           <label className="block font-semibold text-gray-700 mb-1">
             Description
@@ -138,6 +150,7 @@ const AddMealForm = ({ distributorName, distributorEmail }) => {
           />
         </div>
 
+        {/* Price */}
         <div>
           <label className="block font-semibold text-gray-700 mb-1">
             Price ($)
@@ -151,6 +164,7 @@ const AddMealForm = ({ distributorName, distributorEmail }) => {
           />
         </div>
 
+        {/* Post Time */}
         <div>
           <label className="block font-semibold text-gray-700 mb-1">
             Post Time
@@ -164,6 +178,7 @@ const AddMealForm = ({ distributorName, distributorEmail }) => {
           />
         </div>
 
+        {/* Distributor Name */}
         <div>
           <label className="block font-semibold text-gray-700 mb-1">
             Distributor Name
@@ -175,6 +190,7 @@ const AddMealForm = ({ distributorName, distributorEmail }) => {
           />
         </div>
 
+        {/* Distributor Email */}
         <div>
           <label className="block font-semibold text-gray-700 mb-1">
             Distributor Email
@@ -186,6 +202,7 @@ const AddMealForm = ({ distributorName, distributorEmail }) => {
           />
         </div>
 
+        {/* Submit Button */}
         <div className="md:col-span-2 flex justify-center mt-6">
           <button
             type="submit"
