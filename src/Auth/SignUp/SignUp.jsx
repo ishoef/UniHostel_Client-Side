@@ -4,16 +4,18 @@ import { toast } from "react-toastify";
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // Eye icons for password toggle
 import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
+import useAxios from "../../Hooks/useAxios";
 
 const SignUp = () => {
-  const { createUser, setUser } = use(AuthContext); 
-  const [showError, setShowError] = useState(null); 
-  const [showPassword, setShowPassword] = useState(false); 
+  const { createUser, setUser } = use(AuthContext);
+  const [showError, setShowError] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const axiosInstance = useAxios();
 
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     console.log("i am clicked");
 
     // Retrieve form field values
@@ -60,11 +62,22 @@ const SignUp = () => {
 
     // Call createUser from AuthContext
     createUser(email, password)
-      .then((result) => {
+      .then(async (result) => {
         console.log("after create user", result);
         const user = result.user;
         setUser(user); // Set the current user in context
         navigate("/"); // Redirect to home page
+
+        // user info in the database
+        const userInfo = {
+          email: email,
+          role: "user", // default role
+          created_at: new Date().toISOString(),
+          last_login: new Date().toISOString(),
+        };
+
+        const userRes = await axiosInstance.post("/users", userInfo);
+        console.log(userRes.data);
 
         // Show success alert using SweetAlert2
         Swal.fire({

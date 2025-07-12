@@ -9,6 +9,7 @@ import { AuthContext } from "../Context/AuthProvider";
 import { useLocation, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
+import useAxios from "../Hooks/useAxios";
 
 export default function AuthPage() {
   const [tab, setTab] = useState("signup"); // or "signin"
@@ -16,14 +17,27 @@ export default function AuthPage() {
   const { auth } = use(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
-  // Google Login
+  const axiosInstance = useAxios();
 
+  // Google Login
   const provider = new GoogleAuthProvider();
 
   const handleloginWithGoogle = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
-        console.log(result);
+        const user = result.user;
+        console.log(user.email);
+
+        // user info in the database
+        const userInfo = {
+          email: user.email,
+          role: "user", // default role
+          created_at: new Date().toISOString(),
+          last_login: new Date().toISOString(),
+        };
+
+        axiosInstance.post("/users", userInfo);
+
         navigate(`${location.state ? location.state : "/"}`);
 
         Swal.fire({

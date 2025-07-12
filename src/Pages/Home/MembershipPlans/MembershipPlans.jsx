@@ -100,7 +100,7 @@ export default function MembershipPlans() {
 
             <div className="mt-8">
               <button
-                className={`w-full py-3 px-4 rounded-xl text-white text-sm font-semibold tracking-wide shadow-lg transition-colors duration-300 ${
+                className={`cursor-pointer w-full py-3 px-4 rounded-xl text-white text-sm font-semibold tracking-wide shadow-lg transition-colors duration-300 ${
                   plan.featured
                     ? "bg-orange-500 hover:bg-orange-600"
                     : "bg-gray-900 hover:bg-gray-800"
