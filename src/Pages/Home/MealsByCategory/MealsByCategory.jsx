@@ -86,7 +86,10 @@ export default function MealsByCategory() {
   return (
     <div className="py-12 px-4 max-w-7xl mx-auto">
       <h2 className="text-3xl sm:text-4xl font-extrabold text-center mb-3 text-gray-800">
-        Meals by <span className="text-orange-500">Category</span>
+        Meals by{" "}
+        <span className="bg-gradient-to-r from-orange-500 to-pink-500 text-transparent bg-clip-text">
+          Category
+        </span>
       </h2>
       <p className="text-center text-gray-500 mb-8 max-w-2xl mx-auto">
         Discover our delicious meals organized by category. From hearty

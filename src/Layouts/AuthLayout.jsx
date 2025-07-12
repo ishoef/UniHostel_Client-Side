@@ -36,7 +36,8 @@ export default function AuthPage() {
           last_login: new Date().toISOString(),
         };
 
-        axiosInstance.post("/users", userInfo);
+        const res = axiosInstance.post("/users", userInfo);
+        console.log(res);
 
         navigate(`${location.state ? location.state : "/"}`);
 
