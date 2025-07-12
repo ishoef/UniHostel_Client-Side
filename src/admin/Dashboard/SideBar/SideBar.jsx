@@ -47,7 +47,7 @@ const SideBar = () => {
         <nav>
           <ul className="flex flex-col items-center gap-3 ">
             <Link
-              to={"/dashboard/overview"}
+              to={"overview"}
               className="border w-full border-gray-300 dark:border-primary/10 rounded hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-primary p-2 "
             >
               <p className="flex items-center justify-center md:justify-start gap-3">
@@ -58,8 +58,8 @@ const SideBar = () => {
               </p>
             </Link>
 
-            <Link
-              to={"/dashboard/users"}
+            {/* <Link
+              to={"users"}
               className="border w-full border-gray-300 dark:border-primary/10 rounded hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-primary p-2 "
             >
               <p className="flex items-center justify-center md:justify-start gap-3">
@@ -68,10 +68,10 @@ const SideBar = () => {
                   All Users
                 </span>
               </p>
-            </Link>
+            </Link> */}
 
             <Link
-              to="/dashboard/creategroup"
+              to="addmeal"
               className="border w-full border-gray-300 dark:border-primary/10 rounded hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-primary p-2 "
             >
               <p className="flex items-center justify-center md:justify-start gap-3">
@@ -83,7 +83,7 @@ const SideBar = () => {
             </Link>
 
             <Link
-              to={"/dashboard/allgroups"}
+              to={"allgroups"}
               className="border w-full border-gray-300 dark:border-primary/10 rounded hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-primary p-2 "
             >
               <p className="flex items-center justify-center md:justify-start gap-3">
@@ -95,7 +95,7 @@ const SideBar = () => {
             </Link>
 
             <Link
-              to="/dashboard/mygroups"
+              to="mygroups"
               className="border w-full border-gray-300 dark:border-primary/10 rounded hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-primary p-2 "
             >
               <p className="flex items-center justify-center md:justify-start gap-3">
@@ -107,7 +107,7 @@ const SideBar = () => {
             </Link>
 
             <Link
-              to="/dashboard/creategroup"
+              to="creategroup"
               className="border w-full border-gray-300 dark:border-primary/10 rounded hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-primary p-2 "
             >
               <p className="flex items-center justify-center md:justify-start gap-3">
@@ -118,7 +118,7 @@ const SideBar = () => {
               </p>
             </Link>
             <Link
-              to="/dashboard/creategroup"
+              to="/creategroup"
               className="border w-full border-gray-300 dark:border-primary/10 rounded hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-primary p-2 "
             >
               <p className="flex items-center justify-center md:justify-start gap-3">

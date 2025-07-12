@@ -8,12 +8,17 @@ import Error from "../Pages/Error/Error";
 import MyProfile from "../Pages/MyProfile/MyProfile";
 import PrivateRoute from "./PrivateRoute";
 import Meals from "../Pages/Meals/Meals";
-import UpCommingMeals from "../Pages/UpCommingMeals/UpCommingMeals";
 import MealDetail from "../Pages/MealDetail/MealDetail";
 import SignUpPage from "../Auth/SignUp/SignUp";
 import UpcomingMeals from "../Pages/UpCommingMeals/UpCommingMeals";
 import StudentDashBoard from "../admin/StudentsDashBoard/StudentDashBoard";
 import Dashboard from "../admin/Dashboard/Dashboard";
+import OverView from "../admin/Dashboard/OverView/OverView";
+import Users from "../admin/Dashboard/Users/Users";
+import AllGroupssTable from "../admin/Dashboard/AllGroupssTable/AllGroupssTable";
+import CreatedGroups from "../admin/Dashboard/CreatedGroups/CreatedGroups";
+import MyGroupess from "../admin/Dashboard/myGroupsss/MyGroupss";
+import AddMealForm from "../Components/AllForms/AddMeal/AddMeal";
 
 export const router = createBrowserRouter([
   {
@@ -22,7 +27,6 @@ export const router = createBrowserRouter([
     errorElement: <Error />,
     children: [
       {
-        path: "/",
         index: true,
         Component: Home,
       },
@@ -57,6 +61,36 @@ export const router = createBrowserRouter([
             <Dashboard />
           </PrivateRoute>
         ),
+        children: [
+          {
+            index: true,
+            Component: OverView,
+          },
+          {
+            path: "overview",
+            Component: OverView,
+          },
+          // {
+          //   path: "users",
+          //   element: <Users />,
+          // },
+          {
+            path: "mygroups",
+            Component: MyGroupess,
+          },
+          {
+            path: "creategroup",
+            Component: CreatedGroups,
+          },
+          {
+            path: "allgroups",
+            Component: AllGroupssTable,
+          },
+          {
+            path: "addmeal",
+            Component: AddMealForm,
+          }
+        ],
       },
     ],
   },

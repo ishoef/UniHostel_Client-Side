@@ -1,7 +1,7 @@
 import React, { use } from "react";
 import { Navigate, useLocation } from "react-router";
-import NormalLoader from "../Components/Loader/NormalLoader";
 import { AuthContext } from "../Context/AuthProvider";
+import NormalLoader from "../Components/Loader copy/NormalLoader";
 
 const PrivateRoute = ({ children }) => {
   const { user, loading } = use(AuthContext);
@@ -9,7 +9,7 @@ const PrivateRoute = ({ children }) => {
   const location = useLocation();
 
   if (loading) {
-    return <NormalLoader></NormalLoader>;
+    return <NormalLoader ></NormalLoader>;
   }
 
   if (user && user?.email) {

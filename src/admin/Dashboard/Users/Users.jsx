@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router";
-import PreLoader from "../../../Components/Loader/PreLoader/PreLoader";
+import PreLoader from "../../../Components/Loader copy/PreLoader/PreLoader";
 
 const Users = () => {
   const [userData, setUserData] = useState([]);

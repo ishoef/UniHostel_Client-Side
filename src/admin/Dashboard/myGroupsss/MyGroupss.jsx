@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import NoCreatedGroups from "../../../Components/NoCreatedGroups/NoCreatedGroups";
+import { AuthContext } from "../../../Context/AuthProvider";
 import CreatedGroups from "../CreatedGroups/CreatedGroups";
 import PreLoader from "../../../Components/Loader copy/PreLoader/PreLoader";
 
-const AllGroupssTable = () => {
+const MyGroupess = () => {
+  const { user } = useContext(AuthContext);
   const [groups, setGroups] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -15,18 +17,26 @@ const AllGroupssTable = () => {
   }, []);
 
   useEffect(() => {
-    fetch(`https://hobby-shop-server.vercel.app/groups`)
-      .then((res) => res.json())
-      .then((data) => {
-        setGroups(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Failed to fetch user groups:", err);
-        setGroups([]);
-        setLoading(false);
-      });
-  }, []);
+    if (user && user.email) {
+      fetch(
+        `https://hobby-shop-server.vercel.app/groups?userEmail=${user.email}`
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          setGroups(data);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.error("Failed to fetch user groups:", err);
+          setGroups([]);
+          setLoading(false);
+        });
+    } else {
+      // If user not ready yet, keep loading or handle it here
+      setGroups([]);
+      setLoading(false);
+    }
+  }, [user]);
 
   if (loading) {
     // return <NormalLoader></NormalLoader>
@@ -37,13 +47,13 @@ const AllGroupssTable = () => {
     return <NoCreatedGroups />;
   }
 
-  const title = "All Groups";
+  const title = "My Groups";
 
   return (
     <div>
       <CreatedGroups
         title={title}
-        buttonShow={false}
+        buttonShow={true}
         groups={groups}
         setGroups={setGroups}
       />
@@ -51,4 +61,4 @@ const AllGroupssTable = () => {
   );
 };
 
-export default AllGroupssTable;
+export default MyGroupess;
