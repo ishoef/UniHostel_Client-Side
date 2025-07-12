@@ -30,7 +30,7 @@ const AddMealForm = ({ distributorName, distributorEmail }) => {
     const image = e.target.files[0];
     const form = new FormData();
     form.append("image", image);
-
+ 
     setLoading(true);
     try {
       const res = await axios.post(
