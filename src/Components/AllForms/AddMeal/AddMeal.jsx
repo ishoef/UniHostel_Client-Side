@@ -1,23 +1,22 @@
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import { AuthContext } from "../../../Context/AuthProvider";
 import Swal from "sweetalert2";
-import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import useAxios from "../../../Hooks/useAxios";
 
 const AddMealForm = () => {
   const {
     register,
     handleSubmit,
-    setValue,
     reset,
     formState: { errors },
   } = useForm();
   const { user } = useContext(AuthContext);
   // const [loading, setLoading] = useState(false);
   // const [imageUrl, setImageUrl] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const axiosSecure = useAxiosSecure();
+  const axiosInstance = useAxios();
   const distributorName = user.displayName;
   const distributorEmail = user.email;
   // const imageBB_API_KEY = "YOUR_IMAGE_BB_API_KEY"; // Replace with your key
@@ -45,6 +44,7 @@ const AddMealForm = () => {
   // };
 
   const onSubmit = async (data) => {
+    setIsSubmitting(true);
     data.distributorName = distributorName || "";
     data.distributorEmail = distributorEmail || "";
     data.rating = 0;
@@ -55,7 +55,7 @@ const AddMealForm = () => {
 
     // Done: send to backend
     try {
-      const response = await axiosSecure.post("/meals", data);
+      const response = await axiosInstance.post("/meals", data);
 
       if (response.data.insertedId || response.data.success) {
         // ✅ Show success alert
@@ -75,6 +75,8 @@ const AddMealForm = () => {
         text: "Something went wrong. Please try again later.",
         confirmButtonColor: "#ef4444",
       });
+    } finally {
+      setIsSubmitting(false);
     }
     // setImageUrl(""); // optionally reset image preview
   };
@@ -244,9 +246,14 @@ const AddMealForm = () => {
         <div className="md:col-span-2 flex justify-center mt-6">
           <button
             type="submit"
-            className="px-8 py-3 rounded-full bg-gradient-to-r from-pink-500 to-orange-500 text-white font-bold shadow-md hover:shadow-lg transform hover:scale-105 transition"
+            disabled={isSubmitting}
+            className={`px-8 py-3 rounded-full bg-gradient-to-r from-pink-500 to-orange-500 text-white font-bold shadow-md ${
+              isSubmitting
+                ? "opacity-50 cursor-not-allowed"
+                : "hover:shadow-lg transform hover:scale-105 transition"
+            }`}
           >
-            🚀 Submit Meal
+            {isSubmitting ? "Submitting..." : "🚀 Submit Meal"}
           </button>
         </div>
       </form>
