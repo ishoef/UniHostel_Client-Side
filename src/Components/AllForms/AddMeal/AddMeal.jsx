@@ -1,43 +1,38 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { useForm } from "react-hook-form";
 import axios from "axios";
+import { AuthContext } from "../../../Context/AuthProvider";
 
-const AddMealForm = ({ distributorName, distributorEmail }) => {
-  const [formData, setFormData] = useState({
-    title: "",
-    category: "",
-    image: "",
-    ingredients: "",
-    description: "",
-    price: "",
-    postTime: "",
-    distributorName: distributorName || "",
-    distributorEmail: distributorEmail || "",
-    rating: 0,
-    likes: 0,
-    reviews_count: 0,
-  });
-
+const AddMealForm = () => {
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    reset,
+    formState: { errors },
+  } = useForm();
+  const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
 
-  const imageBB_API_KEY = "YOUR_IMAGE_BB_API_KEY"; // Replace with actual key
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+  const distributorName = user.displayName;
+  const distributorEmail = user.email;
+  const imageBB_API_KEY = "YOUR_IMAGE_BB_API_KEY"; // Replace with your key
 
   const handleImageUpload = async (e) => {
     const image = e.target.files[0];
     const form = new FormData();
     form.append("image", image);
- 
+
     setLoading(true);
     try {
       const res = await axios.post(
         `https://api.imgbb.com/1/upload?key=${imageBB_API_KEY}`,
         form
       );
-      setFormData((prev) => ({ ...prev, image: res.data.data.url }));
+      const url = res.data.data.url;
+      setImageUrl(url);
+      setValue("image", url); // set in form data
     } catch (err) {
       console.error("Image upload failed", err);
       alert("Image upload failed");
@@ -46,10 +41,18 @@ const AddMealForm = ({ distributorName, distributorEmail }) => {
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Form Submitted:", formData);
-    // POST to backend
+  const onSubmit = (data) => {
+    data.distributorName = distributorName || "";
+    data.distributorEmail = distributorEmail || "";
+    data.rating = 0;
+    data.likes = 0;
+    data.reviews_count = 0;
+
+    console.log("Form Submitted:", data);
+
+    // TODO: send to backend
+    reset();
+    setImageUrl("");
   };
 
   return (
@@ -58,7 +61,7 @@ const AddMealForm = ({ distributorName, distributorEmail }) => {
         🍽️ Add a Delicious New Meal
       </h2>
       <form
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(onSubmit)}
         className="grid grid-cols-1 md:grid-cols-2 gap-8"
       >
         {/* Meal Title */}
@@ -67,12 +70,13 @@ const AddMealForm = ({ distributorName, distributorEmail }) => {
             Meal Title
           </label>
           <input
-            name="title"
-            onChange={handleChange}
-            className="w-full border border-gray-400 focus-within:outline-primary p-3 rounded  hover:shadow-md transition"
+            {...register("title", { required: true })}
+            className="w-full border border-gray-400 focus-within:outline-primary p-3 rounded hover:shadow-md transition"
             placeholder="e.g. Spicy Chicken Curry"
-            required
           />
+          {errors.title && (
+            <p className="text-red-500 text-sm mt-1">Title is required</p>
+          )}
         </div>
 
         {/* Meal Category */}
@@ -81,11 +85,8 @@ const AddMealForm = ({ distributorName, distributorEmail }) => {
             Category
           </label>
           <select
-            name="category"
-            onChange={handleChange}
-            value={formData.category}
+            {...register("category", { required: true })}
             className="w-full h-[52px] border border-gray-400 focus:outline-primary p-3 rounded hover:shadow-md transition bg-white"
-            required
           >
             <option value="" disabled>
               -- Select Category --
@@ -94,6 +95,9 @@ const AddMealForm = ({ distributorName, distributorEmail }) => {
             <option value="Lunch">Lunch</option>
             <option value="Dinner">Dinner</option>
           </select>
+          {errors.category && (
+            <p className="text-red-500 text-sm mt-1">Category is required</p>
+          )}
         </div>
 
         {/* Upload Image */}
@@ -111,12 +115,16 @@ const AddMealForm = ({ distributorName, distributorEmail }) => {
           {loading && (
             <p className="text-sm text-gray-500 mt-1">Uploading image...</p>
           )}
-          {formData.image && (
+          {imageUrl && (
             <img
-              src={formData.image}
+              src={imageUrl}
               alt="Uploaded"
               className="w-40 h-40 object-cover mt-4 rounded shadow-md hover:scale-105 transition-transform duration-300"
             />
+          )}
+          <input type="hidden" {...register("image", { required: true })} />
+          {errors.image && (
+            <p className="text-red-500 text-sm mt-1">Image is required</p>
           )}
         </div>
 
@@ -126,13 +134,14 @@ const AddMealForm = ({ distributorName, distributorEmail }) => {
             Ingredients
           </label>
           <textarea
-            name="ingredients"
-            onChange={handleChange}
+            {...register("ingredients", { required: true })}
             className="w-full border border-gray-400 focus-within:outline-primary p-3 rounded hover:shadow-md transition"
             rows="3"
             placeholder="List ingredients separated by commas"
-            required
           />
+          {errors.ingredients && (
+            <p className="text-red-500 text-sm mt-1">Ingredients required</p>
+          )}
         </div>
 
         {/* Description */}
@@ -141,13 +150,14 @@ const AddMealForm = ({ distributorName, distributorEmail }) => {
             Description
           </label>
           <textarea
-            name="description"
-            onChange={handleChange}
+            {...register("description", { required: true })}
             className="w-full border border-gray-400 focus-within:outline-primary p-3 rounded hover:shadow-md transition"
             rows="3"
             placeholder="Describe how the meal tastes and looks..."
-            required
           />
+          {errors.description && (
+            <p className="text-red-500 text-sm mt-1">Description required</p>
+          )}
         </div>
 
         {/* Price */}
@@ -157,11 +167,13 @@ const AddMealForm = ({ distributorName, distributorEmail }) => {
           </label>
           <input
             type="number"
-            name="price"
-            onChange={handleChange}
+            step="0.01"
+            {...register("price", { required: true })}
             className="w-full border border-gray-400 focus-within:outline-primary p-3 rounded hover:shadow-md transition"
-            required
           />
+          {errors.price && (
+            <p className="text-red-500 text-sm mt-1">Price required</p>
+          )}
         </div>
 
         {/* Post Time */}
@@ -171,11 +183,12 @@ const AddMealForm = ({ distributorName, distributorEmail }) => {
           </label>
           <input
             type="datetime-local"
-            name="postTime"
-            onChange={handleChange}
+            {...register("postTime", { required: true })}
             className="w-full border border-gray-400 focus-within:outline-primary p-3 rounded hover:shadow-md transition"
-            required
           />
+          {errors.postTime && (
+            <p className="text-red-500 text-sm mt-1">Post time required</p>
+          )}
         </div>
 
         {/* Distributor Name */}
@@ -184,7 +197,7 @@ const AddMealForm = ({ distributorName, distributorEmail }) => {
             Distributor Name
           </label>
           <input
-            value={formData.distributorName}
+            value={distributorName}
             readOnly
             className="w-full bg-gray-100 text-gray-600 p-3 border rounded"
           />
@@ -196,7 +209,7 @@ const AddMealForm = ({ distributorName, distributorEmail }) => {
             Distributor Email
           </label>
           <input
-            value={formData.distributorEmail}
+            value={distributorEmail}
             readOnly
             className="w-full bg-gray-100 text-gray-600 p-3 border rounded"
           />
