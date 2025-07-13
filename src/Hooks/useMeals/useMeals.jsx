@@ -5,7 +5,7 @@ import useAxiosSecure from "../useAxiosSecure";
 const useMeals = () => {
 //   const axiosInstance = useAxios();
   const axiosSecure = useAxiosSecure();
-  const [meals, setMeals] = useState();
+  const [meals, setMeals] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   
@@ -22,11 +22,11 @@ const useMeals = () => {
         setLoading(false);
       }
     };
-
+ 
     fetchMeals();
   }, [axiosSecure]);
 
-  return { meals, loading, error };
+  return { meals, loading, setMeals, error };
 };
  
 export default useMeals;

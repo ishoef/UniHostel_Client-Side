@@ -25,7 +25,7 @@ function AllMeals() {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All Categories");
   const [price, setPrice] = useState(50);
-
+  
   const demoImages = [
     "https://images.unsplash.com/photo-1600891964599-f61ba0e24092",
     "https://images.unsplash.com/photo-1543353071-873f17a7a088",

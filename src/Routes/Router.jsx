@@ -1,11 +1,9 @@
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter, Navigate } from "react-router";
 import Home from "../Pages/Home/Home";
 import MainLayout from "../Layouts/MainLayout";
 import AuthLayout from "../Layouts/AuthLayout";
-import Register from "../Auth/Register/Register";
 import Login from "../Auth/Login/Login";
 import Error from "../Pages/Error/Error";
-import MyProfile from "../Pages/MyProfile/MyProfile";
 import PrivateRoute from "./PrivateRoute";
 import Meals from "../Pages/Meals/Meals";
 import MealDetail from "../Pages/MealDetail/MealDetail";
@@ -15,10 +13,15 @@ import StudentDashBoard from "../admin/StudentsDashBoard/StudentDashBoard";
 import Dashboard from "../admin/Dashboard/Dashboard";
 import OverView from "../admin/Dashboard/OverView/OverView";
 import Users from "../admin/Dashboard/Users/Users";
-import AllGroupssTable from "../admin/Dashboard/AllGroupssTable/AllGroupssTable";
 import CreatedGroups from "../admin/Dashboard/CreatedGroups/CreatedGroups";
-import MyGroupess from "../admin/Dashboard/myGroupsss/MyGroupss";
 import AddMealForm from "../Components/AllForms/AddMeal/AddMeal";
+import UpcommingMeals from "../admin/Dashboard/UpcommingMeals/UpcommingMeals";
+import AllMeals from "../admin/Dashboard/AllMeals/AllMeals";
+import MyProfile from "../admin/MyProfile/MyProfile";
+import Profile from "../admin/MyProfile/Profile/Profile";
+import Activity from "../admin/MyProfile/Activity/Activity";
+import Settings from "../admin/MyProfile/Settings/Settings";
+import Privacy from "../admin/MyProfile/Privacy/Privacy";
 
 export const router = createBrowserRouter([
   {
@@ -43,14 +46,6 @@ export const router = createBrowserRouter([
         Component: MealDetail,
       },
       {
-        path: "/myprofile",
-        element: (
-          <PrivateRoute>
-            <MyProfile></MyProfile>
-          </PrivateRoute>
-        ),
-      },
-      {
         path: "/student_dashboard",
         Component: StudentDashBoard,
       },
@@ -62,34 +57,54 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         children: [
-          {
-            index: true,
-            Component: OverView,
-          },
-          {
-            path: "overview",
-            Component: OverView,
-          },
+          { index: true, element: <OverView /> },
+          { path: "overview", element: <OverView /> },
           {
             path: "users",
             element: <Users />,
           },
           {
-            path: "mygroups",
-            Component: MyGroupess,
-          },
-          {
             path: "creategroup",
-            Component: CreatedGroups,
+            element: <CreatedGroups />,
           },
           {
-            path: "allgroups",
-            Component: AllGroupssTable,
+            path: "allMeals",
+            element: <AllMeals />,
           },
           {
             path: "addmeal",
-            Component: AddMealForm,
-          }
+            element: <AddMealForm />,
+          },
+          {
+            path: "upcomming_meals",
+            element: <UpcommingMeals />,
+          },
+          {
+            path: "dash_profile",
+            element: <MyProfile />,
+            children: [
+              {
+                index: true,
+                element: <Navigate to="profile" />,
+              },
+              {
+                path: "profile",
+                element: <Profile />,
+              },
+              {
+                path: "activity",
+                element: <Activity />,
+              },
+              {
+                path: "settings",
+                element: <Settings />,
+              },
+              {
+                path: "privacy",
+                element: <Privacy />,
+              },
+            ],
+          },
         ],
       },
     ],

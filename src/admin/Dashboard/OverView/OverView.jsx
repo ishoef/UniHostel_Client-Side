@@ -2,17 +2,13 @@ import React, { use, useEffect, useState } from "react";
 import State from "../State/State";
 import { LiaUsersSolid } from "react-icons/lia";
 import { FaLayerGroup } from "react-icons/fa";
-import Users from "../Users/Users";
 import { AuthContext } from "../../../Context/AuthProvider";
-import MyGroupess from "../myGroupsss/MyGroupss";
-import AllGroupssTable from "../AllGroupssTable/AllGroupssTable";
 import axios from "axios";
 
 const OverView = () => {
   const { user } = use(AuthContext);
   const [usersCount, setUsersCount] = useState([]);
   const [allGroups, setAllGroups] = useState([]);
-  const [myGroups, setMyGroups] = useState([]);
   
   console.log(user);
   // Users Data
@@ -39,29 +35,9 @@ const OverView = () => {
       });
   }, []);
 
-  useEffect(() => {
-    if (user && user.email) {
-      fetch(
-        `https://hobby-shop-server.vercel.app/groups?userEmail=${user.email}`
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          setMyGroups(data);
-        })
-        .catch((err) => {
-          console.error("Failed to fetch user groups:", err);
-          setMyGroups([]);
-        });
-    } else {
-      // If user not ready yet, keep loading or handle it here
-      setMyGroups([]);
-    }
-  }, [user]);
-
   console.log(usersCount);
 
-  const usersGroup = allGroups.length - myGroups.length;
-  console.log(usersGroup);
+ 
 
   const stateInfo = [
     {
@@ -81,14 +57,14 @@ const OverView = () => {
     {
       icon: <FaLayerGroup />,
       title: "My Groups",
-      count: `${myGroups.length}`,
+      count: `${usersCount}`,
       parcent: "80% increase in 20 days",
     },
 
     {
       icon: <FaLayerGroup />,
       title: "Users Groups",
-      count: `${usersGroup}`,
+      count: `${usersCount}`,
       parcent: "80% increase in 20 days",
     },
   ];
@@ -104,8 +80,7 @@ const OverView = () => {
         </div>
       </div>
       <div className="mt-10">
-        {/* <Users /> */}
-        <MyGroupess />
+        
       </div>
     </div>
   );

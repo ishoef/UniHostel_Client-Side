@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+// import React, { useEffect, useState } from "react";
 import NoCreatedGroups from "../../../Components/NoCreatedGroups/NoCreatedGroups";
 import CreatedGroups from "../CreatedGroups/CreatedGroups";
 import PreLoader from "../../../Components/Loader copy/PreLoader/PreLoader";
@@ -8,7 +8,7 @@ const AllGroupssTable = () => {
   // const [groups, setGroups] = useState([]);
   // const [loading, setLoading] = useState(true);
 
-  const { meals, loading } = useMeals();
+  const { meals, loading, setMeals } = useMeals();
   console.log(meals);
   const className =
     "flex justify-center items-center min-h-screen md:min-h-[calc(100vh-300px)]";
@@ -40,15 +40,9 @@ const AllGroupssTable = () => {
     return <NoCreatedGroups />;
   }
 
-  const title = "All Meals";
-
   return (
     <div>
-      <CreatedGroups
-        title={title}
-        buttonShow={true}
-        meals={meals}
-      />
+      <CreatedGroups setMeals={setMeals} buttonShow={true} meals={meals} />
     </div>
   );
 };

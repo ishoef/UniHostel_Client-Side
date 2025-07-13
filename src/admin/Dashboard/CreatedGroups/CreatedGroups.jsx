@@ -1,16 +1,19 @@
 import React, { useEffect } from "react";
 import GroupTableRow from "../../../Components/GroupTableRow/GroupTableRow";
 
-const CreatedGroups = ({ meals, buttonShow, title }) => {
+const CreatedGroups = ({ meals, setMeals, buttonShow }) => {
   useEffect(() => {
     document.title = "My Groups | Hobby Shop";
   }, []);
 
   return (
     <div className="mx-auto">
-      <h1 className="text-2xl mb-3 font-bold">
-        {title} ({meals ? meals.length : 0})
-      </h1>
+      <h2 className="text-3xl sm:text-4xl font-extrabold text-center my-5 text-gray-800">
+        All{" "}
+        <span className="bg-gradient-to-r from-orange-500 to-pink-500 text-transparent bg-clip-text">
+          Meals
+        </span>
+      </h2>
       <div className="overflow-x-auto min-h-[calc(100vh-438px)]">
         <table className="table table-lg border border-[#FF6B3580] dark:border-primary/20 rounded-2xl">
           <thead>
@@ -28,6 +31,7 @@ const CreatedGroups = ({ meals, buttonShow, title }) => {
           <tbody>
             {meals.map((meal) => (
               <GroupTableRow
+                setMeals={setMeals}
                 buttonShow={buttonShow}
                 meals={meals}
                 key={meal._id}
