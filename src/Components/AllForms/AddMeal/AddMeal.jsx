@@ -2,6 +2,8 @@ import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { AuthContext } from "../../../Context/AuthProvider";
+import Swal from "sweetalert2";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const AddMealForm = () => {
   const {
@@ -12,36 +14,37 @@ const AddMealForm = () => {
     formState: { errors },
   } = useForm();
   const { user } = useContext(AuthContext);
-  const [loading, setLoading] = useState(false);
-  const [imageUrl, setImageUrl] = useState("");
+  // const [loading, setLoading] = useState(false);
+  // const [imageUrl, setImageUrl] = useState("");
 
+  const axiosSecure = useAxiosSecure();
   const distributorName = user.displayName;
   const distributorEmail = user.email;
-  const imageBB_API_KEY = "YOUR_IMAGE_BB_API_KEY"; // Replace with your key
+  // const imageBB_API_KEY = "YOUR_IMAGE_BB_API_KEY"; // Replace with your key
 
-  const handleImageUpload = async (e) => {
-    const image = e.target.files[0];
-    const form = new FormData();
-    form.append("image", image);
+  // const handleImageUpload = async (e) => {
+  //   const image = e.target.files[0];
+  //   const form = new FormData();
+  //   form.append("image", image);
 
-    setLoading(true);
-    try {
-      const res = await axios.post(
-        `https://api.imgbb.com/1/upload?key=${imageBB_API_KEY}`,
-        form
-      );
-      const url = res.data.data.url;
-      setImageUrl(url);
-      setValue("image", url); // set in form data
-    } catch (err) {
-      console.error("Image upload failed", err);
-      alert("Image upload failed");
-    } finally {
-      setLoading(false);
-    }
-  };
+  //   setLoading(true);
+  //   try {
+  //     const res = await axios.post(
+  //       `https://api.imgbb.com/1/upload?key=${imageBB_API_KEY}`,
+  //       form
+  //     );
+  //     const url = res.data.data.url;
+  //     setImageUrl(url);
+  //     setValue("image", url); // set in form data
+  //   } catch (err) {
+  //     console.error("Image upload failed", err);
+  //     alert("Image upload failed");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     data.distributorName = distributorName || "";
     data.distributorEmail = distributorEmail || "";
     data.rating = 0;
@@ -50,9 +53,30 @@ const AddMealForm = () => {
 
     console.log("Form Submitted:", data);
 
-    // TODO: send to backend
-    reset();
-    setImageUrl("");
+    // Done: send to backend
+    try {
+      const response = await axiosSecure.post("/meals", data);
+
+      if (response.data.insertedId || response.data.success) {
+        // ✅ Show success alert
+        Swal.fire({
+          icon: "success",
+          title: "Meal Submitted!",
+          text: "Your meal has been successfully added.",
+          confirmButtonColor: "#ec4899", // Tailwind pink-500
+        });
+        reset();
+      }
+    } catch (error) {
+      console.error("Error Submiting meal:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Submission Failed",
+        text: "Something went wrong. Please try again later.",
+        confirmButtonColor: "#ef4444",
+      });
+    }
+    // setImageUrl(""); // optionally reset image preview
   };
 
   return (
@@ -100,7 +124,7 @@ const AddMealForm = () => {
           )}
         </div>
 
-        {/* Upload Image */}
+        {/* Upload Image
         <div className="md:col-span-2">
           <label className="block font-semibold text-gray-700 mb-1">
             Upload Image
@@ -110,7 +134,7 @@ const AddMealForm = () => {
             accept="image/*"
             onChange={handleImageUpload}
             className="w-fit file:mr-4 border file:py-2 cursor-pointer file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-pink-50 file:cursor-pointer file:text-pink-700 hover:file:bg-pink-100 transition"
-            required
+            // required
           />
           {loading && (
             <p className="text-sm text-gray-500 mt-1">Uploading image...</p>
@@ -122,11 +146,12 @@ const AddMealForm = () => {
               className="w-40 h-40 object-cover mt-4 rounded shadow-md hover:scale-105 transition-transform duration-300"
             />
           )}
-          <input type="hidden" {...register("image", { required: true })} />
+          {/* <input type="hidden" {...register("image", { required: true })} /> */}
+        {/* <input type="hidden" {...register("image")} />
           {errors.image && (
             <p className="text-red-500 text-sm mt-1">Image is required</p>
           )}
-        </div>
+        </div> */}
 
         {/* Ingredients */}
         <div className="md:col-span-2">
