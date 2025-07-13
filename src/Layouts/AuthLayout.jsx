@@ -30,6 +30,7 @@ export default function AuthPage() {
 
         // user info in the database
         const userInfo = {
+          name: user.displayName,
           email: user.email,
           role: "user", // default role
           created_at: new Date().toISOString(),

@@ -70,10 +70,10 @@ export const router = createBrowserRouter([
             path: "overview",
             Component: OverView,
           },
-          // {
-          //   path: "users",
-          //   element: <Users />,
-          // },
+          {
+            path: "users",
+            element: <Users />,
+          },
           {
             path: "mygroups",
             Component: MyGroupess,

@@ -6,22 +6,24 @@ import Users from "../Users/Users";
 import { AuthContext } from "../../../Context/AuthProvider";
 import MyGroupess from "../myGroupsss/MyGroupss";
 import AllGroupssTable from "../AllGroupssTable/AllGroupssTable";
+import axios from "axios";
 
 const OverView = () => {
   const { user } = use(AuthContext);
-
+  const [usersCount, setUsersCount] = useState([]);
   const [allGroups, setAllGroups] = useState([]);
   const [myGroups, setMyGroups] = useState([]);
-
-  // // Users Data
-  // useEffect(() => {
-  //   fetch("https://hobby-shop-server.vercel.app/users")
-  //     .then((res) => res.json())
-  //     .then((data) => setUsersCount(data))
-  //     .catch((error) => {
-  //       console.log("the error fetching the users", error);
-  //     });
-  // }, []);
+  console.log(user);
+  // Users Data
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/users")
+      .then((res) => setUsersCount(res.data.length))
+      .catch((error) => {
+        console.log("the error fetching the users", error);
+        setUsersCount([]);
+      });
+  }, []);
 
   // All Groups Data
   useEffect(() => {
@@ -55,7 +57,7 @@ const OverView = () => {
     }
   }, [user]);
 
-  // console.log(usersCount.length);
+  console.log(usersCount);
 
   const usersGroup = allGroups.length - myGroups.length;
   console.log(usersGroup);
@@ -64,7 +66,7 @@ const OverView = () => {
     {
       icon: <LiaUsersSolid />,
       title: "Total Users",
-      count: 20,
+      count: `${usersCount}`,
       parcent: "80% increase in 20 days",
     },
 

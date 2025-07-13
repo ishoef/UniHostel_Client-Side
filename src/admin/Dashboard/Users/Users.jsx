@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router";
 import PreLoader from "../../../Components/Loader copy/PreLoader/PreLoader";
+import axios from "axios";
 
 const Users = () => {
   const [userData, setUserData] = useState([]);
@@ -10,12 +11,12 @@ const Users = () => {
     "flex justify-center items-center min-h-screen md:min-h-[calc(100vh-300px)]";
 
   useEffect(() => {
-    fetch("https://hobby-shop-server.vercel.app/users")
-      .then((res) => res.json())
-      .then((data) => {
-        setUserData(data);
+    axios
+      .get("http://localhost:5000/users")
+      .then((res) => {
+        setUserData(res.data);
         setLoading(false);
-        console.log(data);
+        console.log(res.data);
       })
       .catch((error) => {
         console.log("the error fetching the users", error);
@@ -45,8 +46,11 @@ const Users = () => {
                 <tr>
                   <th>Name</th>
                   <th>Email</th>
+
                   <th>Join Date</th>
                   <th>Last Sign in</th>
+                  <th>Role</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -74,44 +78,43 @@ const Users = () => {
                     </td>
                     <td>
                       <Link to={`mailto:${user.email}`}>{user.email}</Link>
-                      <br />
-                      {/* <span className="badge badge-ghost badge-sm">
-                        Desktop Support Technician
-                      </span> */}
                     </td>
+
                     <td>
-                      {new Date(user.joinTime).toLocaleDateString("en-US", {
+                      {new Date(user.created_at).toLocaleDateString("en-US", {
                         day: "2-digit",
                         month: "long",
                         year: "numeric",
                       })}
                       <br />
 
-                      {new Date(user.joinTime).toLocaleTimeString("en-US", {
+                      {new Date(user.created_at).toLocaleTimeString("en-US", {
                         hour: "2-digit",
                         minute: "2-digit",
                         hour12: true,
                       })}
                     </td>
                     <td>
-                      {new Date(user.lastSignInTime).toLocaleDateString(
-                        "en-US",
-                        {
-                          day: "2-digit",
-                          month: "long",
-                          year: "numeric",
-                        }
-                      )}
+                      {new Date(user.last_login).toLocaleDateString("en-US", {
+                        day: "2-digit",
+                        month: "long",
+                        year: "numeric",
+                      })}
                       <br />
 
-                      {new Date(user.lastSignInTime).toLocaleTimeString(
-                        "en-US",
-                        {
-                          hour: "2-digit",
-                          minute: "2-digit",
-                          hour12: true,
-                        }
-                      )}
+                      {new Date(user.last_login).toLocaleTimeString("en-US", {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        hour12: true,
+                      })}
+                    </td>
+                    <td>
+                      <span className="bg-amber-500 px-2 pb-1 rounded  text-xl ">
+                        {user.role}
+                      </span>
+                    </td>
+                    <td>
+                      <button className="btn text-green-600">Make Admin</button>
                     </td>
                   </tr>
                 ))}
