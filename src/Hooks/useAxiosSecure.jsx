@@ -27,27 +27,28 @@
 
 
 import axios from "axios";
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import { AuthContext } from "../Context/AuthProvider";
+import useAuth from "./useAuth.jsx/useAuth";
 
 const axiosSecure = axios.create({
   baseURL: `http://localhost:5000`,
 });
 
 const useAxiosSecure = () => {
-  const { user } = useContext(AuthContext);
-
+  const { user } = useAuth();
+    
   useEffect(() => {
     if (!user?.accessToken) return;
 
     const interceptor = axiosSecure.interceptors.request.use(
       (config) => {
-        config.headers.Authorization = `Bearer ${user.accessToken}`;
+        config.headers.authorization = `Bearer ${user.accessToken}`;
         return config;
       },
       (error) => Promise.reject(error)
     );
-
+  
     // Clean up on unmount
     return () => {
       axiosSecure.interceptors.request.eject(interceptor);

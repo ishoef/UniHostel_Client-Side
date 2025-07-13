@@ -2,11 +2,14 @@ import React, { useEffect, useState } from "react";
 import NoCreatedGroups from "../../../Components/NoCreatedGroups/NoCreatedGroups";
 import CreatedGroups from "../CreatedGroups/CreatedGroups";
 import PreLoader from "../../../Components/Loader copy/PreLoader/PreLoader";
+import useMeals from "../../../Hooks/useMeals/useMeals";
 
 const AllGroupssTable = () => {
   const [groups, setGroups] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const { meals } = useMeals();
+  console.log(meals);
   const className =
     "flex justify-center items-center min-h-screen md:min-h-[calc(100vh-300px)]";
   // Set the document title
