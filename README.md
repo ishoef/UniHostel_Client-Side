@@ -83,19 +83,33 @@ UniHostel is a full-stack MERN (MongoDB, Express.js, React.js, Node.js) web appl
 
 ## 📦 Technologies Used
 
-| Tech          | Purpose                             |
-|---------------|-------------------------------------|
-| React         | Frontend UI                         |
-| React Router  | Routing                             |
-| Firebase      | Authentication                     |
-| Tailwind CSS  | Styling                             |
-| Express.js    | Backend server                      |
-| MongoDB       | Database                            |
-| Stripe        | Payment integration                 |
-| Axios         | HTTP requests                       |
-| TanStack Query| Optimized data fetching (GET only)  |
-| SweetAlert2   | Custom alerts/toasts                |
-| JWT           | Secure API access & Axios interceptor|
+| Technology             | Description                                           |
+|------------------------|-------------------------------------------------------|
+| **React**              | Frontend library for building UI                     |
+| **React Router v7**    | Routing between pages                                |
+| **React Hook Form**    | Form management and validation                       |
+| **Firebase**           | Authentication & user management                     |
+| **Tailwind CSS**       | Utility-first CSS framework                          |
+| **DaisyUI**            | Tailwind component library                           |
+| **Axios**              | HTTP client for API requests                         |
+| **SweetAlert2**        | Pop-up alerts for actions                            |
+| **React Toastify**     | Toast notification system                            |
+| **Lottie React**       | JSON-based animations                                |
+| **Lucide**             | Icon set for React                                   |
+| **React Icons**        | Multi-library icon component                         |
+| **Motion**             | Animation support                                    |
+| **React Slick**        | Carousel/slider for React                            |
+| **Slick Carousel**     | Carousel CSS for `react-slick`                       |
+| **Date-fns**           | Date formatting utilities                            |
+| **React Datepicker**   | Custom date picker component                         |
+| **Vite**               | Frontend build tool                                  |
+| **ESLint**             | Code quality & linting                               |
+| **Stripe**             | Payment processing integration                       |
+| **MongoDB**            | NoSQL database                                       |
+| **Express.js**         | Backend web framework                                |
+| **Node.js**            | Backend runtime environment                          |
+| **JWT (via custom)**   | Secure login and protected API routes                |
+| **TanStack Query**     | Optimized GET requests (used in backend separately)  |
 
 ---
 
