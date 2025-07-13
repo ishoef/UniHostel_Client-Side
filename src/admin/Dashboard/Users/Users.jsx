@@ -6,7 +6,6 @@ import axios from "axios";
 const Users = () => {
   const [userData, setUserData] = useState([]);
   const [loading, setLoading] = useState(true);
-
   const className =
     "flex justify-center items-center min-h-screen md:min-h-[calc(100vh-300px)]";
 
@@ -109,7 +108,7 @@ const Users = () => {
                       })}
                     </td>
                     <td>
-                      <span className="bg-amber-500 px-2 pb-1 rounded  text-xl ">
+                      <span className="bg-amber-100 px-2 pb-1 rounded  text-xl ">
                         {user.role}
                       </span>
                     </td>

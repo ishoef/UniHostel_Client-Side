@@ -105,7 +105,7 @@ const AddMealForm = ({ distributorName, distributorEmail }) => {
             type="file"
             accept="image/*"
             onChange={handleImageUpload}
-            className="w-fit file:mr-4 border file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-pink-50 file:text-pink-700 hover:file:bg-pink-100 transition"
+            className="w-fit file:mr-4 border file:py-2 cursor-pointer file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-pink-50 file:cursor-pointer file:text-pink-700 hover:file:bg-pink-100 transition"
             required
           />
           {loading && (
