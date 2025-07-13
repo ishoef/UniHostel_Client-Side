@@ -63,7 +63,7 @@ const AddMealForm = () => {
           icon: "success",
           title: "Meal Submitted!",
           text: "Your meal has been successfully added.",
-          confirmButtonColor: "#ec4899", // Tailwind pink-500
+          confirmButtonColor: "#ec4899", 
         });
         reset();
       }
