@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from "react";
 const Modal = ({ showModal, setShowModal, children }) => {
   const modalRef = useRef(null);
 
-  // Close modal on outside click
+  // Close modal when clicking outside
   useEffect(() => {
     const handleOutsideClick = (event) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
@@ -13,20 +13,18 @@ const Modal = ({ showModal, setShowModal, children }) => {
 
     if (showModal) {
       document.addEventListener("mousedown", handleOutsideClick);
-    } else {
-      document.removeEventListener("mousedown", handleOutsideClick);
     }
-    
+
     return () => {
       document.removeEventListener("mousedown", handleOutsideClick);
     };
-  }, [showModal, setShowModal, modalRef]);
+  }, [showModal, setShowModal]);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#15315199] transition-opacity  ">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#15315199] px-4 overflow-y-auto">
       <div
         ref={modalRef}
-        className="lg:w-5/12 border border-gray-400 shadow-xl bg-white mx-auto rounded-2xl p-10 my-10 "
+        className="w-full max-w-lg md:max-w-2xl lg:max-w-3xl border border-gray-300 shadow-xl bg-white rounded-2xl p-6 my-10"
       >
         {children}
       </div>

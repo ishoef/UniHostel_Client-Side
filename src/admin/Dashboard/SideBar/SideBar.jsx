@@ -9,6 +9,8 @@ import Swal from "sweetalert2";
 import { MdLogout } from "react-icons/md";
 import { TbComet } from "react-icons/tb";
 import { ImSpoonKnife } from "react-icons/im";
+import { BsPersonLinesFill } from "react-icons/bs";
+
 
 const SideBar = () => {
   const { logOut, setUser } = useContext(AuthContext);
@@ -133,7 +135,7 @@ const SideBar = () => {
               className="border w-full border-gray-300 dark:border-primary/10 rounded hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-primary p-2 "
             >
               <p className="flex items-center justify-center md:justify-start gap-3">
-                <TbComet size={22} color="#ff6b35" />
+                <BsPersonLinesFill size={22} color="#ff6b35" />
                 <span className="hover:text-primary hidden md:block">
                   Profile
                 </span>

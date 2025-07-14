@@ -13,6 +13,7 @@ import { IoCreateOutline } from "react-icons/io5";
 import { GrAction } from "react-icons/gr";
 import { RxCross2 } from "react-icons/rx";
 import Button from "../../../Components/Button/Button";
+import ProfilePhoto from "../../../Components/ProfilePhoto/ProfilePhoto";
 
 const Profile = () => {
   const { user, updateUser, setUser } = use(AuthContext);
@@ -170,7 +171,6 @@ const Profile = () => {
 
         <div className="grid lg:grid-cols-6 my-2 md:my-0 gap-10 w-full">
           <div className=" lg:col-span-2 gap-2 flex flex-col items-center">
-            
             <ProfilePhoto
               proPic={user?.photoURL}
               className={"w-48 h-48 rounded-full border-2 border-green-600"}
@@ -198,7 +198,7 @@ const Profile = () => {
       </div> */}
 
       {/* Quic Actions */}
-      <div className="w-full h-full p-3 md:p-5 border border-gray-300 rounded-xl shadow">
+      {/* <div className="w-full h-full p-3 md:p-5 border border-gray-300 rounded-xl shadow">
         <div className="space-y-5">
           <div className="flex items-center gap-2">
             <p className="text-2xl">
@@ -217,7 +217,7 @@ const Profile = () => {
             ))}
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };
