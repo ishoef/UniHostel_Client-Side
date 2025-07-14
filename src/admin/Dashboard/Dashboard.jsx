@@ -11,7 +11,7 @@ const Dashboard = () => {
   return (
     <>
       <section
-        className={`w-11/12 lg:w-10/12 mx-auto my-10 grid gap-3 md:gap-5 grid-cols-6 `}
+        className={`grid grid-cols-6 `}
       >
         <div className="col-span-1">
           <SideBar />

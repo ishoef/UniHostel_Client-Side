@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { AiOutlineDashboard } from "react-icons/ai";
-import { FaLayerGroup } from "react-icons/fa";
+import { FaHome, FaLayerGroup } from "react-icons/fa";
 import { IoCreate } from "react-icons/io5";
 import { PiHamburgerFill, PiUsersThreeBold } from "react-icons/pi";
 import { Link } from "react-router";
@@ -10,7 +10,6 @@ import { MdLogout } from "react-icons/md";
 import { TbComet } from "react-icons/tb";
 import { ImSpoonKnife } from "react-icons/im";
 import { BsPersonLinesFill } from "react-icons/bs";
-
 
 const SideBar = () => {
   const { logOut, setUser } = useContext(AuthContext);
@@ -40,7 +39,7 @@ const SideBar = () => {
   };
 
   return (
-    <div className="sticky top-24 md:border h-[calc(100vh-9rem)] overflow-y-auto border-gray-300 dark:border-primary/10 rounded-xl md:p-3 flex flex-col">
+    <div className="sticky top-0 md:border h-screen overflow-y-auto border-gray-300 dark:border-primary/10  md:p-3 flex flex-col shadow-md">
       <h1 className="text-primary mb-3 text-center text-2xl font-semibold ">
         Dashboard Menu
       </h1>
@@ -144,10 +143,17 @@ const SideBar = () => {
           </ul>
         </nav>
 
-        <div className="border bg-amber-100 h-30 flex flex-col justify-between">
-          <div>
-            <p>MyProfile</p>
-          </div>
+        <div className="space-y-4 ">
+          <Link
+            to={"/"}
+            className="bg-transparent text-primary w-full btn btn-primary flex justify-center items-center"
+          >
+            <p className="flex items-center gap-2">
+              {" "}
+              <FaHome size={20} />
+              <span className="hidden md:block">Go Home</span>
+            </p>
+          </Link>
           <button
             onClick={handleLogOut}
             className=" w-full btn btn-primary flex justify-center items-center"

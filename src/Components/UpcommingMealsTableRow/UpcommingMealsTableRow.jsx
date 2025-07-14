@@ -5,8 +5,6 @@ import { Link } from "react-router";
 import Swal from "sweetalert2";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import Modal from "../Modal/Modal";
-import AddMealForm from "../AllForms/AddMeal/AddMeal";
-import UpdateMeals from "../Updates/UpdateMeals/UpdateMeals";
 import UpdateUpcommingMeals from "../Updates/UpdateUpcommingMeals/UpdateUpcommingMeals";
 
 const UpcommingMealsTableRow = ({
@@ -56,6 +54,19 @@ const UpcommingMealsTableRow = ({
     });
   };
 
+  const handlePublish = (id) => {
+    console.log(`Publish upcommingMeal with ID: ${id}`);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to Publish this upcommingMeal!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Publish it!",
+    });
+  };
+
   return (
     <>
       <tr>
@@ -77,7 +88,7 @@ const UpcommingMealsTableRow = ({
         <td>{upcommingMeal.rating}</td>
         <td>{upcommingMeal.distributorName}</td>
         {buttonShow && (
-          <td className="space-y-3">
+          <td className="space-y-3 ">
             <Link
               onClick={() => setShowModal(true)}
               type="button"
@@ -94,6 +105,14 @@ const UpcommingMealsTableRow = ({
             </button>
           </td>
         )}
+        <td>
+          <button
+            onClick={() => handlePublish(upcommingMeal._id)}
+            className="btn hover:scale-102 transition-all duration-300 hover:bg-primary hover:text-white ease-in-out text-green-600"
+          >
+            Publish Now
+          </button>
+        </td>
       </tr>
 
       {showModal && (

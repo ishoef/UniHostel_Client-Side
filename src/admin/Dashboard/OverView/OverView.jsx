@@ -4,12 +4,17 @@ import { LiaUsersSolid } from "react-icons/lia";
 import { FaLayerGroup } from "react-icons/fa";
 import { AuthContext } from "../../../Context/AuthProvider";
 import axios from "axios";
+import useMeals from "../../../Hooks/useMeals/useMeals";
+import useUpcommingMeals from "../../../Hooks/useUpcommingMeals/useUpcommingMeals";
+import AllMeals from "../AllMeals/AllMeals";
+import UpcomingMeals from "../../../Pages/UpCommingMeals/UpCommingMeals";
+import UpcommingMeals from "../UpcommingMeals/UpcommingMeals";
 
 const OverView = () => {
   const { user } = use(AuthContext);
   const [usersCount, setUsersCount] = useState([]);
-  const [allGroups, setAllGroups] = useState([]);
-  
+  const { meals } = useMeals();
+  const { upcommingMeals } = useUpcommingMeals();
   console.log(user);
   // Users Data
   useEffect(() => {
@@ -22,22 +27,8 @@ const OverView = () => {
       });
   }, []);
 
-  // All Groups Data
-  useEffect(() => {
-    fetch("https://hobby-shop-server.vercel.app/groups")
-      .then((res) => res.json())
-      .then((data) => {
-        setAllGroups(data);
-      })
-      .catch((error) => {
-        console.log("Failed to fetch groups data:", error);
-        setAllGroups([]);
-      });
-  }, []);
 
   console.log(usersCount);
-
- 
 
   const stateInfo = [
     {
@@ -49,21 +40,21 @@ const OverView = () => {
 
     {
       icon: <FaLayerGroup />,
-      title: "Total Groups",
-      count: `${allGroups.length}`,
+      title: "Total Meals",
+      count: `${meals.length}`,
       parcent: "80% increase in 20 days",
     },
 
     {
       icon: <FaLayerGroup />,
-      title: "My Groups",
-      count: `${usersCount}`,
+      title: "Upcomming ",
+      count: `${upcommingMeals.length}`,
       parcent: "80% increase in 20 days",
     },
 
     {
       icon: <FaLayerGroup />,
-      title: "Users Groups",
+      title: "Served Meals",
       count: `${usersCount}`,
       parcent: "80% increase in 20 days",
     },
@@ -78,10 +69,12 @@ const OverView = () => {
             <State key={index} info={stat}></State>
           ))}
         </div>
+        <hr className="border border-gray-300 mt-10" />
+        <AllMeals />
+        <hr className="border border-gray-300 mt-10" />
+        <UpcommingMeals />
       </div>
-      <div className="mt-10">
-        
-      </div>
+      <div className="mt-10"></div>
     </div>
   );
 };

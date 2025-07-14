@@ -24,6 +24,7 @@ const UpcommingMealsTable = ({
               <th>Rating</th>
               <th>Distributor</th>
               {buttonShow && <th>Action</th>}
+              <th>Publish</th>
             </tr>
           </thead>
           <tbody>

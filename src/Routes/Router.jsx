@@ -49,64 +49,64 @@ export const router = createBrowserRouter([
         path: "/student_dashboard",
         Component: StudentDashBoard,
       },
-      {
-        path: "/admin_dashboard",
-        element: (
-          <PrivateRoute>
-            <Dashboard />
-          </PrivateRoute>
-        ),
-        children: [
-          { index: true, element: <OverView /> },
-          { path: "overview", element: <OverView /> },
-          {
-            path: "users",
-            element: <Users />,
-          },
-          {
-            path: "creategroup",
-            element: <CreatedGroups />,
-          },
-          {
-            path: "allMeals",
-            element: <AllMeals />,
-          },
-          {
-            path: "addmeal",
-            element: <AddMealForm />,
-          },
-          {
-            path: "upcomming_meals",
-            element: <UpcommingMeals />,
-          },
-          {
-            path: "dash_profile",
-            element: <MyProfile />,
-            children: [
-              {
-                index: true,
-                element: <Navigate to="profile" />,
-              },
-              {
-                path: "profile",
-                element: <Profile />,
-              },
-              {
-                path: "activity",
-                element: <Activity />,
-              },
-              {
-                path: "settings",
-                element: <Settings />,
-              },
-              {
-                path: "privacy",
-                element: <Privacy />,
-              },
-            ],
-          },
-        ],
-      },
+      // {
+      //   path: "/admin_dashboard",
+      //   element: (
+      //     <PrivateRoute>
+      //       <Dashboard />
+      //     </PrivateRoute>
+      //   ),
+      //   children: [
+      //     { index: true, element: <OverView /> },
+      //     { path: "overview", element: <OverView /> },
+      //     {
+      //       path: "users",
+      //       element: <Users />,
+      //     },
+      //     {
+      //       path: "creategroup",
+      //       element: <CreatedGroups />,
+      //     },
+      //     {
+      //       path: "allMeals",
+      //       element: <AllMeals />,
+      //     },
+      //     {
+      //       path: "addmeal",
+      //       element: <AddMealForm />,
+      //     },
+      //     {
+      //       path: "upcomming_meals",
+      //       element: <UpcommingMeals />,
+      //     },
+      //     {
+      //       path: "dash_profile",
+      //       element: <MyProfile />,
+      //       children: [
+      //         {
+      //           index: true,
+      //           element: <Navigate to="profile" />,
+      //         },
+      //         {
+      //           path: "profile",
+      //           element: <Profile />,
+      //         },
+      //         {
+      //           path: "activity",
+      //           element: <Activity />,
+      //         },
+      //         {
+      //           path: "settings",
+      //           element: <Settings />,
+      //         },
+      //         {
+      //           path: "privacy",
+      //           element: <Privacy />,
+      //         },
+      //       ],
+      //     },
+      //   ],
+      // },
     ],
   },
   {
@@ -120,6 +120,64 @@ export const router = createBrowserRouter([
       {
         path: "/auth/login",
         Component: Login,
+      },
+    ],
+  },
+  {
+    path: "/admin_dashboard",
+    element: (
+      <PrivateRoute>
+        <Dashboard />
+      </PrivateRoute>
+    ),
+    children: [
+      { index: true, element: <OverView /> },
+      { path: "overview", element: <OverView /> },
+      {
+        path: "users",
+        element: <Users />,
+      },
+      {
+        path: "creategroup",
+        element: <CreatedGroups />,
+      },
+      {
+        path: "allMeals",
+        element: <AllMeals />,
+      },
+      {
+        path: "addmeal",
+        element: <AddMealForm />,
+      },
+      {
+        path: "upcomming_meals",
+        element: <UpcommingMeals />,
+      },
+      {
+        path: "dash_profile",
+        element: <MyProfile />,
+        children: [
+          {
+            index: true,
+            element: <Navigate to="profile" />,
+          },
+          {
+            path: "profile",
+            element: <Profile />,
+          },
+          {
+            path: "activity",
+            element: <Activity />,
+          },
+          {
+            path: "settings",
+            element: <Settings />,
+          },
+          {
+            path: "privacy",
+            element: <Privacy />,
+          },
+        ],
       },
     ],
   },

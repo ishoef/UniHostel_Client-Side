@@ -1,19 +1,31 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { RiApps2AddFill } from "react-icons/ri";
 import GroupTableRow from "../../../Components/GroupTableRow/GroupTableRow";
+import Modal from "../../../Components/Modal/Modal";
 
 const CreatedGroups = ({ meals, setMeals, buttonShow }) => {
+  const [showModel, setShowModel] = useState();
   useEffect(() => {
     document.title = "My Groups | Hobby Shop";
   }, []);
 
   return (
     <div className="mx-auto">
-      <h2 className="text-3xl sm:text-4xl font-extrabold text-center my-5 text-gray-800">
-        All{" "}
-        <span className="bg-gradient-to-r from-orange-500 to-pink-500 text-transparent bg-clip-text">
-          Meals
-        </span>
-      </h2>
+      <div className="flex items-center justify-between ">
+        <h2 className="text-2xl sm:text-3xl font-extrabold my-5 text-gray-800">
+          All{" "}
+          <span className="bg-gradient-to-r from-orange-500 to-pink-500 text-transparent bg-clip-text">
+            Meals ({meals.length})
+          </span>
+        </h2>
+        <button
+          onClick={() => setShowModel(true)}
+          className="btn bg-transparent border border-primary text-primary text-[16px]"
+        >
+          <RiApps2AddFill />
+          Add Meals
+        </button>
+      </div>
       <div className="overflow-x-auto min-h-[calc(100vh-438px)]">
         <table className="table table-lg border border-[#FF6B3580] dark:border-primary/20 rounded-2xl">
           <thead>
@@ -41,6 +53,9 @@ const CreatedGroups = ({ meals, setMeals, buttonShow }) => {
           </tbody>
         </table>
       </div>
+      {showModel && (
+        <Modal showModal={showModel} setShowModal={setShowModel}></Modal>
+      )}
     </div>
   );
 };
