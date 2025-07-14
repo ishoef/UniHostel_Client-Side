@@ -4,14 +4,28 @@ import Swal from "sweetalert2";
 import useAuth from "../../../Hooks/useAuth.jsx/useAuth";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
-const AddUpcommingMeal = ({ setUpcommingMeals }) => {
+const UpdateUpcommingMeals = ({
+  setShowModal,
+  setUpcommingMeals,
+  upcommingMeal,
+}) => {
+  const { user } = useAuth();
+
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm();
-  const { user } = useAuth();
+  } = useForm({
+    defaultValues: {
+      title: upcommingMeal?.title || "",
+      category: upcommingMeal?.category || "",
+      ingredients: upcommingMeal?.ingredients || "",
+      description: upcommingMeal?.description || "",
+      price: upcommingMeal?.price || "",
+      postTime: upcommingMeal?.postTime ? upcommingMeal.postTime.slice(0, 16) : "", // datetime-local needs specific format
+    },
+  });
   // const [loading, setLoading] = useState(false);
   // const [imageUrl, setImageUrl] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -47,41 +61,47 @@ const AddUpcommingMeal = ({ setUpcommingMeals }) => {
     setIsSubmitting(true);
     data.distributorName = distributorName || "";
     data.distributorEmail = distributorEmail || "";
-    data.rating = 0;
-    data.likes = 0;
-    data.reviews_count = 0;
 
-    console.log("Form Submitted:", data);
-
-    // Done: send to backend
+    // Done: Send Update Request to the server
     try {
-      const response = await axiosSecure.post("/upcomming-meals", data);
+      const response = await axiosSecure.put(
+        `/upcomming-meals/${upcommingMeal._id}`,
+        data
+      );
 
-      if (response.data.insertedId || response.data.success) {
-        // ✅ Show success alert
+      // Update Check
+      if (response.data.modifiedCount || response.data.success) {
         Swal.fire({
           icon: "success",
-          title: "Meal Submitted!",
-          text: "Your meal has been successfully added.",
-          confirmButtonColor: "#ec4899",
+          title: "Meal Updated!",
+          text: "Your meal has been successfully updated.",
+          confirmButtonColor: "#22c55e",
         });
 
-        const allUpcommingMeals = await axiosSecure.get("/upcomming-meals");
-        setUpcommingMeals(allUpcommingMeals.data);
+        console.log(response);
         reset();
+
+        // update local meals list
+        if (setUpcommingMeals) {
+          setUpcommingMeals((prevMeals) =>
+            prevMeals.map((m) =>
+              m._id === upcommingMeal._id ? { ...m, ...data } : m
+            )
+          );
+        }
+        setShowModal(false);
       }
     } catch (error) {
-      console.error("Error Submiting meal:", error);
+      console.error("Error updating meal:", error);
       Swal.fire({
         icon: "error",
-        title: "Submission Failed",
+        title: "Update Failed",
         text: "Something went wrong. Please try again later.",
         confirmButtonColor: "#ef4444",
       });
     } finally {
       setIsSubmitting(false);
     }
-    // setImageUrl(""); // optionally reset image preview
   };
 
   return (
@@ -264,4 +284,4 @@ const AddUpcommingMeal = ({ setUpcommingMeals }) => {
   );
 };
 
-export default AddUpcommingMeal;
+export default UpdateUpcommingMeals;

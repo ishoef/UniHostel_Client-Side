@@ -11,20 +11,20 @@ const MyProfile = () => {
   }, []);
 
   const navItems = [
-    { name: "Profile", link: "/myprofile/profile", icon: <LuUserRound /> },
+    { name: "Profile", link: "profile", icon: <LuUserRound /> },
     {
       name: "Activity",
-      link: "/myprofile/activity",
+      link: "activity",
       icon: <VscLayersActive />,
     },
     {
       name: "Settings",
-      link: "/myprofile/settings",
+      link: "settings",
       icon: <IoSettingsOutline />,
     },
     {
       name: "Privacy",
-      link: "/myprofile/privacy",
+      link: "privacy",
       icon: <MdOutlinePrivacyTip />,
     },
   ];
