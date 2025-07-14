@@ -157,7 +157,7 @@ const AddUpcommingMeal = ({ setUpcommingMeals }) => {
             <p className="text-red-500 text-sm mt-1">Image is required</p>
           )}
         </div> */}
-
+        
         <div className="md:col-span-2">
           <label className="block font-semibold text-gray-700 mb-1">
             Image URL

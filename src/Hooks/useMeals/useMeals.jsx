@@ -28,5 +28,5 @@ const useMeals = () => {
 
   return { meals, loading, setMeals, error };
 };
- 
+
 export default useMeals;

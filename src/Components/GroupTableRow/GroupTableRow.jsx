@@ -61,7 +61,7 @@ const GroupTableRow = ({ meal, meals, setMeals, buttonShow }) => {
           <Link to={`/groupDetails/${meal._id}`}>{meal.title}</Link>
         </td>
         <td>{meal.category}</td>
-        <td>{meal.likes}</td>
+        <td>{meal.likes.length || 0}</td>
         <td>{meal.reviews_count}</td>
         <td>{meal.rating}</td>
         <td>{meal.distributorName}</td>

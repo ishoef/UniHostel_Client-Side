@@ -78,10 +78,10 @@ const MealDetail = () => {
           </p>
 
           <div className="flex gap-3 mt-5">
-            <button className="px-4 py-2 bg-white border border-gray-300 rounded hover:bg-gray-100">
+            <button className="cursor-pointer px-4 py-2 bg-white border border-gray-300 rounded hover:bg-gray-100">
               ❤️ Like (124)
             </button>
-            <button className="px-4 py-2 bg-black text-white rounded hover:bg-gray-800">
+            <button className="cursor-pointer px-4 py-2 bg-black text-white rounded hover:bg-gray-800">
               Request Meal
             </button>
           </div>
@@ -137,7 +137,7 @@ const MealDetail = () => {
           <textarea
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
-            className="w-full border border-gray-300 rounded p-2 mb-2"
+            className="w-full border border-gray-300 focus-within:outline-primary rounded p-2 mb-2"
             rows="3"
             placeholder="Share your thoughts about this meal..."
           />

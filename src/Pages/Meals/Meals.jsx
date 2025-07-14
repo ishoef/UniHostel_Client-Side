@@ -1,56 +1,82 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import MealCard from "../../Components/Cards/MealCard/MealCard";
+import useAxios from "../../Hooks/useAxios";
+import NormalLoader from "../../Components/Loader copy/NormalLoader";
 
-function MealCard({ meal }) {
-  return (
-    <div className="border border-gray-200 rounded-2xl p-4 bg-white shadow hover:shadow-md transition">
-      <img
-        src={meal.image}
-        alt={meal.name}
-        className="w-full h-40 object-cover rounded-xl mb-3"
-      />
-      <h3 className="text-lg font-semibold mb-1">{meal.name}</h3>
-      <p className="text-sm text-gray-600 mb-2">{meal.description}</p>
-      <div className="flex justify-between items-center mb-3">
-        <span className="text-sm">⭐ {meal.rating}</span>
-        <span className="font-bold text-sm">${meal.price}</span>
-      </div>
-      <button className="cursor-pointer bg-orange-500 text-white rounded-md w-full py-2 hover:bg-orange-600 transition">
-        View Details
-      </button>
-    </div>
-  );
-}
+// function MealCard({ meal }) {
+//   return (
+//     <div className="border border-gray-200 rounded-2xl p-4 bg-white shadow hover:shadow-md transition">
+//       <img
+//         src={meal.imageUrl}
+//         alt={meal.title}
+//         className="w-full h-40 object-cover rounded-xl mb-3"
+//       />
+//       <h3 className="text-lg font-semibold mb-1">{meal.title}</h3>
+//       <p className="text-sm text-gray-600 mb-2">{meal.description}</p>
+//       <div className="flex justify-between items-center mb-3">
+//         <span className="text-sm">⭐ {meal.rating}</span>
+//         <span className="font-bold text-sm">${meal.price}</span>
+//       </div>
+//       <button className="cursor-pointer bg-orange-500 text-white rounded-md w-full py-2 hover:bg-orange-600 transition">
+//         View Details
+//       </button>
+//     </div>
+//   );
+// }
 
 function AllMeals() {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All Categories");
   const [price, setPrice] = useState(50);
+  const [meals, setMeals] = useState([]);
+  const [loading, setLoading] = useState(false);
   
-  const demoImages = [
-    "https://images.unsplash.com/photo-1600891964599-f61ba0e24092",
-    "https://images.unsplash.com/photo-1543353071-873f17a7a088",
-    "https://images.unsplash.com/photo-1504674900247-0877df9cc836",
-  ];
+  const axiosInstance = useAxios();
+  useEffect(() => {
+    const fetchMeals = async () => {
+      setLoading(true);
+      try {
+        const response = await axiosInstance.get("/meals");
+        setMeals(response.data);
+      } catch (err) {
+        console.log("Error fetching Meals data", err);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const meals = Array.from({ length: 32 }, (_, index) => ({
-    id: index + 1,
-    name: `Delicious Meal ${index + 1}`,
-    description: "A wonderful meal description for your taste.",
-    rating: (4 + (index % 2) * 0.2).toFixed(1),
-    price: (5 + Math.random() * 45).toFixed(2),
-    category: ["Breakfast", "Lunch", "Dinner"][index % 3],
-    image: demoImages[index % demoImages.length],
-  }));
+    fetchMeals();
+  }, [axiosInstance]);
 
-  const filteredMeals = meals.filter((meal) => {
-    const matchesSearch = meal.name
-      .toLowerCase()
-      .includes(search.toLowerCase());
-    const matchesCategory =
-      category === "All Categories" || meal.category === category;
-    const matchesPrice = parseFloat(meal.price) <= price;
-    return matchesSearch && matchesCategory && matchesPrice;
-  });
+  // const demoImages = [
+  //   "https://images.unsplash.com/photo-1600891964599-f61ba0e24092",
+  //   "https://images.unsplash.com/photo-1543353071-873f17a7a088",
+  //   "https://images.unsplash.com/photo-1504674900247-0877df9cc836",
+  // ];
+
+  // const meals = Array.from({ length: 32 }, (_, index) => ({
+  //   id: index + 1,
+  //   name: `Delicious Meal ${index + 1}`,
+  //   description: "A wonderful meal description for your taste.",
+  //   rating: (4 + (index % 2) * 0.2).toFixed(1),
+  //   price: (5 + Math.random() * 45).toFixed(2),
+  //   category: ["Breakfast", "Lunch", "Dinner"][index % 3],
+  //   image: demoImages[index % demoImages.length],
+  // }));
+
+  // const filteredMeals = meals.filter((meal) => {
+  //   const matchesSearch = meal.name
+  //     .toLowerCase()
+  //     .includes(search.toLowerCase());
+  //   const matchesCategory =
+  //     category === "All Categories" || meal.category === category;
+  //   const matchesPrice = parseFloat(meal.price) <= price;
+  //   return matchesSearch && matchesCategory && matchesPrice;
+  // });
+
+  if (loading) {
+    return <NormalLoader/>
+  }
 
   return (
     <div className="max-w-7xl mx-auto p-5">
@@ -106,13 +132,13 @@ function AllMeals() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-        {filteredMeals.map((meal) => (
-          <MealCard key={meal.id} meal={meal} />
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+        {meals.map((meal) => (
+          <MealCard key={meal._id} meal={meal} />
         ))}
       </div>
 
-      {filteredMeals.length === 0 && (
+      {meals.length === 0 && (
         <div className="text-center mt-10 text-gray-500">No meals found.</div>
       )}
 

@@ -17,6 +17,7 @@ const UpdateMeals = ({ setShowModal, setMeals, meal }) => {
       title: meal?.title || "",
       category: meal?.category || "",
       ingredients: meal?.ingredients || "",
+      imageUrl: meal?.imageUrl || "",
       description: meal?.description || "",
       price: meal?.price || "",
       postTime: meal?.postTime ? meal.postTime.slice(0, 16) : "", // datetime-local needs specific format
@@ -168,7 +169,7 @@ const UpdateMeals = ({ setShowModal, setMeals, meal }) => {
             <p className="text-red-500 text-sm mt-1">Image is required</p>
           )}
         </div> */}
-        
+
         {/* Image Url Upload */}
         <div className="md:col-span-2">
           <label className="block font-semibold text-gray-700 mb-1">

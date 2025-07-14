@@ -7,7 +7,7 @@ const meals = [
     title: "Classic Pancakes with Maple Syrup",
     description: "Fluffy pancakes served with fresh maple syrup and butter.",
     rating: 4.8,
-    price: "$8.99",
+    price: "8.99",
     likes: 124,
     category: "Breakfast",
     image:
@@ -19,7 +19,7 @@ const meals = [
     description:
       "Fresh romaine lettuce with grilled chicken and caesar dressing.",
     rating: 4.6,
-    price: "$12.99",
+    price: "12.99",
     likes: 69,
     category: "Lunch",
     image:
@@ -30,7 +30,7 @@ const meals = [
     title: "Beef Steak with Vegetables",
     description: "Juicy beef steak served with roasted vegetables and herbs.",
     rating: 4.9,
-    price: "$18.50",
+    price: "18.50",
     likes: 89,
     category: "Dinner",
     image:
@@ -41,7 +41,7 @@ const meals = [
     title: "Chocolate Cake Delight",
     description: "Decadent chocolate cake layered with rich chocolate ganache.",
     rating: 5.0,
-    price: "$6.75",
+    price: "6.75",
     likes: 145,
     category: "Dessert",
     image:
@@ -52,7 +52,7 @@ const meals = [
     title: "Fresh Sushi Platter",
     description: "Assorted sushi with fresh fish, rice, and seaweed.",
     rating: 4.7,
-    price: "$14.99",
+    price: "14.99",
     likes: 95,
     category: "Lunch",
     image:
@@ -63,7 +63,7 @@ const meals = [
     title: "Spaghetti Bolognese",
     description: "Classic Italian pasta with rich meat sauce and parmesan.",
     rating: 4.5,
-    price: "$11.50",
+    price: "11.50",
     likes: 110,
     category: "Dinner",
     image:

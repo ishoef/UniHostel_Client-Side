@@ -9,6 +9,11 @@ import UpcommingMealsTable from "../../../Components/UpcommingMealsTable/Upcommi
 const UpcommingMeals = () => {
   const [showModel, setShowModel] = useState(false);
   const { upcommingMeals, setUpcommingMeals } = useUpcommingMeals();
+
+  if (upcommingMeals.length === 0) {
+    return <NoCreatedGroups/>
+  }
+
   return (
     <>
       <div className="flex items-center justify-between ">

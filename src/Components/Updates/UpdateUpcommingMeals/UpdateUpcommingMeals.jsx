@@ -23,7 +23,12 @@ const UpdateUpcommingMeals = ({
       ingredients: upcommingMeal?.ingredients || "",
       description: upcommingMeal?.description || "",
       price: upcommingMeal?.price || "",
-      postTime: upcommingMeal?.postTime ? upcommingMeal.postTime.slice(0, 16) : "", // datetime-local needs specific format
+      imageUrl:
+        upcommingMeal.imageUrl ||
+        "https://images.unsplash.com/photo-1546323925-bd65f504d7bc?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzJ8fGR1bXklMjBmb29kfGVufDB8fDB8fHww",
+      postTime: upcommingMeal?.postTime
+        ? upcommingMeal.postTime.slice(0, 16)
+        : "", // datetime-local needs specific format
     },
   });
   // const [loading, setLoading] = useState(false);
@@ -177,6 +182,22 @@ const UpdateUpcommingMeals = ({
             <p className="text-red-500 text-sm mt-1">Image is required</p>
           )}
         </div> */}
+        {/* Image Url */}
+
+        <div className="md:col-span-2">
+          <label className="block font-semibold text-gray-700 mb-1">
+            Image URL
+          </label>
+          <input
+            type="url"
+            {...register("imageUrl", { required: true })}
+            className="w-full border border-gray-400 focus-within:outline-primary p-3 rounded hover:shadow-md transition"
+            placeholder="Enter image URL (e.g. https://...)"
+          />
+          {errors.imageUrl && (
+            <p className="text-red-500 text-sm mt-1">Image URL is required</p>
+          )}
+        </div>
 
         {/* Ingredients */}
         <div className="md:col-span-2">
