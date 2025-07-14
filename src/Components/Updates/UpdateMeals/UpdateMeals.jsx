@@ -168,6 +168,22 @@ const UpdateMeals = ({ setShowModal, setMeals, meal }) => {
             <p className="text-red-500 text-sm mt-1">Image is required</p>
           )}
         </div> */}
+        
+        {/* Image Url Upload */}
+        <div className="md:col-span-2">
+          <label className="block font-semibold text-gray-700 mb-1">
+            Image URL
+          </label>
+          <input
+            type="url"
+            {...register("imageUrl", { required: true })}
+            className="w-full border border-gray-400 focus-within:outline-primary p-3 rounded hover:shadow-md transition"
+            placeholder="Enter image URL (e.g. https://...)"
+          />
+          {errors.imageUrl && (
+            <p className="text-red-500 text-sm mt-1">Image URL is required</p>
+          )}
+        </div>
 
         {/* Ingredients */}
         <div className="md:col-span-2">

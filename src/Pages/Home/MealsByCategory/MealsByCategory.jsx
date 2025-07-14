@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import MealCard from "../../../Components/MealCard/MealCard";
+import MealCard from "../../../Components/Cards/MealCard/MealCard";
 
 const meals = [
   {
@@ -101,7 +101,7 @@ export default function MealsByCategory() {
           <button
             key={category}
             onClick={() => setActiveCategory(category)}
-            className={`px-5 py-2 rounded-full border text-sm font-medium transition ${
+            className={`px-5 py-2 rounded-full border text-sm font-medium transition cursor-pointer ${
               activeCategory === category
                 ? "bg-black text-white border-black"
                 : "bg-gray-100 text-gray-700 border-gray-300 hover:bg-gray-200"

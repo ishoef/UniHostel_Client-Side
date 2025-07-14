@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { RiApps2AddFill } from "react-icons/ri";
 import GroupTableRow from "../../../Components/GroupTableRow/GroupTableRow";
 import Modal from "../../../Components/Modal/Modal";
+import AddMealForm from "../../../Components/AllForms/AddMeal/AddMeal";
 
 const CreatedGroups = ({ meals, setMeals, buttonShow }) => {
   const [showModel, setShowModel] = useState();
@@ -54,7 +55,9 @@ const CreatedGroups = ({ meals, setMeals, buttonShow }) => {
         </table>
       </div>
       {showModel && (
-        <Modal showModal={showModel} setShowModal={setShowModel}></Modal>
+        <Modal showModal={showModel} setShowModal={setShowModel}>
+          <AddMealForm setMeals={setMeals} />
+        </Modal>
       )}
     </div>
   );

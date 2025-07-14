@@ -16,23 +16,27 @@ const MealCard = ({ meal }) => {
       {/* Content Section */}
       <div className="flex flex-col flex-grow p-4">
         <div className="flex justify-between items-center mb-2">
+          {/* title & Likes */}
           <h3 className="font-semibold text-lg text-gray-800">{meal.title}</h3>
           <span className="flex items-center gap-1 text-xs text-gray-500">
             ❤️ {meal.likes}
           </span>
         </div>
 
+        {/* Description */}
         <p className="text-gray-500 text-sm mb-3 flex-grow">
           {meal.description}
         </p>
 
+        {/* rating */}
         <div className="flex justify-between items-center text-sm mb-4">
           <span className="flex items-center gap-1 text-yellow-500 font-semibold">
             ⭐ {meal.rating}
           </span>
           <span className="text-orange-600 font-bold">{meal.price}</span>
         </div>
-
+        
+        {/* View Details Button */}
         <Link
           to="/details"
           className="bg-black text-white text-sm py-2 rounded-lg mt-auto text-center hover:opacity-90"

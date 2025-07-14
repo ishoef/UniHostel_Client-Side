@@ -2,9 +2,9 @@ import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../../Context/AuthProvider";
 import Swal from "sweetalert2";
-import useAxios from "../../../Hooks/useAxios";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
-const AddMealForm = () => {
+const AddMealForm = ({ setMeals }) => {
   const {
     register,
     handleSubmit,
@@ -12,11 +12,11 @@ const AddMealForm = () => {
     formState: { errors },
   } = useForm();
   const { user } = useContext(AuthContext);
+  const axiosSecure = useAxiosSecure();
   // const [loading, setLoading] = useState(false);
   // const [imageUrl, setImageUrl] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const axiosInstance = useAxios();
   const distributorName = user.displayName;
   const distributorEmail = user.email;
   // const imageBB_API_KEY = "YOUR_IMAGE_BB_API_KEY"; // Replace with your key
@@ -55,7 +55,7 @@ const AddMealForm = () => {
 
     // Done: send to backend
     try {
-      const response = await axiosInstance.post("/meals", data);
+      const response = await axiosSecure.post("/meals", data);
 
       if (response.data.insertedId || response.data.success) {
         // ✅ Show success alert
@@ -63,8 +63,11 @@ const AddMealForm = () => {
           icon: "success",
           title: "Meal Submitted!",
           text: "Your meal has been successfully added.",
-          confirmButtonColor: "#ec4899", 
+          confirmButtonColor: "#ec4899",
         });
+
+        const allMeals = await axiosSecure.get("/meals");
+        setMeals ? setMeals(allMeals.data) : '';
         reset();
       }
     } catch (error) {
@@ -154,6 +157,21 @@ const AddMealForm = () => {
             <p className="text-red-500 text-sm mt-1">Image is required</p>
           )}
         </div> */}
+
+        <div className="md:col-span-2">
+          <label className="block font-semibold text-gray-700 mb-1">
+            Image URL
+          </label>
+          <input
+            type="url"
+            {...register("imageUrl", { required: true })}
+            className="w-full border border-gray-400 focus-within:outline-primary p-3 rounded hover:shadow-md transition"
+            placeholder="Enter image URL (e.g. https://...)"
+          />
+          {errors.imageUrl && (
+            <p className="text-red-500 text-sm mt-1">Image URL is required</p>
+          )}
+        </div>
 
         {/* Ingredients */}
         <div className="md:col-span-2">
