@@ -181,7 +181,7 @@ export default function AuthPage() {
             <div className="flex justify-center gap-2 mb-4">
               <button
                 onClick={() => setTab("signin")}
-                className={`w-1/2 py-2 rounded-md text-sm font-medium ${
+                className={`w-1/2 py-2 cursor-pointer rounded-md text-sm font-medium ${
                   tab === "signin"
                     ? "bg-gradient-to-r from-orange-500 to-pink-500 text-white"
                     : "bg-gray-100 text-gray-700"
@@ -191,7 +191,7 @@ export default function AuthPage() {
               </button>
               <button
                 onClick={() => setTab("signup")}
-                className={`w-1/2 py-2 rounded-md text-sm font-medium ${
+                className={`w-1/2 py-2 cursor-pointer rounded-md text-sm font-medium ${
                   tab === "signup"
                     ? "bg-gradient-to-r from-orange-500 to-pink-500 text-white"
                     : "bg-gray-100 text-gray-700"

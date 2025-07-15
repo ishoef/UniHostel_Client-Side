@@ -2,7 +2,7 @@ import React, { use, useState } from "react";
 import { AuthContext } from "../../Context/AuthProvider";
 import { toast } from "react-toastify";
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // Eye icons for password toggle
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import useAxios from "../../Hooks/useAxios";
 
@@ -13,6 +13,9 @@ const SignUp = () => {
   const axiosInstance = useAxios();
 
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location.state?.from || "/";
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -66,7 +69,7 @@ const SignUp = () => {
         console.log("after create user", result);
         const user = result.user;
         setUser(user); // Set the current user in context
-        navigate("/"); // Redirect to home page
+        navigate(from); // Redirect to home page
 
         // user info in the database
         const userInfo = {
@@ -76,6 +79,7 @@ const SignUp = () => {
           last_login: new Date().toISOString(),
         };
 
+        // Send User Data to the back-end
         const userRes = await axiosInstance.post("/users", userInfo);
         console.log(userRes.data);
 

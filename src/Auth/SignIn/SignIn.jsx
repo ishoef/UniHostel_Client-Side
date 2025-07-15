@@ -8,8 +8,8 @@ import { sendPasswordResetEmail } from "firebase/auth";
 const SignIn = () => {
   const { logIn, auth, setUser } = use(AuthContext);
   const emailRef = useRef();
-
   const [error, setError] = useState(null);
+
 
   useEffect(() => {
     document.title = "login | UniHostel";
@@ -17,7 +17,7 @@ const SignIn = () => {
 
   const location = useLocation();
   const navigate = useNavigate();
-
+  
   // Manual Login
   const handleLogin = (e) => {
     e.preventDefault();
