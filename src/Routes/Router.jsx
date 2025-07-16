@@ -22,6 +22,7 @@ import Profile from "../admin/MyProfile/Profile/Profile";
 import Activity from "../admin/MyProfile/Activity/Activity";
 import Settings from "../admin/MyProfile/Settings/Settings";
 import Privacy from "../admin/MyProfile/Privacy/Privacy";
+import MakeAdmin from "../admin/Dashboard/MakeAdmin/MakeAdmin";
 
 export const router = createBrowserRouter([
   {
@@ -152,6 +153,10 @@ export const router = createBrowserRouter([
       {
         path: "upcomming_meals",
         element: <UpcommingMeals />,
+      },
+      {
+        path: "makeadmin",
+        Component: MakeAdmin,
       },
       {
         path: "dash_profile",

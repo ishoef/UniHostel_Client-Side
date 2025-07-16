@@ -40,6 +40,8 @@ const AllMeals = () => {
       }
     };
 
+    console.log("searching with:", search, category, price);
+
     fetchMeals();
   }, [search, category, price]);
 

@@ -4,20 +4,21 @@ import { Link, useLocation, useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { sendPasswordResetEmail } from "firebase/auth";
+import useAxios from "../../Hooks/useAxios";
 
 const SignIn = () => {
   const { logIn, auth, setUser } = use(AuthContext);
   const emailRef = useRef();
   const [error, setError] = useState(null);
 
-
+  const axiosInstance = useAxios();
   useEffect(() => {
     document.title = "login | UniHostel";
   }, []);
 
   const location = useLocation();
   const navigate = useNavigate();
-  
+
   // Manual Login
   const handleLogin = (e) => {
     e.preventDefault();
@@ -27,11 +28,23 @@ const SignIn = () => {
     const password = e.target.password.value;
 
     logIn(email, password)
-      .then((result) => {
+      .then(async (result) => {
         const user = result.user;
 
         setUser(user);
         navigate(`${location.state ? location.state : "/"}`);
+
+        // user info in the database
+        const userInfo = {
+          email: email,
+          role: "user", // default role
+          created_at: new Date().toISOString(),
+          last_login: new Date().toISOString(),
+        };
+
+        // Send User Data to the back-end
+        const userRes = await axiosInstance.post("/users", userInfo);
+        console.log(userRes.data);
         Swal.fire({
           title: "Congratulations! Welcome to Our World",
           icon: "success",
@@ -110,7 +123,7 @@ const SignIn = () => {
 
         <option>Admin</option>
       </select>
-      <p className="text-red-500" >{error}</p>
+      <p className="text-red-500">{error}</p>
       <div className="flex justify-between text-sm text-[#6B7280]">
         <label className="flex items-center gap-2">
           <input type="checkbox" className="accent-[#F97316]" />
