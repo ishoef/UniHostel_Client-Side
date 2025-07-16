@@ -79,7 +79,7 @@ const MealCard = ({ meal }) => {
 
         <div className="flex items-center justify-between gap-3">
           <Link
-            to="/details"
+            to={`/meal_details/${meal._id}`}
             className="bg-black w-full text-white text-sm py-[10px] rounded-lg mt-auto text-center hover:opacity-90"
           >
             View Details

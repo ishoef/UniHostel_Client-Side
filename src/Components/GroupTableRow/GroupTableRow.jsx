@@ -58,7 +58,7 @@ const GroupTableRow = ({ meal, meals, setMeals, buttonShow }) => {
           <img src={meal.imageUrl} alt={meal.title} className="w-26 h-18 " />
         </td>
         <td>
-          <Link to={`/groupDetails/${meal._id}`}>{meal.title}</Link>
+          <Link to={`/meal_details/${meal._id}`}>{meal.title}</Link>
         </td>
         <td>{meal.category}</td>
         <td>{meal.likes.length || 0}</td>

@@ -1,25 +1,44 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+// import useMeals from "../../Hooks/useMeals/useMeals";
+import useAxios from "../../Hooks/useAxios";
+import useAuth from "../../Hooks/useAuth.jsx/useAuth";
+import { useParams } from "react-router";
 
 const MealDetail = () => {
-  const [reviews, setReviews] = useState([
-    {
-      name: "John Doe",
-      rating: 5,
-      comment:
-        "Absolutely delicious! The pancakes were fluffy and the maple syrup was perfect.",
-      date: "January 14, 2024 at 12:30 PM",
-    },
-    {
-      name: "Sarah Smith",
-      rating: 4,
-      comment: "Great breakfast option. Would definitely order again!",
-      date: "January 13, 2024 at 11:15 AM",
-    },
-  ]);
+  const { id } = useParams();
+  console.log(id);
 
+  const [reviews, setReviews] = useState([]);
   const [newRating, setNewRating] = useState(0);
   const [newComment, setNewComment] = useState("");
+  const [meal, setMeal] = useState([]);
+  const [loading, setLoading] = useState(false);
 
+  const { user } = useAuth();
+  const userId = user?.uid;
+
+  const [likes, setLikes] = useState([]);
+  const [liked, setLiked] = useState(false);
+
+  const axiosInstance = useAxios();
+
+  useEffect(() => {
+    const fetchMeals = async () => {
+      setLoading(true);
+      try {
+        const response = await axiosInstance.get(`/meals/${id}`);
+        setMeal(response.data);
+      } catch (err) {
+        console.log("Error fetching Meals data", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMeals();
+  }, [axiosInstance, id]);
+
+  console.log(meal);
   const submitReview = () => {
     if (!newComment || newRating === 0) return;
 
@@ -41,48 +60,97 @@ const MealDetail = () => {
     setNewComment("");
   };
 
+  // Handle Like Initialization
+  useEffect(() => {
+    if (meal && Array.isArray(meal.likes)) {
+      setLikes(meal.likes); // full array
+      if (userId) {
+        setLiked(meal.likes.includes(userId));
+      }
+    }
+  }, [meal, userId]);
+
+  // Handle Like Button Click
+ const handleLike = async () => {
+   if (!userId) {
+     console.error("User ID is missing!");
+     return;
+   }
+
+   try {
+     const response = await axiosInstance.post(`/meals/${meal._id}/like`, {
+       userId: userId,
+     });
+
+     const { likes: updatedLikes, liked: updatedLiked } = response.data;
+
+     // Update local state
+     setLikes(updatedLikes);
+     setLiked(updatedLiked);
+
+     // ✅ Also update meal.likes to reflect UI change immediately
+      const updatedMeal = await axiosInstance.get(`/meals/${meal._id}`);
+      setMeal(updatedMeal.data);
+   } catch (err) {
+     console.error("Error liking meal:", err);
+   }
+ };
+
+  if (loading) {
+    return (
+      <div className="text-center py-20 text-gray-500 text-xl">
+        Loading meal details...
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-5xl mx-auto py-12 px-4">
       {/* Top Section */}
       <div className="flex flex-col md:flex-row gap-6 bg-white p-6 rounded-lg shadow-sm">
         {/* Image */}
-        <div className="w-full md:w-1/2 bg-gray-100 h-78 flex items-center justify-center rounded">
-          <span className="text-gray-400 text-3xl">📷</span>
+        <div className="w-full md:w-1/2 h-80">
+          <img
+            src={meal.imageUrl}
+            alt={meal.title}
+            className="w-full h-full object-cover rounded"
+          />
         </div>
 
         {/* Details */}
         <div className="w-full md:w-1/2">
           <span className="bg-gray-100 px-3 py-1 text-sm rounded mb-2 inline-block">
-            Breakfast
+            {meal.category}
           </span>
-          <h2 className="text-2xl font-semibold">
-            Classic Pancakes with Maple Syrup
-          </h2>
+          <h2 className="text-2xl font-semibold">{meal.title}</h2>
 
-          <div className="flex items-center gap-2 mt-2">
-            <span className="text-yellow-500">⭐ 4.8</span>
-            <span className="text-red-600 font-semibold text-lg">$8.99</span>
+          <div className="flex items-center gap-4 mt-2">
+            <span className="text-yellow-500">⭐ {meal.rating || 0}</span>
+            <span className="text-red-600 font-semibold text-lg">
+              ৳{meal.price}
+            </span>
           </div>
 
           <p className="mt-3 text-gray-600">
-            👨‍🍳 Distributor: <strong>Chef Maria Rodriguez</strong>
+            👨‍🍳 Distributor: <strong>{meal.distributorName}</strong>
           </p>
+          <p className="text-gray-600">📧 {meal.distributorEmail}</p>
           <p className="text-gray-600">
-            📅 Posted: January 15, 2024 at 10:30 AM
+            📅 Posted: {new Date(meal.postTime).toLocaleString()}
           </p>
 
-          <p className="mt-4 text-gray-700">
-            Fluffy, golden pancakes made from scratch with our secret recipe.
-            Served with pure Canadian maple syrup, fresh butter, and a side of
-            seasonal berries. A perfect start to your day!
-          </p>
+          <p className="mt-4 text-gray-700">{meal.description}</p>
 
           <div className="flex gap-3 mt-5">
-            <button className="cursor-pointer px-4 py-2 bg-white border border-gray-300 rounded hover:bg-gray-100">
-              ❤️ Like (124)
-            </button>
-            <button className="cursor-pointer px-4 py-2 bg-black text-white rounded hover:bg-gray-800">
-              Request Meal
+            <button
+              onClick={handleLike}
+              className={`cursor-pointer px-4 py-2 rounded border ${
+                liked
+                  ? "bg-red-100 text-red-600 border-red-300"
+                  : "bg-white text-black border-gray-300"
+              } hover:bg-gray-100`}
+            >
+              ❤️ Like ({likes?.length || 0})
             </button>
           </div>
         </div>
@@ -92,21 +160,12 @@ const MealDetail = () => {
       <div className="mt-10 bg-white p-6 rounded shadow-sm">
         <h3 className="text-xl font-semibold mb-4">Ingredients</h3>
         <div className="flex flex-wrap gap-3">
-          {[
-            "All-purpose flour",
-            "Fresh eggs",
-            "Whole milk",
-            "Pure maple syrup",
-            "Butter",
-            "Baking powder",
-            "Vanilla extract",
-            "Fresh berries",
-          ].map((ingredient) => (
+          {meal.ingredients?.split(",").map((item) => (
             <span
-              key={ingredient}
+              key={item.trim()}
               className="px-3 py-1 bg-gray-100 rounded-full text-sm"
             >
-              {ingredient}
+              {item.trim()}
             </span>
           ))}
         </div>
@@ -137,7 +196,7 @@ const MealDetail = () => {
           <textarea
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
-            className="w-full border border-gray-300 focus-within:outline-primary rounded p-2 mb-2"
+            className="w-full border border-gray-300 focus:outline-primary rounded p-2 mb-2"
             rows="3"
             placeholder="Share your thoughts about this meal..."
           />

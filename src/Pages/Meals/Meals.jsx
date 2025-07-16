@@ -1,99 +1,77 @@
 import React, { useEffect, useState } from "react";
 import MealCard from "../../Components/Cards/MealCard/MealCard";
-import useAxios from "../../Hooks/useAxios";
 import NormalLoader from "../../Components/Loader copy/NormalLoader";
+import NoQueryText from "../../Components/NoQueryText.jsx/NoQueryText";
+import NoSearchResult from "../../Components/NoSearchResult/NoSearchResult";
 
-// function MealCard({ meal }) {
-//   return (
-//     <div className="border border-gray-200 rounded-2xl p-4 bg-white shadow hover:shadow-md transition">
-//       <img
-//         src={meal.imageUrl}
-//         alt={meal.title}
-//         className="w-full h-40 object-cover rounded-xl mb-3"
-//       />
-//       <h3 className="text-lg font-semibold mb-1">{meal.title}</h3>
-//       <p className="text-sm text-gray-600 mb-2">{meal.description}</p>
-//       <div className="flex justify-between items-center mb-3">
-//         <span className="text-sm">⭐ {meal.rating}</span>
-//         <span className="font-bold text-sm">${meal.price}</span>
-//       </div>
-//       <button className="cursor-pointer bg-orange-500 text-white rounded-md w-full py-2 hover:bg-orange-600 transition">
-//         View Details
-//       </button>
-//     </div>
-//   );
-// }
-
-function AllMeals() {
+const AllMeals = () => {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All Categories");
-  const [price, setPrice] = useState(50);
+  const [price, setPrice] = useState(500);
   const [meals, setMeals] = useState([]);
-  const [loading, setLoading] = useState(false);
-  
-  const axiosInstance = useAxios();
+  const [loading, setLoading] = useState(true);
+  const [isSearching, setIsSearching] = useState(false);
+
+  // ✅ Fetch meals
   useEffect(() => {
     const fetchMeals = async () => {
-      setLoading(true);
       try {
-        const response = await axiosInstance.get("/meals");
-        setMeals(response.data);
-      } catch (err) {
-        console.log("Error fetching Meals data", err);
+        setLoading(true);
+        setIsSearching(search.trim() !== "");
+
+        const params = new URLSearchParams();
+        if (search.trim()) params.append("searchText", search);
+        if (category && category !== "All Categories")
+          params.append("category", category);
+        if (price) params.append("price", price);
+
+        const url = params.toString()
+          ? `http://localhost:5000/meals?${params.toString()}`
+          : `http://localhost:5000/meals`;
+
+        const res = await fetch(url);
+        const data = await res.json();
+        setMeals(data);
+      } catch (error) {
+        console.error("Failed to fetch meals", error);
+        setMeals([]);
       } finally {
         setLoading(false);
       }
     };
 
     fetchMeals();
-  }, [axiosInstance]);
+  }, [search, category, price]);
 
-  // const demoImages = [
-  //   "https://images.unsplash.com/photo-1600891964599-f61ba0e24092",
-  //   "https://images.unsplash.com/photo-1543353071-873f17a7a088",
-  //   "https://images.unsplash.com/photo-1504674900247-0877df9cc836",
-  // ];
+  console.log(meals);
 
-  // const meals = Array.from({ length: 32 }, (_, index) => ({
-  //   id: index + 1,
-  //   name: `Delicious Meal ${index + 1}`,
-  //   description: "A wonderful meal description for your taste.",
-  //   rating: (4 + (index % 2) * 0.2).toFixed(1),
-  //   price: (5 + Math.random() * 45).toFixed(2),
-  //   category: ["Breakfast", "Lunch", "Dinner"][index % 3],
-  //   image: demoImages[index % demoImages.length],
-  // }));
-
-  // const filteredMeals = meals.filter((meal) => {
-  //   const matchesSearch = meal.name
-  //     .toLowerCase()
-  //     .includes(search.toLowerCase());
-  //   const matchesCategory =
-  //     category === "All Categories" || meal.category === category;
-  //   const matchesPrice = parseFloat(meal.price) <= price;
-  //   return matchesSearch && matchesCategory && matchesPrice;
+  // // ✅ Optional sort
+  // const sortedMeals = [...meals].sort((a, b) => {
+  //   if (a.createdAt && b.createdAt) {
+  //     return new Date(b.createdAt) - new Date(a.createdAt);
+  //   }
+  //   return 0;
   // });
 
-  if (loading) {
-    return <NormalLoader/>
-  }
+  // ✅ Loader
+  if (loading) return <NormalLoader />;
 
   return (
     <div className="max-w-7xl mx-auto p-5">
       <h2 className="text-center text-3xl sm:text-4xl lg:text-5xl font-bold my-4">
         All{" "}
         <span className="bg-gradient-to-r from-orange-500 to-pink-500 text-transparent bg-clip-text">
-          Meals
+          Meals <span className="text-xl">({meals.length})</span>
         </span>
       </h2>
 
       <p className="w-11/12 md:w-7/12 mx-auto text-center text-gray-500">
         Explore a wide variety of delicious meals prepared by our talented
         chefs. Browse by category, discover new flavors, and pre-order your
-        favorites to enjoy on campus.
+        favorites.
       </p>
 
-      {/* Search & Category & Price */}
+      {/* Filters */}
       <div className="border border-gray-300 rounded-md bg-white p-5 flex gap-4 justify-between items-center my-6">
         <div className="w-full grid grid-cols-2 md:grid-cols-3 gap-5">
           <input
@@ -120,26 +98,28 @@ function AllMeals() {
             <input
               type="range"
               min="2"
-              max="50"
+              max="500"
               value={price}
               onChange={(e) => setPrice(Number(e.target.value))}
               className="accent-orange-500 w-full"
             />
-            <button className="hidden bg-orange-500 p-2 rounded-md hover:bg-orange-600 text-white">
-              Apply Filters
-            </button>
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
-        {meals.map((meal) => (
-          <MealCard key={meal._id} meal={meal} />
-        ))}
-      </div>
-
-      {meals.length === 0 && (
-        <div className="text-center mt-10 text-gray-500">No meals found.</div>
+      {/* Meals Grid or No Results */}
+      {meals.length === 0 ? (
+        isSearching ? (
+          <NoSearchResult searchText={search} />
+        ) : (
+          <NoQueryText />
+        )
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 my-10">
+          {meals.map((meal) => (
+            <MealCard key={meal._id} meal={meal} />
+          ))}
+        </div>
       )}
 
       <div className="text-center mt-10 text-xs text-gray-400">
@@ -147,6 +127,6 @@ function AllMeals() {
       </div>
     </div>
   );
-}
+};
 
 export default AllMeals;

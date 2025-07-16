@@ -42,8 +42,8 @@ export const router = createBrowserRouter([
         Component: Meals,
       },
       {
-        path: "/details",
-        Component: MealDetail,
+        path: "/meal_details/:id",
+        element: <MealDetail />,
       },
       {
         path: "/student_dashboard",
