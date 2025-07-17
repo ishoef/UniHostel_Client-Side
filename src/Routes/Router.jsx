@@ -9,7 +9,6 @@ import Meals from "../Pages/Meals/Meals";
 import MealDetail from "../Pages/MealDetail/MealDetail";
 import SignUpPage from "../Auth/SignUp/SignUp";
 import UpcomingMeals from "../Pages/UpCommingMeals/UpCommingMeals";
-import StudentDashBoard from "../admin/StudentsDashBoard/StudentDashBoard";
 import Dashboard from "../admin/Dashboard/Dashboard";
 import OverView from "../admin/Dashboard/OverView/OverView";
 import Users from "../admin/Dashboard/Users/Users";
@@ -26,6 +25,7 @@ import MakeAdmin from "../admin/Dashboard/MakeAdmin/MakeAdmin";
 import Forbidden from "../Components/Forbidden/Forbidden";
 import AdminRoute from "./AdminRoute";
 import AllReviewsTable from "../admin/Dashboard/AllReviews/AllReviews";
+import MyReviews from "../admin/UserInfo/MyReviews/MyReviews";
 
 export const router = createBrowserRouter([
   {
@@ -48,10 +48,6 @@ export const router = createBrowserRouter([
       {
         path: "/meal_details/:id",
         element: <MealDetail />,
-      },
-      {
-        path: "/student_dashboard",
-        Component: StudentDashBoard,
       },
       {
         path: "/forbidden",
@@ -189,13 +185,18 @@ export const router = createBrowserRouter([
             <MakeAdmin />
           </AdminRoute>
         ),
-      }, {
+      },
+      {
         path: "all_reviews",
         element: (
           <AdminRoute>
             <AllReviewsTable />
           </AdminRoute>
         ),
+      },
+      {
+        path: "my_reviews",
+        Component: MyReviews,
       },
       {
         path: "dash_profile",

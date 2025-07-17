@@ -65,8 +65,9 @@ const MealDetail = () => {
         email: user?.email,
         photoURL: user?.photoURL,
         mealName: meal.title,
+        likes: meal.likes,
       });
-
+      console.log(meal);
       if (response.data.success) {
         // 2️⃣ Re-fetch meal data to get updated reviews and rating
         const refreshedMeal = await axiosInstance.get(`/meals/${meal._id}`);
@@ -78,9 +79,17 @@ const MealDetail = () => {
         setNewComment("");
       } else {
         console.error("Review submission failed:", response.data.message);
+        Swal.fire({
+          title: "Error",
+          text: response.data.message || "Failed to submit review.",
+        });
       }
     } catch (err) {
       console.error("Error submitting review:", err);
+      Swal.fire({
+        title: "Error",
+        text: "Failed to submit review.",
+      });
     }
   };
 
@@ -227,7 +236,7 @@ const MealDetail = () => {
     );
   }
 
-  console.log( reviews);
+  console.log(reviews);
 
   return (
     <div className="max-w-5xl mx-auto py-12 px-4">

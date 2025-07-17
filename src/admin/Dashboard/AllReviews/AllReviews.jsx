@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import { IoMdInformationCircleOutline } from "react-icons/io";
+import { Link } from "react-router";
 
 const AllReviewsTable = () => {
   const [reviews, setReviews] = useState([]);
@@ -25,11 +27,11 @@ const AllReviewsTable = () => {
     comment,
     name,
     rating,
-    mealName,
+    mealName
   ) => {
-   const confirm = await Swal.fire({
-     title: "Delete This Review?",
-     html: `
+    const confirm = await Swal.fire({
+      title: "Delete This Review?",
+      html: `
     <div style="text-align:left; font-size:14px; line-height:1.6; padding: 0 4px;">
       <p><strong style="color:#e76f51;">🍽️ Meal:</strong> <span style="font-weight:600;">${mealName}</span></p>
       <p><strong style="color:#264653;">👤 Reviewer:</strong> ${name}</p>
@@ -48,20 +50,19 @@ const AllReviewsTable = () => {
       </p>
     </div>
   `,
-     icon: "warning",
-     showCancelButton: true,
-     confirmButtonColor: "#e3342f",
-     cancelButtonColor: "#6c757d",
-     confirmButtonText: "Yes, Delete",
-     cancelButtonText: "Cancel",
-     customClass: {
-       popup: "rounded-xl",
-       title: "text-lg font-semibold",
-       confirmButton: "px-5 py-2",
-       cancelButton: "px-5 py-2",
-     },
-   });
-
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#e3342f",
+      cancelButtonColor: "#6c757d",
+      confirmButtonText: "Yes, Delete",
+      cancelButtonText: "Cancel",
+      customClass: {
+        popup: "rounded-xl",
+        title: "text-lg font-semibold",
+        confirmButton: "px-5 py-2",
+        cancelButton: "px-5 py-2",
+      },
+    });
 
     if (!confirm.isConfirmed) return;
 
@@ -90,8 +91,11 @@ const AllReviewsTable = () => {
 
   return (
     <div className="p-5">
-      <h2 className="text-2xl font-bold text-gray-800 mb-6">
-        All Meal Reviews
+      <h2 className=" text-3xl sm:text-3xl lg:text-4xl font-bold my-4">
+        All{" "}
+        <span className="bg-gradient-to-r from-orange-500 to-pink-500 text-transparent bg-clip-text">
+          Meals Review <span className="text-xl">({reviews.length})</span>
+        </span>
       </h2>
       <div className="overflow-x-auto rounded-lg shadow ring-1 ring-gray-200">
         <table className="min-w-full text-sm text-gray-800">
@@ -116,7 +120,11 @@ const AllReviewsTable = () => {
                     : "bg-gray-50 hover:bg-orange-50 transition-all"
                 }
               >
-                <td className="px-5 py-3 font-medium">{r.mealName || "N/A"}</td>
+                <td className="px-5 py-3 font-medium hover:underline hover:text-blue-600">
+                  <Link to={`/meal_details/${r.mealId}`}>
+                    {r.mealName || "N/A"}
+                  </Link>
+                </td>
                 <td className="px-5 py-3">{r.name || "Unknown"}</td>
                 <td className="px-5 py-3">
                   {r.email ? (
@@ -130,7 +138,7 @@ const AllReviewsTable = () => {
                     "N/A"
                   )}
                 </td>
-                <td className="px-5 py-3 text-yellow-500">
+                {/* <td className="px-5 py-3 text-yellow-500">
                   {Array.from({ length: 5 }, (_, i) => (
                     <span key={i}>
                       {i < r.rating ? (
@@ -140,7 +148,8 @@ const AllReviewsTable = () => {
                       )}
                     </span>
                   ))}
-                </td>
+                </td> */}
+                <td className="text-center">{r.rating}</td>
                 <td className="px-5 py-3">{r.comment}</td>
                 <td className="px-5 py-3 text-gray-500">
                   {new Date(r.date).toLocaleString("en-US", {
@@ -182,6 +191,12 @@ const AllReviewsTable = () => {
             )}
           </tbody>
         </table>
+      </div>
+
+      <div className="flex items-center mt-6 gap-1 text-gray-500">
+        {" "}
+        <IoMdInformationCircleOutline />
+        Click on the Meal Name for Meal Details
       </div>
     </div>
   );

@@ -12,29 +12,27 @@ const AllMeals = () => {
   
   const className =
     "flex justify-center items-center min-h-screen md:min-h-[calc(100vh-300px)]";
-  // // Set the document title
-  // useEffect(() => {
-  //   document.title = "My Groups | Hobby Shop";
-  // }, []);
-
-  // useEffect(() => {
-  //   fetch(`https://hobby-shop-server.vercel.app/groups`)
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setGroups(data);
-  //       setLoading(false);
-  //     })
-  //     .catch((err) => {
-  //       console.error("Failed to fetch user groups:", err);
-  //       setGroups([]);
-  //       setLoading(false);
-  //     });
-  // }, []);
 
   if (loading) {
     // return <NormalLoader></NormalLoader>
     return <PreLoader className={className}></PreLoader>;
   }
+
+  const sortedMeals = [...meals].sort((a, b) => {
+
+    // sort by rating (deccending)
+    if (b.rating !== a.rating) return b.rating - a.rating;
+
+    // sort by review_count (deccending)
+    if (b.review_count !== a.review_count) return b.review_count - a.review_count;
+
+    // sort by likes (deccending)
+    if (b.likes !== a.likes) return b.likes - a.likes;
+
+    // sort by createdAt (ascending)
+    return new Date(a.createdAt) - new Date(b.createdAt);
+
+  })
 
   if (!meals || meals.length === 0) {
     return <NoCreatedGroups />;
@@ -42,7 +40,11 @@ const AllMeals = () => {
 
   return (
     <div>
-      <CreatedGroups setMeals={setMeals} buttonShow={true} meals={meals} />
+      <CreatedGroups
+        setMeals={setMeals}
+        buttonShow={true}
+        meals={sortedMeals}
+      />
     </div>
   );
 };

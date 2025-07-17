@@ -1,6 +1,13 @@
 import React, { useContext } from "react";
 import { AiOutlineDashboard } from "react-icons/ai";
-import { FaHome, FaLayerGroup } from "react-icons/fa";
+import {
+  FaCreditCard,
+  FaHome,
+  FaLayerGroup,
+  FaStar,
+  FaUser,
+  FaUtensils,
+} from "react-icons/fa";
 import { IoCreate } from "react-icons/io5";
 import { PiHamburgerFill, PiUsersThreeBold } from "react-icons/pi";
 import { Link } from "react-router";
@@ -43,6 +50,12 @@ const SideBar = () => {
   // Admin Sidebar Links
   const adminSidebarLinks = [
     {
+      to: "overview",
+      icon: <AiOutlineDashboard size={22} color="#ff6b35" />,
+      label: "Overview",
+      roleRequired: "admin",
+    },
+    {
       to: "users",
       icon: <PiUsersThreeBold size={22} color="#ff6b35" />,
       label: "All Users",
@@ -54,30 +67,29 @@ const SideBar = () => {
       label: "Add Meal",
       roleRequired: "admin",
     },
-
     {
       to: "allMeals",
       icon: <PiHamburgerFill size={22} color="#ff6b35" />,
       label: "All Meals",
-      roleRequired: "any",
+      roleRequired: "admin",
     },
     {
       to: "all_reviews",
-      icon: <FaLayerGroup size={22} color="#ff6b35" />,
+      icon: <FaStar size={22} color="#ff6b35" />,
       label: "All Reviews",
-      roleRequired: "any",
+      roleRequired: "admin",
     },
     {
       to: "creategroup",
       icon: <ImSpoonKnife size={22} color="#ff6b35" />,
       label: "Serve Meals",
-      roleRequired: "any",
+      roleRequired: "admin",
     },
     {
       to: "upcomming_meals",
       icon: <TbComet size={22} color="#ff6b35" />,
       label: "Upcomming Meals",
-      roleRequired: "any",
+      roleRequired: "admin",
     },
     {
       to: "makeadmin",
@@ -87,7 +99,33 @@ const SideBar = () => {
     },
   ];
 
-
+  // User Sidebar Links
+  const userSidebarLinks = [
+    {
+      to: "dash_profile",
+      icon: <FaUser size={22} color="#ff6b35" />,
+      label: "My Profile",
+      roleRequired: "user",
+    },
+    {
+      to: "requested-meals",
+      icon: <FaUtensils size={22} color="#ff6b35" />,
+      label: "Requested Meals",
+      roleRequired: "user",
+    },
+    {
+      to: "my_reviews",
+      icon: <FaStar size={22} color="#ff6b35" />,
+      label: "My Reviews",
+      roleRequired: "user",
+    },
+    {
+      to: "payment-history",
+      icon: <FaCreditCard size={22} color="#ff6b35" />,
+      label: "Payment History",
+      roleRequired: "user",
+    },
+  ];
 
   return (
     <div className="sticky top-0 md:border h-screen overflow-y-auto border-gray-300 dark:border-primary/10  md:p-3 flex flex-col shadow-md">
@@ -98,18 +136,6 @@ const SideBar = () => {
       <div className="flex flex-col h-full justify-between">
         <nav>
           <ul className="flex flex-col items-center gap-3 ">
-            <Link
-              to={"overview"}
-              className="border w-full border-gray-300 dark:border-primary/10 rounded hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-primary p-2 "
-            >
-              <p className="flex items-center justify-center md:justify-start gap-3">
-                <AiOutlineDashboard size={22} color="#ff6b35" />
-                <span className="hover:text-primary hidden md:block">
-                  Overview
-                </span>
-              </p>
-            </Link>
-
             {!roleLoading &&
               role === "admin" &&
               adminSidebarLinks.map((link, index) => (
@@ -127,17 +153,21 @@ const SideBar = () => {
                 </Link>
               ))}
 
-            <Link
-              to="dash_profile"
-              className="border w-full border-gray-300 dark:border-primary/10 rounded hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-primary p-2 "
-            >
-              <p className="flex items-center justify-center md:justify-start gap-3">
-                <BsPersonLinesFill size={22} color="#ff6b35" />
-                <span className="hover:text-primary hidden md:block">
-                  Profile
-                </span>
-              </p>
-            </Link>
+            {role === "user" &&
+              userSidebarLinks.map((link, index) => (
+                <Link
+                  key={index}
+                  to={link.to}
+                  className="border w-full border-gray-300 dark:border-primary/10 rounded hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-primary p-2"
+                >
+                  <p className="flex items-center justify-center md:justify-start gap-3">
+                    {link.icon}
+                    <span className="hover:text-primary hidden md:block">
+                      {link.label}
+                    </span>
+                  </p>
+                </Link>
+              ))}
           </ul>
         </nav>
 
