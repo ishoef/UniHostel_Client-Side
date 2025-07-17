@@ -1,6 +1,6 @@
 import React, { use, useState } from "react";
 import { AuthContext } from "../../Context/AuthProvider";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // Eye icons for password toggle
 import { useLocation, useNavigate } from "react-router";
 import Swal from "sweetalert2";
@@ -20,6 +20,8 @@ const SignUp = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("i am clicked");
+
+    console.log("before create user", e.target.firstName.value);
 
     // Retrieve form field values
     const firstName = e.target.firstName.value;
@@ -111,83 +113,86 @@ const SignUp = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      {/* Name fields */}
-      <div className="flex gap-3">
-        <input
-          type="text"
-          name="firstName"
-          placeholder="First Name"
-          className="w-1/2 border focus-within:outline-primary border-gray-300 rounded-md p-2 text-[#111827]"
-          required
-        />
-        <input
-          type="text"
-          name="lastName"
-          placeholder="Last Name"
-          className="w-1/2 border focus-within:outline-primary border-gray-300 rounded-md p-2 text-[#111827]"
-          required
-        />
-      </div>
+    <>
+      <ToastContainer />
+      <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Name fields */}
+        <div className="flex gap-3">
+          <input
+            type="text"
+            name="firstName"
+            placeholder="First Name"
+            className="w-1/2 border focus-within:outline-primary border-gray-300 rounded-md p-2 text-[#111827]"
+            required
+          />
+          <input
+            type="text"
+            name="lastName"
+            placeholder="Last Name"
+            className="w-1/2 border focus-within:outline-primary border-gray-300 rounded-md p-2 text-[#111827]"
+            required
+          />
+        </div>
 
-      {/* Email field */}
-      <input
-        type="email"
-        name="email"
-        placeholder="Email"
-        className="w-full border border-gray-300 focus-within:outline-primary rounded-md p-2 text-[#111827]"
-        required
-      />
-
-      {/* Phone number field */}
-      <input
-        type="tel"
-        name="tel"
-        placeholder="Phone Number"
-        className="w-full border border-gray-300 focus-within:outline-primary rounded-md p-2 text-[#111827]"
-        required
-      />
-
-      {/* Password field with show/hide functionality */}
-      <div className="relative">
+        {/* Email field */}
         <input
-          type={showPassword ? "text" : "password"}
-          name="password"
-          placeholder="Create a strong password"
+          type="email"
+          name="email"
+          placeholder="Email"
           className="w-full border border-gray-300 focus-within:outline-primary rounded-md p-2 text-[#111827]"
           required
         />
-        <span
-          onClick={() => setShowPassword(!showPassword)}
-          className="absolute right-3 top-3 text-gray-500 cursor-pointer"
-        >
-          {showPassword ? <FaEyeSlash /> : <FaEye />}
-        </span>
-      </div>
 
-      {/* Show password error message */}
-      <p className="text-red-400 flex items-center gap-2">{showError}</p>
+        {/* Phone number field */}
+        <input
+          type="tel"
+          name="tel"
+          placeholder="Phone Number"
+          className="w-full border border-gray-300 focus-within:outline-primary rounded-md p-2 text-[#111827]"
+          required
+        />
 
-      {/* Terms and conditions agreement */}
-      <div className="flex items-start text-sm text-[#111827]">
-        <input type="checkbox" name="agreed" required className="mr-2 mt-1" />
-        <label>
-          I agree to the{" "}
-          <a href="#" className="text-[#F97316] font-medium hover:underline">
-            Terms of Service
-          </a>{" "}
-          and{" "}
-          <a href="#" className="text-[#F97316] font-medium hover:underline">
-            Privacy Policy
-          </a>
-        </label>
-      </div>
+        {/* Password field with show/hide functionality */}
+        <div className="relative">
+          <input
+            type={showPassword ? "text" : "password"}
+            name="password"
+            placeholder="Create a strong password"
+            className="w-full border border-gray-300 focus-within:outline-primary rounded-md p-2 text-[#111827]"
+            required
+          />
+          <span
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-3 text-gray-500 cursor-pointer"
+          >
+            {showPassword ? <FaEyeSlash /> : <FaEye />}
+          </span>
+        </div>
 
-      {/* Submit button */}
-      <button className="w-full bg-gradient-to-r from-orange-500 to-pink-500 text-white py-2 rounded-md font-semibold hover:bg-[#1f2937]">
-        Create Account
-      </button>
-    </form>
+        {/* Show password error message */}
+        <p className="text-red-400 flex items-center gap-2">{showError}</p>
+
+        {/* Terms and conditions agreement */}
+        <div className="flex items-start text-sm text-[#111827]">
+          <input type="checkbox" name="agreed" required className="mr-2 mt-1" />
+          <label>
+            I agree to the{" "}
+            <a href="#" className="text-[#F97316] font-medium hover:underline">
+              Terms of Service
+            </a>{" "}
+            and{" "}
+            <a href="#" className="text-[#F97316] font-medium hover:underline">
+              Privacy Policy
+            </a>
+          </label>
+        </div>
+
+        {/* Submit button */}
+        <button className="cursor-pointer w-full bg-gradient-to-r from-orange-500 to-pink-500 text-white py-2 rounded-md font-semibold hover:bg-[#1f2937]">
+          Create Account
+        </button>
+      </form>
+    </>
   );
 };
 

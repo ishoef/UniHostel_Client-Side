@@ -39,6 +39,56 @@ const SideBar = () => {
     });
   };
   const { role, roleLoading } = useUserRole();
+
+  // Admin Sidebar Links
+  const adminSidebarLinks = [
+    {
+      to: "users",
+      icon: <PiUsersThreeBold size={22} color="#ff6b35" />,
+      label: "All Users",
+      roleRequired: "admin",
+    },
+    {
+      to: "addmeal",
+      icon: <IoCreate size={22} color="#ff6b35" />,
+      label: "Add Meal",
+      roleRequired: "admin",
+    },
+
+    {
+      to: "allMeals",
+      icon: <PiHamburgerFill size={22} color="#ff6b35" />,
+      label: "All Meals",
+      roleRequired: "any",
+    },
+    {
+      to: "allgroups",
+      icon: <FaLayerGroup size={22} color="#ff6b35" />,
+      label: "All Reviews",
+      roleRequired: "any",
+    },
+    {
+      to: "creategroup",
+      icon: <ImSpoonKnife size={22} color="#ff6b35" />,
+      label: "Serve Meals",
+      roleRequired: "any",
+    },
+    {
+      to: "upcomming_meals",
+      icon: <TbComet size={22} color="#ff6b35" />,
+      label: "Upcomming Meals",
+      roleRequired: "any",
+    },
+    {
+      to: "makeadmin",
+      icon: <MdAdminPanelSettings size={22} color="#ff6b35" />,
+      label: "Make Admin",
+      roleRequired: "admin",
+    },
+  ];
+
+
+
   return (
     <div className="sticky top-0 md:border h-screen overflow-y-auto border-gray-300 dark:border-primary/10  md:p-3 flex flex-col shadow-md">
       <h1 className="text-primary mb-3 text-center text-2xl font-semibold ">
@@ -60,78 +110,23 @@ const SideBar = () => {
               </p>
             </Link>
 
-            {!roleLoading && role === "admin" && (
-              <Link
-                to={"users"}
-                className="border w-full border-gray-300 dark:border-primary/10 rounded hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-primary p-2 "
-              >
-                <p className="flex items-center justify-center md:justify-start gap-3">
-                  <PiUsersThreeBold size={22} color="#ff6b35" />
-                  <span className="hover:text-primary hidden md:block">
-                    All Users
-                  </span>
-                </p>
-              </Link>
-            )}
+            {!roleLoading &&
+              role === "admin" &&
+              adminSidebarLinks.map((link, index) => (
+                <Link
+                  key={index}
+                  to={link.to}
+                  className="border w-full border-gray-300 dark:border-primary/10 rounded hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-primary p-2"
+                >
+                  <p className="flex items-center justify-center md:justify-start gap-3">
+                    {link.icon}
+                    <span className="hover:text-primary hidden md:block">
+                      {link.label}
+                    </span>
+                  </p>
+                </Link>
+              ))}
 
-            <Link
-              to="addmeal"
-              className="border w-full border-gray-300 dark:border-primary/10 rounded hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-primary p-2 "
-            >
-              <p className="flex items-center justify-center md:justify-start gap-3">
-                <IoCreate size={22} color="#ff6b35" />
-                <span className="hover:text-primary hidden md:block">
-                  Add Meal
-                </span>
-              </p>
-            </Link>
-
-            <Link
-              to={"allMeals"}
-              className="border w-full border-gray-300 dark:border-primary/10 rounded hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-primary p-2 "
-            >
-              <p className="flex items-center justify-center md:justify-start gap-3">
-                <PiHamburgerFill size={22} color="#ff6b35" />
-                <span className="hover:text-primary hidden md:block">
-                  All Meals
-                </span>
-              </p>
-            </Link>
-
-            <Link
-              to="allgroups"
-              className="border w-full border-gray-300 dark:border-primary/10 rounded hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-primary p-2 "
-            >
-              <p className="flex items-center justify-center md:justify-start gap-3">
-                <FaLayerGroup size={20} color="#ff6b35" />
-                <span className="hover:text-primary hidden md:block">
-                  All Reviews
-                </span>
-              </p>
-            </Link>
-
-            <Link
-              to="creategroup"
-              className="border w-full border-gray-300 dark:border-primary/10 rounded hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-primary p-2 "
-            >
-              <p className="flex items-center justify-center md:justify-start gap-3">
-                <ImSpoonKnife size={22} color="#ff6b35" />{" "}
-                <span className="hover:text-primary hidden md:block">
-                  Serve Meals
-                </span>
-              </p>
-            </Link>
-            <Link
-              to="upcomming_meals"
-              className="border w-full border-gray-300 dark:border-primary/10 rounded hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-primary p-2 "
-            >
-              <p className="flex items-center justify-center md:justify-start gap-3">
-                <TbComet size={22} color="#ff6b35" />
-                <span className="hover:text-primary hidden md:block">
-                  Upcomming Meals
-                </span>
-              </p>
-            </Link>
             <Link
               to="dash_profile"
               className="border w-full border-gray-300 dark:border-primary/10 rounded hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-primary p-2 "
@@ -140,17 +135,6 @@ const SideBar = () => {
                 <BsPersonLinesFill size={22} color="#ff6b35" />
                 <span className="hover:text-primary hidden md:block">
                   Profile
-                </span>
-              </p>
-            </Link>
-            <Link
-              to="makeadmin"
-              className="border w-full border-gray-300 dark:border-primary/10 rounded hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-primary p-2 "
-            >
-              <p className="flex items-center justify-center md:justify-start gap-3">
-                <MdAdminPanelSettings size={22} color="#ff6b35" />
-                <span className="hover:text-primary hidden md:block">
-                  Make Admin
                 </span>
               </p>
             </Link>

@@ -142,15 +142,27 @@ export const router = createBrowserRouter([
       { path: "overview", element: <OverView /> },
       {
         path: "users",
-        element: <Users />,
+        element: (
+          <AdminRoute>
+            <Users />
+          </AdminRoute>
+        ),
       },
       {
         path: "creategroup",
-        element: <CreatedGroups />,
+        element: (
+          <AdminRoute>
+            <CreatedGroups />
+          </AdminRoute>
+        ),
       },
       {
         path: "allMeals",
-        element: <AllMeals />,
+        element: (
+          <AdminRoute>
+            <AllMeals />
+          </AdminRoute>
+        ),
       },
       {
         path: "addmeal",
@@ -163,11 +175,20 @@ export const router = createBrowserRouter([
       },
       {
         path: "upcomming_meals",
-        element: <UpcommingMeals />,
+        element: (
+          <AdminRoute>
+            <UpcommingMeals />
+          </AdminRoute>
+        ),
       },
       {
         path: "makeadmin",
-        Component: MakeAdmin,
+        // Component: MakeAdmin,
+        element: (
+          <AdminRoute>
+            <MakeAdmin />
+          </AdminRoute>
+        ),
       },
       {
         path: "dash_profile",

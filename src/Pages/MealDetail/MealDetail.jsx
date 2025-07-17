@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 // import useMeals from "../../Hooks/useMeals/useMeals";
 import useAxios from "../../Hooks/useAxios";
-import useAuth from "../../Hooks/useAuth.jsx/useAuth";
 import { useParams } from "react-router";
+import useAuth from "../../hooks/useAuth.jsx/useAuth";
 
 const MealDetail = () => {
   const { id } = useParams();
@@ -202,7 +202,7 @@ const MealDetail = () => {
           />
           <button
             onClick={submitReview}
-            className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800"
+            className="bg-black cursor-pointer text-white px-4 py-2 rounded hover:bg-gray-800"
           >
             Submit Review
           </button>

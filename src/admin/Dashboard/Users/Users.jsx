@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router";
 import PreLoader from "../../../Components/Loader copy/PreLoader/PreLoader";
-import axios from "axios";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const Users = () => {
   const [userData, setUserData] = useState([]);
@@ -9,20 +9,23 @@ const Users = () => {
   const className =
     "flex justify-center items-center min-h-screen md:min-h-[calc(100vh-300px)]";
 
+  const axiosSecure = useAxiosSecure();
+
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/users")
-      .then((res) => {
-        setUserData(res.data);
+    const fetchMeals = async () => {
+      setLoading(true);
+      try {
+        const response = await axiosSecure.get("/users");
+        setUserData(response.data);
+      } catch (err) {
+        console.log("Error fetching Meals data", err);
+      } finally {
         setLoading(false);
-        console.log(res.data);
-      })
-      .catch((error) => {
-        console.log("the error fetching the users", error);
-        setUserData([]);
-        setLoading(false);
-      });
-  }, []);
+      }
+    };
+
+    fetchMeals();
+  }, [axiosSecure]);
 
   if (loading) {
     // return <NormalLoader></NormalLoader>

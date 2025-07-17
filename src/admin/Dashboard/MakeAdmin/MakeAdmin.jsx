@@ -22,6 +22,8 @@ const MakeAdmin = () => {
       return res.data;
     },
   });
+    
+    console.log(emailQuery);
 
   const { mutateAsync: updateRole } = useMutation({
     mutationFn: async ({ id, role }) =>
