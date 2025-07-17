@@ -182,25 +182,29 @@ export default function AuthPage() {
             <div className="flex justify-center gap-2 mb-4">
               <button
                 onClick={() => setTab("signin")}
-                className={`w-1/2 py-2 cursor-pointer rounded-md text-sm font-medium ${
-                  tab === "signin"
-                    ? "bg-gradient-to-r from-orange-500 to-pink-500 text-white"
-                    : "bg-gray-100 text-gray-700"
-                }`}
+                className={`w-1/2 py-2 cursor-pointer rounded-md text-sm font-medium transition-all duration-300 ease-in-out
+      ${
+        tab === "signin"
+          ? "bg-gradient-to-r from-orange-500 to-pink-500 text-white shadow-md scale-105"
+          : "bg-gray-100 text-gray-700 scale-100"
+      }`}
               >
                 Sign In
               </button>
+
               <button
                 onClick={() => setTab("signup")}
-                className={`w-1/2 py-2 cursor-pointer rounded-md text-sm font-medium ${
-                  tab === "signup"
-                    ? "bg-gradient-to-r from-orange-500 to-pink-500 text-white"
-                    : "bg-gray-100 text-gray-700"
-                }`}
+                className={`w-1/2 py-2 cursor-pointer rounded-md text-sm font-medium transition-all duration-300 ease-in-out
+      ${
+        tab === "signup"
+          ? "bg-gradient-to-r from-orange-500 to-pink-500 text-white shadow-md scale-105"
+          : "bg-gray-100 text-gray-700 scale-100"
+      }`}
               >
                 Sign Up
               </button>
             </div>
+
             <div>{tab === "signup" ? <SignUp /> : <SignIn />}</div>
             <p className="text-center divider">or</p>
             <button onClick={handleloginWithGoogle} className="btn w-full">

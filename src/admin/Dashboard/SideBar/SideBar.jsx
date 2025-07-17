@@ -62,7 +62,7 @@ const SideBar = () => {
       roleRequired: "any",
     },
     {
-      to: "allgroups",
+      to: "all_reviews",
       icon: <FaLayerGroup size={22} color="#ff6b35" />,
       label: "All Reviews",
       roleRequired: "any",

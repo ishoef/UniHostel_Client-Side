@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import useAxios from "../../Hooks/useAxios";
 import { useParams } from "react-router";
 import useAuth from "../../hooks/useAuth.jsx/useAuth";
+import Swal from "sweetalert2";
 
 const MealDetail = () => {
   const { id } = useParams();
@@ -22,12 +23,75 @@ const MealDetail = () => {
 
   const axiosInstance = useAxios();
 
+  console.log(meal);
+
+  // Handle Review Submission
+  const submitReview = async () => {
+    if (!newComment.trim() || newRating === 0) return;
+
+    if (!userId) {
+      Swal.fire({
+        title: "Oops!",
+        text: "You must be logged in to submit a review.",
+        icon: "info",
+        confirmButtonText: "Login",
+        preConfirm: () => {
+          window.location.href = "/auth"; // Adjust this path as needed
+        },
+        // show cancel button
+        showCancelButton: true,
+        cancelButtonText: "Cancel",
+      });
+      return;
+    }
+
+    if (newRating === 0) {
+      Swal.fire({
+        title: "Please rate the meal!",
+        text: "You must select a star rating before submitting your review.",
+        icon: "warning",
+        confirmButtonText: "OK",
+      });
+      return;
+    }
+
+    try {
+      // 1️⃣ Submit the review
+      const response = await axiosInstance.post(`/meals/${meal._id}/review`, {
+        userId: userId,
+        rating: newRating,
+        comment: newComment,
+        name: user?.displayName,
+        email: user?.email,
+        photoURL: user?.photoURL,
+        mealName: meal.title,
+      });
+
+      if (response.data.success) {
+        // 2️⃣ Re-fetch meal data to get updated reviews and rating
+        const refreshedMeal = await axiosInstance.get(`/meals/${meal._id}`);
+        setMeal(refreshedMeal.data);
+        setReviews(refreshedMeal.data.reviews || []);
+
+        // 3️⃣ Reset form
+        setNewRating(0);
+        setNewComment("");
+      } else {
+        console.error("Review submission failed:", response.data.message);
+      }
+    } catch (err) {
+      console.error("Error submitting review:", err);
+    }
+  };
+
+  // Fetch Meal Details
   useEffect(() => {
     const fetchMeals = async () => {
       setLoading(true);
       try {
         const response = await axiosInstance.get(`/meals/${id}`);
         setMeal(response.data);
+        setReviews(response.data.reviews || []); // 👈 this line is critical
       } catch (err) {
         console.log("Error fetching Meals data", err);
       } finally {
@@ -37,28 +101,6 @@ const MealDetail = () => {
 
     fetchMeals();
   }, [axiosInstance, id]);
-
-  console.log(meal);
-  const submitReview = () => {
-    if (!newComment || newRating === 0) return;
-
-    const newReview = {
-      name: "You",
-      rating: newRating,
-      comment: newComment,
-      date: new Date().toLocaleString("en-US", {
-        month: "long",
-        day: "numeric",
-        year: "numeric",
-        hour: "numeric",
-        minute: "numeric",
-      }),
-    };
-
-    setReviews([newReview, ...reviews]);
-    setNewRating(0);
-    setNewComment("");
-  };
 
   // Handle Like Initialization
   useEffect(() => {
@@ -71,30 +113,111 @@ const MealDetail = () => {
   }, [meal, userId]);
 
   // Handle Like Button Click
- const handleLike = async () => {
-   if (!userId) {
-     console.error("User ID is missing!");
-     return;
-   }
+  const handleLike = async () => {
+    if (!userId) {
+      console.error("User ID is missing!");
+      return;
+    }
 
-   try {
-     const response = await axiosInstance.post(`/meals/${meal._id}/like`, {
-       userId: userId,
-     });
+    try {
+      const response = await axiosInstance.post(`/meals/${meal._id}/like`, {
+        userId: userId,
+      });
 
-     const { likes: updatedLikes, liked: updatedLiked } = response.data;
+      const { likes: updatedLikes, liked: updatedLiked } = response.data;
 
-     // Update local state
-     setLikes(updatedLikes);
-     setLiked(updatedLiked);
+      // Update local state
+      setLikes(updatedLikes);
+      setLiked(updatedLiked);
 
-     // ✅ Also update meal.likes to reflect UI change immediately
+      // ✅ Also update meal.likes to reflect UI change immediately
       const updatedMeal = await axiosInstance.get(`/meals/${meal._id}`);
       setMeal(updatedMeal.data);
-   } catch (err) {
-     console.error("Error liking meal:", err);
-   }
- };
+    } catch (err) {
+      console.error("Error liking meal:", err);
+    }
+  };
+
+  // Handle Meal Request
+  const handleRequestMeal = async () => {
+    // 🧩 Check if logged in
+    if (!userId) {
+      return Swal.fire({
+        title: "Login Required",
+        text: "You must be logged in to request a meal.",
+        icon: "info",
+        confirmButtonText: "Login",
+        showCancelButton: true,
+        cancelButtonText: "Cancel",
+        preConfirm: () => {
+          window.location.href = "/auth";
+        },
+      });
+    }
+
+    try {
+      // 🔄 Fetch user data
+      const response = await axiosInstance.get(`/users/${userId}`);
+      const subscription = response.data?.subscription;
+
+      // 📛 Check subscription
+      if (
+        !subscription ||
+        !["silver", "gold", "platinum"].includes(subscription)
+      ) {
+        return Swal.fire({
+          title: "Subscription Required",
+          text: "You need to subscribe to Silver, Gold, or Platinum to request a meal.",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Subscribe Now",
+          cancelButtonText: "Cancel",
+          preConfirm: () => {
+            window.location.href = "/subscription";
+          },
+        });
+      }
+
+      // ✅ If all checks pass, send request
+      const res = await axiosInstance.post(`/meals/${meal._id}/request`, {
+        userId,
+        name: user?.displayName,
+        email: user?.email,
+        subscription,
+      });
+
+      if (res.data.success) {
+        Swal.fire({
+          title: "Request Sent",
+          text: "Your meal request has been successfully submitted.",
+          icon: "success",
+        });
+      } else {
+        Swal.fire({
+          title: "Request Failed",
+          text: res.data.message || "Something went wrong.",
+          icon: "error",
+        });
+      }
+    } catch (err) {
+      console.error("Error requesting meal:", err);
+
+      // Handle common error statuses if needed
+      if (err.response?.status === 403) {
+        Swal.fire({
+          title: "Access Denied",
+          text: "You are not authorized to make this request.",
+          icon: "error",
+        });
+      } else {
+        Swal.fire({
+          title: "Error",
+          text: "Could not complete the request. Try again later.",
+          icon: "error",
+        });
+      }
+    }
+  };
 
   if (loading) {
     return (
@@ -103,6 +226,8 @@ const MealDetail = () => {
       </div>
     );
   }
+
+  console.log( reviews);
 
   return (
     <div className="max-w-5xl mx-auto py-12 px-4">
@@ -151,6 +276,13 @@ const MealDetail = () => {
               } hover:bg-gray-100`}
             >
               ❤️ Like ({likes?.length || 0})
+            </button>
+
+            <button
+              onClick={handleRequestMeal}
+              className="cursor-pointer px-4 py-2 rounded border bg-blue-100 text-blue-700 border-blue-300 hover:bg-blue-200"
+            >
+              🍽️ Request Meal
             </button>
           </div>
         </div>
@@ -209,24 +341,59 @@ const MealDetail = () => {
         </div>
 
         {/* Existing Reviews */}
-        <div className="space-y-5">
+        <div className="space-y-6">
           {reviews.map((r, idx) => (
-            <div key={idx}>
-              <p className="font-semibold">{r.name}</p>
-              <div className="flex items-center gap-2 text-sm text-gray-500 mb-1">
+            <div
+              key={idx}
+              className="border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition"
+            >
+              {/* Reviewer info */}
+              <div className="flex items-center gap-3 mb-2">
+                {/* Profile Initial */}
+                <div className="w-10 h-10 rounded-full borde bg-gray-100 flex items-center justify-center text-gray-600 font-bold text-lg">
+                  {/* {r.name?.charAt(0) || "U"} */}
+                  <img
+                    className={
+                      "w-[40px] h-[40px] rounded-full border-2 border-green-600"
+                    }
+                    src={`${
+                      r.photoURL ||
+                      "https://w7.pngwing.com/pngs/946/556/png-transparent-computer-icons-login-user-profile-client-smiley-%D0%B7%D0%BD%D0%B0%D1%87%D0%BA%D0%B8-windows-10-thumbnail.png"
+                    }`}
+                    alt=""
+                  />
+                </div>
+
+                <div>
+                  <p className="font-semibold text-gray-800">{r.name}</p>
+                  <div className="text-sm text-gray-500">
+                    {new Date(r.date).toLocaleString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                      hour: "numeric",
+                      minute: "numeric",
+                    })}
+                  </div>
+                </div>
+              </div>
+
+              {/* Rating */}
+              <div className="flex gap-1 mb-2">
                 {Array.from({ length: r.rating }, (_, i) => (
-                  <span key={i} className="text-yellow-400">
+                  <span key={i} className="text-yellow-400 text-lg">
                     ★
                   </span>
                 ))}
                 {Array.from({ length: 5 - r.rating }, (_, i) => (
-                  <span key={i} className="text-gray-300">
+                  <span key={i} className="text-gray-300 text-lg">
                     ★
                   </span>
                 ))}
-                <span className="ml-2">{r.date}</span>
               </div>
-              <p>{r.comment}</p>
+
+              {/* Comment */}
+              <p className="text-gray-700">{r.comment}</p>
             </div>
           ))}
         </div>

@@ -25,6 +25,7 @@ import Privacy from "../admin/MyProfile/Privacy/Privacy";
 import MakeAdmin from "../admin/Dashboard/MakeAdmin/MakeAdmin";
 import Forbidden from "../Components/Forbidden/Forbidden";
 import AdminRoute from "./AdminRoute";
+import AllReviewsTable from "../admin/Dashboard/AllReviews/AllReviews";
 
 export const router = createBrowserRouter([
   {
@@ -183,10 +184,16 @@ export const router = createBrowserRouter([
       },
       {
         path: "makeadmin",
-        // Component: MakeAdmin,
         element: (
           <AdminRoute>
             <MakeAdmin />
+          </AdminRoute>
+        ),
+      }, {
+        path: "all_reviews",
+        element: (
+          <AdminRoute>
+            <AllReviewsTable />
           </AdminRoute>
         ),
       },

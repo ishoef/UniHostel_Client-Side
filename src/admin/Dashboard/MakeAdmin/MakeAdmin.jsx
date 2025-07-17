@@ -2,9 +2,9 @@ import { useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { FaSearch, FaUserShield, FaUserTimes } from "react-icons/fa";
 import Swal from "sweetalert2";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import PreLoader from "../../../Components/Loader copy/PreLoader/PreLoader";
 import NormalLoader from "../../../Components/Loader copy/NormalLoader";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const MakeAdmin = () => {
   const axiosSecure = useAxiosSecure();

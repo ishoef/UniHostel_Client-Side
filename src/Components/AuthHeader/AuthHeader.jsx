@@ -20,37 +20,27 @@ const AuthHeader = () => {
         </li>
         <li>
           <Link
-            to="/"
+            to="/meals"
             className="bg-[#FFF4EC] px-8 py-4 rounded-md flex justify-center items-center "
           >
             <div className="flex items-center gap-2 ">
               <GoHomeFill />
 
-              <span className="hidden md:block font-semibold">Home</span>
+              <span className="hidden md:block font-semibold">Meals</span>
             </div>
           </Link>
         </li>
         <li>
           <Link
-            to="/"
+            to="/upcommingmeals"
             className="bg-[#FFF4EC] px-8 py-4 rounded-md flex justify-center items-center "
           >
             <div className="flex items-center gap-2 ">
               <GoHomeFill />
 
-              <span className="hidden md:block font-semibold">Home</span>
-            </div>
-          </Link>
-        </li>
-        <li>
-          <Link
-            to="/"
-            className="bg-[#FFF4EC] px-8 py-4 rounded-md flex justify-center items-center "
-          >
-            <div className="flex items-center gap-2 ">
-              <GoHomeFill />
-
-              <span className="hidden md:block font-semibold">Home</span>
+              <span className="hidden md:block font-semibold">
+                Upcomming Meals
+              </span>
             </div>
           </Link>
         </li>

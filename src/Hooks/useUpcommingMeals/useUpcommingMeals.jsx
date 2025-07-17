@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import useAxiosSecure from "../useAxiosSecure";
+import useAxios from "../useAxios";
 
 
 const useUpcommingMeals = () => {
-  const axiosSecure = useAxiosSecure();
+  const axiosInstance = useAxios();
   const [upcommingMeals, setUpcommingMeals] = useState([]);
 
   const [loading, setLoading] = useState(false);
@@ -13,7 +13,7 @@ const useUpcommingMeals = () => {
     const fetchUpcommingMeals = async () => {
       setLoading(true);
       try {
-        const response = await axiosSecure.get("/upcomming-meals");
+        const response = await axiosInstance.get("/upcomming-meals");
         setUpcommingMeals(response.data);
       } catch (error) {
         console.log(error);
@@ -24,7 +24,7 @@ const useUpcommingMeals = () => {
     };
 
     fetchUpcommingMeals();
-  }, [axiosSecure]);
+  }, [axiosInstance]);
 
   return { upcommingMeals, setUpcommingMeals, loading, error };
 };
