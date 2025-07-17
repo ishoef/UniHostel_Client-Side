@@ -10,6 +10,7 @@ import { MdAdminPanelSettings, MdLogout } from "react-icons/md";
 import { TbComet } from "react-icons/tb";
 import { ImSpoonKnife } from "react-icons/im";
 import { BsPersonLinesFill } from "react-icons/bs";
+import useUserRole from "../../../Hooks/UseUserRole/UseUserRole";
 
 const SideBar = () => {
   const { logOut, setUser } = useContext(AuthContext);
@@ -37,7 +38,7 @@ const SideBar = () => {
       }
     });
   };
-
+  const { role, roleLoading } = useUserRole();
   return (
     <div className="sticky top-0 md:border h-screen overflow-y-auto border-gray-300 dark:border-primary/10  md:p-3 flex flex-col shadow-md">
       <h1 className="text-primary mb-3 text-center text-2xl font-semibold ">
@@ -59,17 +60,19 @@ const SideBar = () => {
               </p>
             </Link>
 
-            <Link
-              to={"users"}
-              className="border w-full border-gray-300 dark:border-primary/10 rounded hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-primary p-2 "
-            >
-              <p className="flex items-center justify-center md:justify-start gap-3">
-                <PiUsersThreeBold size={22} color="#ff6b35" />
-                <span className="hover:text-primary hidden md:block">
-                  All Users
-                </span>
-              </p>
-            </Link>
+            {!roleLoading && role === "admin" && (
+              <Link
+                to={"users"}
+                className="border w-full border-gray-300 dark:border-primary/10 rounded hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-primary p-2 "
+              >
+                <p className="flex items-center justify-center md:justify-start gap-3">
+                  <PiUsersThreeBold size={22} color="#ff6b35" />
+                  <span className="hover:text-primary hidden md:block">
+                    All Users
+                  </span>
+                </p>
+              </Link>
+            )}
 
             <Link
               to="addmeal"

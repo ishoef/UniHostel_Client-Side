@@ -14,6 +14,7 @@ import { GrAction } from "react-icons/gr";
 import { RxCross2 } from "react-icons/rx";
 import Button from "../../../Components/Button/Button";
 import ProfilePhoto from "../../../Components/ProfilePhoto/ProfilePhoto";
+import useUserRole from "../../../Hooks/UseUserRole/UseUserRole";
 
 const Profile = () => {
   const { user, updateUser, setUser } = use(AuthContext);
@@ -37,7 +38,6 @@ const Profile = () => {
     second: "2-digit",
     hour12: true,
   });
-
 
   const btnsInfo = [
     {
@@ -112,6 +112,8 @@ const Profile = () => {
     }
   };
 
+  const { role } = useUserRole();
+
   return (
     <>
       <div className="p-3 md:p-5 w-full h-full flex flex-col gap-6 justify-center items-center border border-gray-300 rounded-xl shadow">
@@ -119,7 +121,12 @@ const Profile = () => {
         <div className="flex justify-between w-full">
           <div className="flex items-center gap-2 text-2xl poppins-semibold">
             <LuUser />
-            <h1 className="hidden md:block">Profile Information</h1>
+            <h1 className="hidden md:block">
+              Profile Information{" "}
+              {role === "admin" && (
+                <span className="text-green-600 font-bold">(Admin)</span>
+              )}{" "}
+            </h1>
           </div>
 
           <div className="space-x-2 md:space-x-5">

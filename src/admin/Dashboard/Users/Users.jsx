@@ -28,7 +28,7 @@ const Users = () => {
     // return <NormalLoader></NormalLoader>
     return <PreLoader className={className}></PreLoader>;
   }
-
+  console.log(userData);
   console.log(userData);
   return (
     <div className="mb-10">
@@ -49,7 +49,6 @@ const Users = () => {
                   <th>Join Date</th>
                   <th>Last Sign in</th>
                   <th>Role</th>
-                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -62,8 +61,11 @@ const Users = () => {
                         <div className="avatar">
                           <div className="mask mask-squircle h-12 w-12">
                             <img
-                              src={user.photoURL}
-                              alt="Avatar Tailwind CSS Component"
+                              src={
+                                user.photoURL ||
+                                "https://images.unsplash.com/photo-1647605243706-f41cf8197f31?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDB8fGRhcmslMjBwcm9maWxlfGVufDB8fDB8fHww"
+                              }
+                              alt="Avatar"
                             />
                           </div>
                         </div>
@@ -111,9 +113,6 @@ const Users = () => {
                       <span className="bg-amber-100 px-2 pb-1 rounded  text-xl ">
                         {user.role}
                       </span>
-                    </td>
-                    <td>
-                      <button className="btn text-green-600">Make Admin</button>
                     </td>
                   </tr>
                 ))}

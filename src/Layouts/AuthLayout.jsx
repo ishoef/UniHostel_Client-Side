@@ -35,6 +35,7 @@ export default function AuthPage() {
           role: "user", // default role
           created_at: new Date().toISOString(),
           last_login: new Date().toISOString(),
+          photoURL: user.photoURL,
         };
 
         const res = axiosInstance.post("/users", userInfo);

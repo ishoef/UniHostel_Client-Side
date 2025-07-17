@@ -23,6 +23,8 @@ import Activity from "../admin/MyProfile/Activity/Activity";
 import Settings from "../admin/MyProfile/Settings/Settings";
 import Privacy from "../admin/MyProfile/Privacy/Privacy";
 import MakeAdmin from "../admin/Dashboard/MakeAdmin/MakeAdmin";
+import Forbidden from "../Components/Forbidden/Forbidden";
+import AdminRoute from "./AdminRoute";
 
 export const router = createBrowserRouter([
   {
@@ -49,6 +51,10 @@ export const router = createBrowserRouter([
       {
         path: "/student_dashboard",
         Component: StudentDashBoard,
+      },
+      {
+        path: "/forbidden",
+        element: <Forbidden />,
       },
       // {
       //   path: "/admin_dashboard",
@@ -148,7 +154,12 @@ export const router = createBrowserRouter([
       },
       {
         path: "addmeal",
-        element: <AddMealForm />,
+        element: (
+          <AdminRoute>
+            <AddMealForm />
+            <AddMealForm />
+          </AdminRoute>
+        ),
       },
       {
         path: "upcomming_meals",

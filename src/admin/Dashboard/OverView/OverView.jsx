@@ -11,11 +11,11 @@ import UpcomingMeals from "../../../Pages/UpCommingMeals/UpCommingMeals";
 import UpcommingMeals from "../UpcommingMeals/UpcommingMeals";
 
 const OverView = () => {
-  const { user } = use(AuthContext);
+  
   const [usersCount, setUsersCount] = useState([]);
   const { meals } = useMeals();
   const { upcommingMeals } = useUpcommingMeals();
-  console.log(user);
+
   // Users Data
   useEffect(() => {
     axios
@@ -26,9 +26,6 @@ const OverView = () => {
         setUsersCount([]);
       });
   }, []);
-
-
-  console.log(usersCount);
 
   const stateInfo = [
     {

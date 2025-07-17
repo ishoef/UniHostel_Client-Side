@@ -5,14 +5,14 @@ import DashBoardContent from "./DashBoardContent/DashBoardContent";
 const Dashboard = () => {
   // Set the document title
   React.useEffect(() => {
-    document.title = "Dashboard | Hobby Shop";
+    document.title = "Admin Dashboard | Hobby Shop";
   }, []);
+
+  
 
   return (
     <>
-      <section
-        className={`grid grid-cols-6 `}
-      >
+      <section className={`grid grid-cols-6 `}>
         <div className="col-span-1">
           <SideBar />
         </div>
