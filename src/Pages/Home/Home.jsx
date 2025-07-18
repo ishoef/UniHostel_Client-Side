@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import OurImpact from "./OurImpact/OurImpact";
 import HowItWorks from "./HowItWorks/HowItWorks";
 import Testimonials from "./Testimonials/Testimonials";
@@ -9,6 +9,10 @@ import MealsByCategory from "./MealsByCategory/MealsByCategory";
 import useMeals from "../../Hooks/useMeals/useMeals";
 
 const Home = () => {
+
+  useEffect(() => {
+      window.scrollTo(0, 0);
+    }, [])
 
   const { meals } = useMeals();
   console.log(meals);

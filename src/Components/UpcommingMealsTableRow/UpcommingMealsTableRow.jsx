@@ -54,17 +54,41 @@ const UpcommingMealsTableRow = ({
     });
   };
 
-  const handlePublish = (id) => {
-    console.log(`Publish upcommingMeal with ID: ${id}`);
-    Swal.fire({
+  const handlePublish = async (id) => {
+    console.log(`Publish upcoming meal with ID: ${id}`);
+
+    const result = await Swal.fire({
       title: "Are you sure?",
-      text: "You want to Publish this upcommingMeal!",
+      text: "You want to publish this upcoming meal?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, Publish it!",
+      confirmButtonText: "Yes, publish it!",
     });
+
+    if (result.isConfirmed) {
+      try {
+        const res = await axiosSecure.post(`/publish-upcoming-meal/${id}`);
+
+        if (res.data.success) {
+          Swal.fire("Published!", res.data.message, "success");
+
+          // ✅ Refetch the upcoming meals and update state
+          const updatedRes = await axiosSecure.get("/upcomming-meals");
+          setUpcommingMeals(updatedRes.data);
+        } else {
+          Swal.fire(
+            "Error",
+            res.data.message || "Something went wrong.",
+            "error"
+          );
+        }
+      } catch (error) {
+        console.error(error);
+        Swal.fire("Error", "Failed to publish the meal.", "error");
+      }
+    }
   };
 
   return (
@@ -83,7 +107,7 @@ const UpcommingMealsTableRow = ({
           </Link>
         </td>
         <td>{upcommingMeal.category}</td>
-        <td>{upcommingMeal.likes}</td>
+        <td>{upcommingMeal.likes?.length || 0}</td>
         <td>{upcommingMeal.reviews_count}</td>
         <td>{upcommingMeal.rating}</td>
         <td>{upcommingMeal.distributorName}</td>

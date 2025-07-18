@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router";
 
 const plans = [
   {
@@ -46,7 +47,7 @@ const plans = [
 
 export default function MembershipPlans() {
   return (
-    <div className=" bg-gradient-to-b from-orange-50 to-white py-16 px-4 sm:px-6 lg:px-8">
+    <div id="pricing" className=" bg-gradient-to-b from-orange-50 to-white py-16 px-4 sm:px-6 lg:px-8">
       <div className="text-center mb-12">
         <h2 className="text-4xl sm:text-5xl font-extrabold text-gray-900 leading-tight">
           Choose Your{" "}
@@ -98,16 +99,17 @@ export default function MembershipPlans() {
               ))}
             </ul>
 
-            <div className="mt-8">
-              <button
-                className={`cursor-pointer w-full py-3 px-4 rounded-xl text-white text-sm font-semibold tracking-wide shadow-lg transition-colors duration-300 ${
+            <div className="mt-8 w-full">
+              <Link to={`/checkout/${plan.name.toLowerCase()}`}
+                
+                className={`block text-center cursor-pointer w-full py-3 px-4 rounded-xl text-white text-sm font-semibold tracking-wide shadow-lg transition-colors duration-300 ${
                   plan.featured
                     ? "bg-orange-500 hover:bg-orange-600"
                     : "bg-gray-900 hover:bg-gray-800"
                 }`}
               >
                 {plan.buttonText}
-              </button>
+              </Link>
             </div>
           </div>
         ))}

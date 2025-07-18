@@ -21,6 +21,10 @@ const MealDetail = () => {
   const [likes, setLikes] = useState([]);
   const [liked, setLiked] = useState(false);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const axiosInstance = useAxios();
 
   console.log(meal);

@@ -26,6 +26,8 @@ import Forbidden from "../Components/Forbidden/Forbidden";
 import AdminRoute from "./AdminRoute";
 import AllReviewsTable from "../admin/Dashboard/AllReviews/AllReviews";
 import MyReviews from "../admin/UserInfo/MyReviews/MyReviews";
+import CheckoutPage from "../Pages/CheckoutPage/CheckoutPage";
+import Payment from "../Pages/CheckoutPage/Payment/Payment";
 
 export const router = createBrowserRouter([
   {
@@ -53,64 +55,22 @@ export const router = createBrowserRouter([
         path: "/forbidden",
         element: <Forbidden />,
       },
-      // {
-      //   path: "/admin_dashboard",
-      //   element: (
-      //     <PrivateRoute>
-      //       <Dashboard />
-      //     </PrivateRoute>
-      //   ),
-      //   children: [
-      //     { index: true, element: <OverView /> },
-      //     { path: "overview", element: <OverView /> },
-      //     {
-      //       path: "users",
-      //       element: <Users />,
-      //     },
-      //     {
-      //       path: "creategroup",
-      //       element: <CreatedGroups />,
-      //     },
-      //     {
-      //       path: "allMeals",
-      //       element: <AllMeals />,
-      //     },
-      //     {
-      //       path: "addmeal",
-      //       element: <AddMealForm />,
-      //     },
-      //     {
-      //       path: "upcomming_meals",
-      //       element: <UpcommingMeals />,
-      //     },
-      //     {
-      //       path: "dash_profile",
-      //       element: <MyProfile />,
-      //       children: [
-      //         {
-      //           index: true,
-      //           element: <Navigate to="profile" />,
-      //         },
-      //         {
-      //           path: "profile",
-      //           element: <Profile />,
-      //         },
-      //         {
-      //           path: "activity",
-      //           element: <Activity />,
-      //         },
-      //         {
-      //           path: "settings",
-      //           element: <Settings />,
-      //         },
-      //         {
-      //           path: "privacy",
-      //           element: <Privacy />,
-      //         },
-      //       ],
-      //     },
-      //   ],
-      // },
+      {
+        path: "/checkout/:plan",
+        element: (
+          <PrivateRoute>
+            <CheckoutPage />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/payment",
+        element: (
+          <PrivateRoute>
+            <Payment />
+          </PrivateRoute>
+        ),
+      },
     ],
   },
   {

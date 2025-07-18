@@ -5,11 +5,12 @@ import { useState } from "react";
 import DatePicker from "react-datepicker";
 import UpcomingMealCard from "../../Components/Cards/UpcommingMealCard/UpcommingMealCard";
 import useUpcommingMeals from "../../Hooks/useUpcommingMeals/useUpcommingMeals";
+import useAuth from "../../Hooks/useAuth.jsx/useAuth";
 
 const UpcomingMeals = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const { upcommingMeals } = useUpcommingMeals();
-  
+  const { user } = useAuth();
   return (
     <div className="max-w-7xl mx-auto p-5">
       <header className="text-center mb-8">
@@ -86,7 +87,7 @@ const UpcomingMeals = () => {
       {/* Meals Showcase */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
         {upcommingMeals.map((meal, index) => (
-          <UpcomingMealCard key={index} meal={meal} />
+          <UpcomingMealCard user={user} key={index} meal={meal} />
         ))}
       </div>
     </div>

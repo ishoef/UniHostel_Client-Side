@@ -12,6 +12,10 @@ const AllMeals = () => {
   const [loading, setLoading] = useState(true);
   const [isSearching, setIsSearching] = useState(false);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   // ✅ Fetch meals
   useEffect(() => {
     const fetchMeals = async () => {
