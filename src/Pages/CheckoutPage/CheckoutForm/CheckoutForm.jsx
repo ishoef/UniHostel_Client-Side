@@ -93,7 +93,14 @@ const CheckoutForm = ({ plan }) => {
           });
 
           console.log("User update success:", updateRes.data);
-          Swal.fire("Success", "Payment successful!", "success");
+          Swal.fire({
+            title: "Success",
+            text: "Payment successful!",
+            icon: "success",
+            timer: 3000, // 3 seconds
+            showConfirmButton: true, 
+          });
+
         } catch (updateError) {
           console.error("User update failed:", updateError);
           Swal.fire(
@@ -107,7 +114,8 @@ const CheckoutForm = ({ plan }) => {
         try {
           // Save payment info
           const paymentRecord = {
-            email: user.email,
+            name: user?.displayName,
+            email: user?.email,
             amount: priceInCents / 100,
             plan: plan.name.toLowerCase(),
             transactionId: result.paymentIntent.id,

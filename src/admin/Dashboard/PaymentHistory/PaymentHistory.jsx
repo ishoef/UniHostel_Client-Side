@@ -2,7 +2,9 @@ import useAuth from "../../../Hooks/useAuth.jsx/useAuth";
 import usePaymentHistory from "../../../Hooks/usePaymentHistory/usePaymentHistory";
 
 const PaymentHistory = () => {
-  const { user } = useAuth();
+    const { user } = useAuth();
+    
+     
   const { data: payments = [], isLoading } = usePaymentHistory(user?.email);
 
   if (isLoading) return <p>Loading...</p>;
