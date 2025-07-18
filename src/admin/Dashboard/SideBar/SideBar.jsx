@@ -97,6 +97,12 @@ const SideBar = () => {
       label: "Make Admin",
       roleRequired: "admin",
     },
+    {
+      to: "dash_profile",
+      icon: <FaUser size={22} color="#ff6b35" />,
+      label: "My Profile",
+      roleRequired: "user",
+    },
   ];
 
   // User Sidebar Links

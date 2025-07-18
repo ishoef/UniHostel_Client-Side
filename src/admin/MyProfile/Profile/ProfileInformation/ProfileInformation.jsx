@@ -1,5 +1,6 @@
 import React, { use } from "react";
 import { AuthContext } from "../../../../Context/AuthProvider";
+import useAuth from "../../../../Hooks/useAuth.jsx/useAuth";
 
 const ProfileInformation = ({
   isEditing,
@@ -8,10 +9,10 @@ const ProfileInformation = ({
   setPhotoURL,
   // setBio,
 }) => {
-  const { user } = use(AuthContext);
+  const { user } = useAuth();
 
   console.log(user);
-  console.log(user.displayName);
+  console.log(user?.plan);
   return (
     <form className="grid md:grid-cols-2 gap-5 poppins">
       {/* Full Name */}

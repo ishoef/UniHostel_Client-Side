@@ -2,7 +2,7 @@ import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useState } from "react";
 import Swal from "sweetalert2";
 import useAuth from "../../../Hooks/useAuth.jsx/useAuth";
-// import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import axios from "axios";
 
 const CheckoutForm = ({ plan }) => {
@@ -11,11 +11,12 @@ const CheckoutForm = ({ plan }) => {
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
   const [error, setError] = useState(null);
-  //   const axiosSecure = useAxiosSecure();
+  const axiosSecure = useAxiosSecure();
   console.log(plan);
 
- const price = plan.price;
- const priceInCents = Math.round(price * 100); //Convert to cents for stripe
+  console.log(user);
+  const price = plan.price;
+  const priceInCents = Math.round(price * 100); //Convert to cents for stripe
 
   console.log(`Price in cents: ${priceInCents}`);
 
@@ -52,9 +53,9 @@ const CheckoutForm = ({ plan }) => {
       const res = await axios.post(
         `http://localhost:5000/create-payment-intent`,
         {
-          userID: user.uid,
-          userName: user.displayName,
-          email: user.email,
+          userID: user?.uid,
+          userName: user?.displayName,
+          email: user?.email,
           plan: plan.name.toLowerCase(),
           price: priceInCents,
           paymentMethodId: paymentMethod.id,
@@ -70,24 +71,39 @@ const CheckoutForm = ({ plan }) => {
         payment_method: {
           card: elements.getElement(CardElement),
           billing_details: {
-            name: user.displayName,
-            email: user.email,
+            name: user?.displayName,
+            email: user?.email,
           },
         },
       });
-    
-    console.log("Payment Result:", result);
 
-      if (result.error) {
+      console.log("Payment Result:", result);
+
+      if (result.paymentIntent.status === "succeeded") {
         setLoading(false);
-        setError(result.error.message);
-        Swal.fire("Error", result.error.message, "error");
-      } else {
-        if (result.paymentIntent.status === "succeeded") {
-          setLoading(false);
+        setError(null);
+
+        // ✅ Update subscription
+        try {
+          const updateRes = await axiosSecure.put(`/users/${user?.email}`, {
+            plan: plan.name.toLowerCase(),
+            subscribedAt: new Date().toISOString(),
+            isSubscribed: true,
+            // subscriptionEnd: addDays(new Date(), plan.duration).toISOString(), // optional
+          });
+
+          console.log("User update success:", updateRes.data);
           Swal.fire("Success", "Payment successful!", "success");
+        } catch (updateError) {
+          console.error("User update failed:", updateError);
+          Swal.fire(
+            "Payment succeeded but update failed",
+            updateError.message,
+            "error"
+          );
         }
       }
+
     } catch (err) {
       Swal.fire("Error", err.message || "Payment failed", "error");
     } finally {

@@ -39,51 +39,51 @@ const Profile = () => {
     hour12: true,
   });
 
-  const btnsInfo = [
-    {
-      btnText: (
-        <div className="flex items-center gap-2 text-[16px]">
-          <p>
-            <SiJquery />
-          </p>
-          <p>My Queries</p>
-        </div>
-      ),
-      link: "/myqueries",
-      className:
-        "bg-transparent border border-gray-400 btn rounded hover:bg-primary hover:text-white",
-    },
+  // const btnsInfo = [
+  //   {
+  //     btnText: (
+  //       <div className="flex items-center gap-2 text-[16px]">
+  //         <p>
+  //           <SiJquery />
+  //         </p>
+  //         <p>My Queries</p>
+  //       </div>
+  //     ),
+  //     link: "/myqueries",
+  //     className:
+  //       "bg-transparent border border-gray-400 btn rounded hover:bg-primary hover:text-white",
+  //   },
 
-    {
-      btnText: (
-        <div className="flex items-center gap-2 text-[16px]">
-          <p>
-            <FaRegCommentAlt />
-          </p>
-          <p>My Recommendations</p>
-        </div>
-      ),
+  //   {
+  //     btnText: (
+  //       <div className="flex items-center gap-2 text-[16px]">
+  //         <p>
+  //           <FaRegCommentAlt />
+  //         </p>
+  //         <p>My Recommendations</p>
+  //       </div>
+  //     ),
 
-      link: "/myrecos",
-      className:
-        "bg-transparent border border-gray-400 btn rounded hover:bg-primary hover:text-white",
-    },
+  //     link: "/myrecos",
+  //     className:
+  //       "bg-transparent border border-gray-400 btn rounded hover:bg-primary hover:text-white",
+  //   },
 
-    {
-      btnText: (
-        <div className="flex items-center gap-2 text-[16px]">
-          <p>
-            <IoCreateOutline />
-          </p>
-          <p>Add New Query</p>
-        </div>
-      ),
+  //   {
+  //     btnText: (
+  //       <div className="flex items-center gap-2 text-[16px]">
+  //         <p>
+  //           <IoCreateOutline />
+  //         </p>
+  //         <p>Add New Query</p>
+  //       </div>
+  //     ),
 
-      link: "/addquery",
-      className:
-        "bg-primary text-white border border-gray-400 btn rounded hover:bg-transparent hover:text-black",
-    },
-  ];
+  //     link: "/addquery",
+  //     className:
+  //       "bg-primary text-white border border-gray-400 btn rounded hover:bg-transparent hover:text-black",
+  //   },
+  // ];
 
   const handleUpdate = async () => {
     if (!updateName.trim() && !photoURL.trim()) {
@@ -126,6 +126,7 @@ const Profile = () => {
               {role === "admin" && (
                 <span className="text-green-600 font-bold">(Admin)</span>
               )}{" "}
+              {user?.isSubscribed && <p>{user?.plan}</p>}
             </h1>
           </div>
 

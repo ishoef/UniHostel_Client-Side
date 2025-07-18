@@ -49,7 +49,7 @@ export default function MealsByCategory() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
         {filteredMeals.map((meal) => (
-          <MealCard key={meal.id} meal={meal} />
+          <MealCard key={meal._id} meal={meal} />
         ))}
       </div>
 
