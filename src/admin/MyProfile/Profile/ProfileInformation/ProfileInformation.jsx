@@ -1,6 +1,6 @@
-import React, { use } from "react";
-import { AuthContext } from "../../../../Context/AuthProvider";
+import React from "react";
 import useAuth from "../../../../Hooks/useAuth.jsx/useAuth";
+import useUserByEmail from "../../../../Hooks/useUserByEmail/useUserByEmail";
 
 const ProfileInformation = ({
   isEditing,
@@ -10,9 +10,10 @@ const ProfileInformation = ({
   // setBio,
 }) => {
   const { user } = useAuth();
-
-  console.log(user);
-  console.log(user?.plan);
+  const { data: currentUser } = useUserByEmail(user?.email);
+  console.log(currentUser);
+  console.log(currentUser?.plan);
+  
   return (
     <form className="grid md:grid-cols-2 gap-5 poppins">
       {/* Full Name */}

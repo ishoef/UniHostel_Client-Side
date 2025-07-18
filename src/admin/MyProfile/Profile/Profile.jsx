@@ -1,29 +1,24 @@
 import React, { use, useState } from "react";
-import {
-  FaRegCommentAlt,
-  FaRegEdit,
-  FaRegSave,
-  FaRegUser,
-} from "react-icons/fa";
+import { FaRegEdit, FaRegSave } from "react-icons/fa";
 import { LuUser } from "react-icons/lu";
 import { AuthContext } from "../../../Context/AuthProvider";
 import ProfileInformation from "./ProfileInformation/ProfileInformation";
-import { SiJquery } from "react-icons/si";
-import { IoCreateOutline } from "react-icons/io5";
-import { GrAction } from "react-icons/gr";
 import { RxCross2 } from "react-icons/rx";
-import Button from "../../../Components/Button/Button";
 import ProfilePhoto from "../../../Components/ProfilePhoto/ProfilePhoto";
 import useUserRole from "../../../Hooks/UseUserRole/UseUserRole";
+import useUserByEmail from "../../../Hooks/useUserByEmail/useUserByEmail";
 
 const Profile = () => {
   const { user, updateUser, setUser } = use(AuthContext);
-
   const [isEditing, setIsEditing] = useState(false);
   const [updateName, setUpdateName] = useState(user?.displayName || "");
   // const [userEmail, setUserEmail] = useState(user?.email || "");
   const [photoURL, setPhotoURL] = useState(user?.photoURL || "");
   const [bio, setBio] = useState(user?.bio || "");
+
+  const { data: currentUser } = useUserByEmail(user?.email);
+  console.log(currentUser);
+  console.log(currentUser?.plan);
 
   const date = new Date(user.metadata.creationTime);
   const formatted = date.toLocaleDateString("en-US", {
@@ -126,7 +121,7 @@ const Profile = () => {
               {role === "admin" && (
                 <span className="text-green-600 font-bold">(Admin)</span>
               )}{" "}
-              {user?.isSubscribed && <p>{user?.plan}</p>}
+              {/* {currentUser?.isSubscribed && <p>{currentUser?.plan}</p>} */}
             </h1>
           </div>
 

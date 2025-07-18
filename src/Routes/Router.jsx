@@ -28,6 +28,7 @@ import AllReviewsTable from "../admin/Dashboard/AllReviews/AllReviews";
 import MyReviews from "../admin/UserInfo/MyReviews/MyReviews";
 import CheckoutPage from "../Pages/CheckoutPage/CheckoutPage";
 import Payment from "../Pages/CheckoutPage/Payment/Payment";
+import PaymentHistory from "../admin/Dashboard/PaymentHistory/PaymentHistory";
 
 export const router = createBrowserRouter([
   {
@@ -158,6 +159,11 @@ export const router = createBrowserRouter([
         path: "my_reviews",
         Component: MyReviews,
       },
+      {
+        path: "payments",
+        element: <PaymentHistory />,
+      },
+      
       {
         path: "dash_profile",
         element: <MyProfile />,

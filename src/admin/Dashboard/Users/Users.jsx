@@ -26,13 +26,13 @@ const Users = () => {
 
     fetchMeals();
   }, [axiosSecure]);
-
+  
+  
   if (loading) {
     // return <NormalLoader></NormalLoader>
     return <PreLoader className={className}></PreLoader>;
   }
-  console.log(userData);
-  console.log(userData);
+
   return (
     <div className="mb-10">
       <div className="space-y-5 ">
@@ -52,6 +52,7 @@ const Users = () => {
                   <th>Join Date</th>
                   <th>Last Sign in</th>
                   <th>Role</th>
+                  <th>Subscription</th>
                 </tr>
               </thead>
               <tbody>
@@ -115,6 +116,11 @@ const Users = () => {
                     <td>
                       <span className="bg-amber-100 px-2 pb-1 rounded  text-xl ">
                         {user.role}
+                      </span>
+                    </td>
+                    <td>
+                      <span className="bg-amber-100 px-2 pb-1 rounded  text-xl ">
+                        {user?.plan || "Free"}
                       </span>
                     </td>
                   </tr>

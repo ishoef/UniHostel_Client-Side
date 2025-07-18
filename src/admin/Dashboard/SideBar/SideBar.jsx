@@ -16,7 +16,6 @@ import Swal from "sweetalert2";
 import { MdAdminPanelSettings, MdLogout } from "react-icons/md";
 import { TbComet } from "react-icons/tb";
 import { ImSpoonKnife } from "react-icons/im";
-import { BsPersonLinesFill } from "react-icons/bs";
 import useUserRole from "../../../Hooks/UseUserRole/UseUserRole";
 
 const SideBar = () => {
@@ -126,7 +125,7 @@ const SideBar = () => {
       roleRequired: "user",
     },
     {
-      to: "payment-history",
+      to: "payments",
       icon: <FaCreditCard size={22} color="#ff6b35" />,
       label: "Payment History",
       roleRequired: "user",

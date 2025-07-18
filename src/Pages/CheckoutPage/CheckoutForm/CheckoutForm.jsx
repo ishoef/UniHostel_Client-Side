@@ -102,8 +102,25 @@ const CheckoutForm = ({ plan }) => {
             "error"
           );
         }
-      }
 
+        // ✅ Store Payment Information
+        try {
+          // Save payment info
+          const paymentRecord = {
+            email: user.email,
+            amount: priceInCents / 100,
+            plan: plan.name.toLowerCase(),
+            transactionId: result.paymentIntent.id,
+            date: new Date().toISOString(),
+          };
+
+          const paymentRes = await axiosSecure.post("/payments", paymentRecord);
+          console.log("Payment saved:", paymentRes.data);
+        } catch (paymentError) {
+          console.error("Payment save failed:", paymentError);
+          Swal.fire("Warning", "Payment done but logging failed", "warning");
+        }
+      }
     } catch (err) {
       Swal.fire("Error", err.message || "Payment failed", "error");
     } finally {
