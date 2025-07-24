@@ -79,7 +79,7 @@ const SideBar = () => {
       roleRequired: "admin",
     },
     {
-      to: "creategroup",
+      to: "serve_meals",
       icon: <ImSpoonKnife size={22} color="#ff6b35" />,
       label: "Serve Meals",
       roleRequired: "admin",
@@ -113,7 +113,7 @@ const SideBar = () => {
       roleRequired: "user",
     },
     {
-      to: "requested-meals",
+      to: "my_rquested_meals",
       icon: <FaUtensils size={22} color="#ff6b35" />,
       label: "Requested Meals",
       roleRequired: "user",

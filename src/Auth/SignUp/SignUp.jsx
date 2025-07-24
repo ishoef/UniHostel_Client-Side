@@ -26,11 +26,12 @@ const SignUp = () => {
     // Retrieve form field values
     const firstName = e.target.firstName.value;
     const lastName = e.target.lastName.value;
+    const name = `${firstName} ${lastName}`;
     const email = e.target.email.value;
     const tel = e.target.tel.value;
     const password = e.target.password.value;
     const agreed = e.target.agreed.checked;
-    const name = firstName + lastName;
+
     console.log(name);
 
     console.log(firstName, lastName, email, tel, password, agreed);
@@ -75,6 +76,7 @@ const SignUp = () => {
 
         // user info in the database
         const userInfo = {
+          name: name,
           email: email,
           role: "user", // default role
           created_at: new Date().toISOString(),

@@ -6,28 +6,34 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 const Users = () => {
   const [userData, setUserData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [pages, setPages] = useState(1);
+  const limit = 10; // Or whatever value you want per page
+
   const className =
     "flex justify-center items-center min-h-screen md:min-h-[calc(100vh-300px)]";
 
   const axiosSecure = useAxiosSecure();
 
   useEffect(() => {
-    const fetchMeals = async () => {
+    const fetchUsers = async () => {
       setLoading(true);
       try {
-        const response = await axiosSecure.get("/users");
-        setUserData(response.data);
+        const response = await axiosSecure.get(
+          `/users?page=${page}&limit=${limit}`
+        );
+        setUserData(response.data.users);
+        setPages(response.data.pages);
       } catch (err) {
-        console.log("Error fetching Meals data", err);
+        console.log("Error fetching user data", err);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchMeals();
-  }, [axiosSecure]);
-  
-  
+    fetchUsers();
+  }, [axiosSecure, page]);
+
   if (loading) {
     // return <NormalLoader></NormalLoader>
     return <PreLoader className={className}></PreLoader>;
@@ -137,6 +143,50 @@ const Users = () => {
               </tfoot> */}
             </table>
           </div>
+        </div>
+        
+        {/* Pagination Buttons */}
+        <div className="mt-6 flex justify-center items-center gap-2">
+          {/* Previous Button */}
+          <button
+            onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+            disabled={page === 1}
+            className={`px-3 py-1 rounded border ${
+              page === 1
+                ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                : "bg-white hover:bg-orange-100"
+            }`}
+          >
+            Previous
+          </button>
+
+          {/* Page Numbers */}
+          {[...Array(pages).keys()].map((p) => (
+            <button
+              key={p}
+              onClick={() => setPage(p + 1)}
+              className={`px-3 py-1 rounded border ${
+                page === p + 1
+                  ? "bg-orange-500 text-white"
+                  : "bg-white hover:bg-orange-100"
+              }`}
+            >
+              {p + 1}
+            </button>
+          ))}
+
+          {/* Next Button */}
+          <button
+            onClick={() => setPage((prev) => Math.min(prev + 1, pages))}
+            disabled={page === pages}
+            className={`px-3 py-1 rounded border ${
+              page === pages
+                ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                : "bg-white hover:bg-orange-100"
+            }`}
+          >
+            Next
+          </button>
         </div>
       </div>
     </div>

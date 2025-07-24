@@ -19,6 +19,7 @@ export default function AuthPage() {
   const location = useLocation();
   const axiosInstance = useAxios();
 
+  console.log(location);
   // Google Login
   const provider = new GoogleAuthProvider();
 

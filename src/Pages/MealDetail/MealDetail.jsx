@@ -4,6 +4,7 @@ import useAxios from "../../Hooks/useAxios";
 import { useParams } from "react-router";
 import useAuth from "../../hooks/useAuth.jsx/useAuth";
 import Swal from "sweetalert2";
+import useUserByEmail from "../../Hooks/useUserByEmail/useUserByEmail";
 
 const MealDetail = () => {
   const { id } = useParams();
@@ -14,9 +15,14 @@ const MealDetail = () => {
   const [newComment, setNewComment] = useState("");
   const [meal, setMeal] = useState([]);
   const [loading, setLoading] = useState(false);
-
+  const [requested, setRequested] = useState(false);
   const { user } = useAuth();
   const userId = user?.uid;
+
+  console.log(requested);
+
+  const { data: currentUser } = useUserByEmail(user?.email);
+  console.log(currentUser);
 
   const [likes, setLikes] = useState([]);
   const [liked, setLiked] = useState(false);
@@ -26,6 +32,7 @@ const MealDetail = () => {
   }, []);
 
   const axiosInstance = useAxios();
+  const isSubscribed = currentUser?.isSubscribed === true;
 
   console.log(meal);
 
@@ -129,6 +136,21 @@ const MealDetail = () => {
   const handleLike = async () => {
     if (!userId) {
       console.error("User ID is missing!");
+      Swal.fire({
+        icon: "warning",
+        title: "Login & Subscription Required",
+        text: "You must Login & subscribe to a plan to like meals.",
+      });
+      return;
+    }
+
+    if (!isSubscribed) {
+      // 🔒 Show message if user isn't subscribed
+      Swal.fire({
+        icon: "warning",
+        title: "Subscription Required",
+        text: "You must subscribe to a plan to like meals.",
+      });
       return;
     }
 
@@ -139,11 +161,10 @@ const MealDetail = () => {
 
       const { likes: updatedLikes, liked: updatedLiked } = response.data;
 
-      // Update local state
       setLikes(updatedLikes);
       setLiked(updatedLiked);
 
-      // ✅ Also update meal.likes to reflect UI change immediately
+      // Refresh meal details for latest like count
       const updatedMeal = await axiosInstance.get(`/meals/${meal._id}`);
       setMeal(updatedMeal.data);
     } catch (err) {
@@ -170,15 +191,12 @@ const MealDetail = () => {
 
     try {
       // 🔄 Fetch user data
-      const response = await axiosInstance.get(`/users/${userId}`);
-      const subscription = response.data?.subscription;
+      const isSubscribed = currentUser?.isSubscribed === true;
+      console.log(isSubscribed);
 
       // 📛 Check subscription
-      if (
-        !subscription ||
-        !["silver", "gold", "platinum"].includes(subscription)
-      ) {
-        return Swal.fire({
+      if (!isSubscribed) {
+        Swal.fire({
           title: "Subscription Required",
           text: "You need to subscribe to Silver, Gold, or Platinum to request a meal.",
           icon: "warning",
@@ -189,15 +207,20 @@ const MealDetail = () => {
             window.location.href = "/subscription";
           },
         });
+
+        return;
       }
 
       // ✅ If all checks pass, send request
       const res = await axiosInstance.post(`/meals/${meal._id}/request`, {
         userId,
         name: user?.displayName,
+        mealName: meal.title,
         email: user?.email,
-        subscription,
+        isSubscribed,
       });
+
+      console.log(`After Request successfull:`, res.data);
 
       if (res.data.success) {
         Swal.fire({
@@ -205,6 +228,8 @@ const MealDetail = () => {
           text: "Your meal request has been successfully submitted.",
           icon: "success",
         });
+
+        setRequested(true);
       } else {
         Swal.fire({
           title: "Request Failed",
@@ -292,10 +317,16 @@ const MealDetail = () => {
             </button>
 
             <button
+              disabled={requested}
               onClick={handleRequestMeal}
-              className="cursor-pointer px-4 py-2 rounded border bg-blue-100 text-blue-700 border-blue-300 hover:bg-blue-200"
+              className={`cursor-pointer px-4 py-2 rounded border 
+    ${
+      requested
+        ? "bg-gray-300 text-gray-600 border-gray-400 cursor-not-allowed"
+        : "bg-blue-100 text-blue-700 border-blue-300 hover:bg-blue-200"
+    }`}
             >
-              🍽️ Request Meal
+              {requested ? "🍽️ Requested" : "🍽️ Request Meal"}
             </button>
           </div>
         </div>

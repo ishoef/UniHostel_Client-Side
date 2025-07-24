@@ -29,6 +29,9 @@ import MyReviews from "../admin/UserInfo/MyReviews/MyReviews";
 import CheckoutPage from "../Pages/CheckoutPage/CheckoutPage";
 import Payment from "../Pages/CheckoutPage/Payment/Payment";
 import PaymentHistory from "../admin/Dashboard/PaymentHistory/PaymentHistory";
+import Subscription from "../Pages/Subscription/Subscription";
+import ServeMeals from "../admin/Dashboard/ServeMeals/ServeMeals";
+import MyRequestedMeals from "../admin/Dashboard/MyRequestedMeals/MyRequestedMeals";
 
 export const router = createBrowserRouter([
   {
@@ -55,6 +58,10 @@ export const router = createBrowserRouter([
       {
         path: "/forbidden",
         element: <Forbidden />,
+      },
+      {
+        path: "/subscription",
+        element: <Subscription />,
       },
       {
         path: "/checkout/:plan",
@@ -127,7 +134,6 @@ export const router = createBrowserRouter([
         element: (
           <AdminRoute>
             <AddMealForm />
-            <AddMealForm />
           </AdminRoute>
         ),
       },
@@ -156,14 +162,30 @@ export const router = createBrowserRouter([
         ),
       },
       {
+        path: "serve_meals",
+        element: (
+          <AdminRoute>
+            <ServeMeals />
+          </AdminRoute>
+        ),
+      },
+      {
         path: "my_reviews",
-        Component: MyReviews,
+        element: (
+          <PrivateRoute>
+            <MyReviews />
+          </PrivateRoute>
+        ),
       },
       {
         path: "payments",
         element: <PaymentHistory />,
       },
-      
+      {
+        path: "my_rquested_meals",
+        element: <MyRequestedMeals />,
+      },
+
       {
         path: "dash_profile",
         element: <MyProfile />,

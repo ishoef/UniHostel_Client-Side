@@ -1,5 +1,5 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import useAuth from "../../../Hooks/useAuth.jsx/useAuth";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
@@ -13,6 +13,10 @@ const CheckoutForm = ({ plan }) => {
   const [error, setError] = useState(null);
   const axiosSecure = useAxiosSecure();
   console.log(plan);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  })
 
   console.log(user);
   const price = plan.price;

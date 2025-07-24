@@ -6,19 +6,27 @@ import { Link } from "react-router";
 
 const AllReviewsTable = () => {
   const [reviews, setReviews] = useState([]);
+  const [totalReviews, setTotalReviews] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const reviewsPerPage = 10;
+
   const axiosSecure = useAxiosSecure();
 
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const res = await axiosSecure.get("/admin/reviews"); // Adjust your API path
-        setReviews(res.data || []);
+        const res = await axiosSecure.get(
+          `/admin/reviews?page=${currentPage}&limit=${reviewsPerPage}`
+        );
+        setReviews(res.data.reviews || []);
+        setTotalReviews(res.data.total || 0);
       } catch (error) {
         console.error("Failed to fetch reviews", error);
       }
     };
     fetchReviews();
-  }, [axiosSecure]);
+  }, [axiosSecure, currentPage]);
+
   console.log(reviews);
 
   const handleDeleteReview = async (
@@ -198,6 +206,57 @@ const AllReviewsTable = () => {
         <IoMdInformationCircleOutline />
         Click on the Meal Name for Meal Details
       </div>
+
+      {totalReviews > reviewsPerPage && (
+        <div className="flex justify-center items-center mt-6 gap-1 text-sm font-medium">
+          <button
+            onClick={() => setCurrentPage(1)}
+            disabled={currentPage === 1}
+            className="cursor-pointer disabled:cursor-not-allowed px-2 py-1 rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
+          >
+            « First
+          </button>
+
+          <button
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+            className="cursor-pointer disabled:cursor-not-allowed px-2 py-1 rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
+          >
+            ‹ Prev
+          </button>
+
+          <span className="px-3">
+            Page <span className="font-bold">{currentPage}</span> of{" "}
+            <span className="font-bold">
+              {Math.ceil(totalReviews / reviewsPerPage)}
+            </span>
+          </span>
+
+          <button
+            onClick={() =>
+              setCurrentPage((prev) =>
+                prev < Math.ceil(totalReviews / reviewsPerPage)
+                  ? prev + 1
+                  : prev
+              )
+            }
+            disabled={currentPage >= Math.ceil(totalReviews / reviewsPerPage)}
+            className="cursor-pointer disabled:cursor-not-allowed px-2 py-1 rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
+          >
+            Next ›
+          </button>
+
+          <button
+            onClick={() =>
+              setCurrentPage(Math.ceil(totalReviews / reviewsPerPage))
+            }
+            disabled={currentPage >= Math.ceil(totalReviews / reviewsPerPage)}
+            className="cursor-pointer disabled:cursor-not-allowed px-2 py-1 rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
+          >
+            Last »
+          </button>
+        </div>
+      )}
     </div>
   );
 };

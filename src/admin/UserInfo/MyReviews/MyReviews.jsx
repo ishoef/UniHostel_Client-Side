@@ -15,15 +15,22 @@ const MyReviews = () => {
   const [newRating, setNewRating] = useState(0);
   const [newComment, setNewComment] = useState("");
 
+  // For Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const [limit] = useState(10); // you can make it selectable if needed
+  const [totalPages, setTotalPages] = useState(1);
+
+  console.log(user);
   useEffect(() => {
     if (!user?.email) return;
 
     const fetchMyReviews = async () => {
       try {
         const res = await axiosSecure.get(
-          `/user/my-reviews?email=${user.email}`
+          `/user/my-reviews/${user.email}?page=${currentPage}&limit=${limit}`
         );
-        setReviews(res.data);
+        setReviews(res.data.reviews);
+        setTotalPages(res.data.totalPages);
       } catch (err) {
         console.error("Error fetching user reviews:", err);
       } finally {
@@ -31,8 +38,11 @@ const MyReviews = () => {
       }
     };
 
+
     fetchMyReviews();
-  }, [user?.email, axiosSecure]);
+  }, [user?.email, axiosSecure, currentPage, limit]);
+
+  console.log(reviews);
 
   const handleDelete = async (mealId, index) => {
     const confirm = await Swal.fire({
@@ -177,6 +187,23 @@ const MyReviews = () => {
           </tbody>
         </table>
       </div>
+
+      <div className="flex justify-center gap-2 mt-4">
+        {Array.from({ length: totalPages }, (_, idx) => (
+          <button
+            key={idx}
+            onClick={() => setCurrentPage(idx + 1)}
+            className={`px-3 py-1 border rounded ${
+              currentPage === idx + 1
+                ? "bg-orange-500 text-white"
+                : "bg-white text-black"
+            }`}
+          >
+            {idx + 1}
+          </button>
+        ))}
+      </div>
+
       {showModal && (
         <Modal showModal={showModal} setShowModal={setShowModal}>
           <div className="mb-6">
