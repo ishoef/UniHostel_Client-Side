@@ -18,35 +18,37 @@ const UpcomingMealCard = ({ meal, user, refetch }) => {
 
   const axiosInstance = useAxios();
 
+  const handleLike = async () => {
+    if (!user?.uid) {
+      return Swal.fire(
+        "Error",
+        "You must be logged in to like meals.",
+        "error"
+      );
+    }
 
- const handleLike = async () => {
-   if (!user?.uid) {
-     return Swal.fire("Error", "You must be logged in to like meals.", "error");
-   }
+    try {
+      const res = await axiosInstance.patch(
+        `/upcomming-meals/like/${meal._id}`,
+        { userId: user.uid }
+      );
 
-   try {
-     const res = await axiosInstance.patch(
-       `/upcomming-meals/like/${meal._id}`,
-       { userId: user.uid }
-     );
+      if (res.data.success) {
+        setLiked(res.data.liked);
+        setLikesCount(res.data.likesCount);
 
-     if (res.data.success) {
-       setLiked(res.data.liked);
-       setLikesCount(res.data.likesCount);
-
-       if (res.data.published) {
-         Swal.fire("Published!", res.data.message, "success");
-         refetch?.(); // Meal moved to published, so refresh list
-       }
-     } else {
-       Swal.fire("Error", res.data.message, "error");
-     }
-   } catch (err) {
-     console.error("Like failed", err);
-     Swal.fire("Error", "Failed to like/unlike the meal", "error");
-   }
- };
-
+        if (res.data.published) {
+          Swal.fire("Published!", res.data.message, "success");
+          refetch?.(); // Meal moved to published, so refresh list
+        }
+      } else {
+        Swal.fire("Error", res.data.message, "error");
+      }
+    } catch (err) {
+      console.error("Like failed", err);
+      Swal.fire("Error", "Failed to like/unlike the meal", "error");
+    }
+  };
 
   const handleViewDetails = () => {
     Swal.fire({
@@ -102,7 +104,7 @@ const UpcomingMealCard = ({ meal, user, refetch }) => {
           </span>
           <span className="flex items-center gap-1">
             <FaUser className="text-orange-500" />
-            {meal.servings} Servings
+            {meal.servings || 0} Servings
           </span>
         </div>
 
@@ -113,7 +115,8 @@ const UpcomingMealCard = ({ meal, user, refetch }) => {
         <div className="mt-auto flex gap-2">
           <button
             onClick={() => setShowModel(true)}
-            className="flex-1 bg-gradient-to-r from-orange-500 to-pink-500 text-white py-2 rounded-md font-semibold hover:opacity-90 transition"
+            disabled
+            className="cursor-pointer disabled:cursor-not-allowed flex-1 bg-gradient-to-r from-orange-500 to-pink-500 text-white py-2 rounded-md font-semibold hover:opacity-90 transition"
           >
             Pre-Order
           </button>

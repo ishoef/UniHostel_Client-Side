@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router"; 
+import { Link } from "react-router";
 import LikeButton from "../../LikeButton/LikeButton";
 import useAxios from "../../../Hooks/useAxios";
 import useAuth from "../../../Hooks/useAuth.jsx/useAuth";
+import Swal from "sweetalert2";
 
 const MealCard = ({ meal }) => {
   const { user } = useAuth();
@@ -22,9 +23,12 @@ const MealCard = ({ meal }) => {
   const axiosInstance = useAxios();
 
   const handleLike = async () => {
-    if (!userId) {
-      console.error("User ID is missing!");
-      return;
+    if (!user?.uid) {
+      return Swal.fire(
+        "Error",
+        "You must be logged in to like meals.",
+        "info"
+      );
     }
 
     try {

@@ -1,17 +1,14 @@
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import State from "../State/State";
 import { LiaUsersSolid } from "react-icons/lia";
 import { FaLayerGroup } from "react-icons/fa";
-import { AuthContext } from "../../../Context/AuthProvider";
 import axios from "axios";
 import useMeals from "../../../Hooks/useMeals/useMeals";
 import useUpcommingMeals from "../../../Hooks/useUpcommingMeals/useUpcommingMeals";
 import AllMeals from "../AllMeals/AllMeals";
-import UpcomingMeals from "../../../Pages/UpCommingMeals/UpCommingMeals";
 import UpcommingMeals from "../UpcommingMeals/UpcommingMeals";
 
 const OverView = () => {
-  
   const [usersCount, setUsersCount] = useState([]);
   const { meals } = useMeals();
   const { upcommingMeals } = useUpcommingMeals();
@@ -31,7 +28,7 @@ const OverView = () => {
     {
       icon: <LiaUsersSolid />,
       title: "Total Users",
-      count: `${usersCount}`,
+      count: `${usersCount || 0}`,
       parcent: "80% increase in 20 days",
     },
 
@@ -52,7 +49,7 @@ const OverView = () => {
     {
       icon: <FaLayerGroup />,
       title: "Served Meals",
-      count: `${usersCount}`,
+      count: `${usersCount || 0}`,
       parcent: "80% increase in 20 days",
     },
   ];

@@ -1,65 +1,50 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import MealCard from "../../Components/Cards/MealCard/MealCard";
 import NormalLoader from "../../Components/Loader copy/NormalLoader";
 import NoQueryText from "../../Components/NoQueryText.jsx/NoQueryText";
 import NoSearchResult from "../../Components/NoSearchResult/NoSearchResult";
+import useMeals from "../../Hooks/useMeals/useMeals";
 
 const AllMeals = () => {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All Categories");
   const [price, setPrice] = useState(500);
-  const [meals, setMeals] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [isSearching, setIsSearching] = useState(false);
+  const [filteredMeals, setFilteredMeals] = useState([]);
+
+  // ✅ Memoize the filters object to prevent re-renders
+  const filters = useMemo(() => ({}), []);
+
+  // ✅ Prevent re-fetching by keeping object reference stable
+  const { meals, loading } = useMeals(filters, 1, 1000); // Fetch all meals
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  // ✅ Fetch meals
   useEffect(() => {
-    const fetchMeals = async () => {
-      try {
-        setLoading(true);
-        setIsSearching(search.trim() !== "");
+    let filtered = meals;
 
-        const params = new URLSearchParams();
-        if (search.trim()) params.append("searchText", search);
-        if (category && category !== "All Categories")
-          params.append("category", category);
-        if (price) params.append("price", price);
+    // Filter by category
+    if (category !== "All Categories") {
+      filtered = filtered.filter((meal) => meal.category === category);
+    }
 
-        const url = params.toString()
-          ? `http://localhost:5000/meals?${params.toString()}`
-          : `http://localhost:5000/meals`;
+    // Filter by price
+    filtered = filtered.filter((meal) => Number(meal.price) <= price);
 
-        const res = await fetch(url);
-        const data = await res.json();
-        setMeals(data);
-      } catch (error) {
-        console.error("Failed to fetch meals", error);
-        setMeals([]);
-      } finally {
-        setLoading(false);
-      }
-    };
+    // Filter by search
+    if (search.trim() !== "") {
+      const lower = search.toLowerCase();
+      filtered = filtered.filter(
+        (meal) =>
+          meal.title.toLowerCase().includes(lower) ||
+          (meal.chef && meal.chef.toLowerCase().includes(lower))
+      );
+    }
 
-    console.log("searching with:", search, category, price);
+    setFilteredMeals(filtered);
+  }, [meals, category, search, price]);
 
-    fetchMeals();
-  }, [search, category, price]);
-
-  console.log(meals);
-
-  // // ✅ Optional sort
-  // const sortedMeals = [...meals].sort((a, b) => {
-  //   if (a.createdAt && b.createdAt) {
-  //     return new Date(b.createdAt) - new Date(a.createdAt);
-  //   }
-  //   return 0;
-  // });
-
-  // ✅ Loader
   if (loading) return <NormalLoader />;
 
   return (
@@ -67,7 +52,7 @@ const AllMeals = () => {
       <h2 className="text-center text-3xl sm:text-4xl lg:text-5xl font-bold my-4">
         All{" "}
         <span className="bg-gradient-to-r from-orange-500 to-pink-500 text-transparent bg-clip-text">
-          Meals <span className="text-xl">({meals.length})</span>
+          Meals <span className="text-xl">({filteredMeals.length})</span>
         </span>
       </h2>
 
@@ -80,6 +65,7 @@ const AllMeals = () => {
       {/* Filters */}
       <div className="border border-gray-300 rounded-md bg-white p-5 flex gap-4 justify-between items-center my-6">
         <div className="w-full grid grid-cols-2 md:grid-cols-3 gap-5">
+          {/* Search Input */}
           <input
             type="text"
             placeholder="Search Meals"
@@ -88,6 +74,7 @@ const AllMeals = () => {
             className="p-2 shadow rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
           />
 
+          {/* Category Dropdown */}
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
@@ -99,6 +86,7 @@ const AllMeals = () => {
             <option>Dinner</option>
           </select>
 
+          {/* Price Slider */}
           <div className="border p-2 col-span-2 md:col-span-1 border-gray-300 shadow rounded flex items-center gap-3">
             <span className="text-sm">Price: Up to ${price}</span>
             <input
@@ -114,15 +102,15 @@ const AllMeals = () => {
       </div>
 
       {/* Meals Grid or No Results */}
-      {meals.length === 0 ? (
-        isSearching ? (
+      {filteredMeals.length === 0 ? (
+        search.trim() !== "" ? (
           <NoSearchResult searchText={search} />
         ) : (
           <NoQueryText />
         )
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 my-10">
-          {meals.map((meal) => (
+          {filteredMeals.map((meal) => (
             <MealCard key={meal._id} meal={meal} />
           ))}
         </div>

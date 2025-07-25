@@ -85,6 +85,13 @@ const MealDetail = () => {
         setMeal(refreshedMeal.data);
         setReviews(refreshedMeal.data.reviews || []);
 
+        Swal.fire({
+          title: "Review Submitted Successfully!",
+          text: "Thank you for your feedback.",
+          icon: "success",
+          confirmButtonText: "OK",
+        });
+
         // 3️⃣ Reset form
         setNewRating(0);
         setNewComment("");
@@ -211,31 +218,44 @@ const MealDetail = () => {
         return;
       }
 
-      // ✅ If all checks pass, send request
-      const res = await axiosInstance.post(`/meals/${meal._id}/request`, {
-        userId,
-        name: user?.displayName,
-        mealName: meal.title,
-        email: user?.email,
-        isSubscribed,
+      // ✅ Show confirmation alert first
+      const result = await Swal.fire({
+        title: "Are you sure?",
+        text: "Do you want to request this meal?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, request it!",
       });
 
-      console.log(`After Request successfull:`, res.data);
-
-      if (res.data.success) {
-        Swal.fire({
-          title: "Request Sent",
-          text: "Your meal request has been successfully submitted.",
-          icon: "success",
+      if (result.isConfirmed) {
+        // ✅ If user confirms, send the request
+        const res = await axiosInstance.post(`/meals/${meal._id}/request`, {
+          userId,
+          name: user?.displayName,
+          mealName: meal.title,
+          email: user?.email,
+          isSubscribed,
         });
 
-        setRequested(true);
-      } else {
-        Swal.fire({
-          title: "Request Failed",
-          text: res.data.message || "Something went wrong.",
-          icon: "error",
-        });
+        console.log(`After Request successful:`, res.data);
+
+        if (res.data.success) {
+          Swal.fire({
+            title: "Request Sent",
+            text: "Your meal request has been successfully submitted.",
+            icon: "success",
+          });
+
+          setRequested(true);
+        } else {
+          Swal.fire({
+            title: "Request Failed",
+            text: res.data.message || "Something went wrong.",
+            icon: "error",
+          });
+        }
       }
     } catch (err) {
       console.error("Error requesting meal:", err);
@@ -322,7 +342,7 @@ const MealDetail = () => {
               className={`cursor-pointer px-4 py-2 rounded border 
     ${
       requested
-        ? "bg-gray-300 text-gray-600 border-gray-400 cursor-not-allowed"
+        ? "bg-gray-300 text-gray-600 border-gray-400 disabled:cursor-not-allowed"
         : "bg-blue-100 text-blue-700 border-blue-300 hover:bg-blue-200"
     }`}
             >
