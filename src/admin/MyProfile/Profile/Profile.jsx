@@ -121,7 +121,11 @@ const Profile = () => {
               {role === "admin" && (
                 <span className="text-green-600 font-bold">(Admin)</span>
               )}{" "}
-              {/* {currentUser?.isSubscribed && <p>{currentUser?.plan}</p>} */}
+              {role !== "admin" && currentUser?.isSubscribed && (
+                <p className="inline-block bg-yellow-400 text-white text-sm font-semibold px-3 py-1 rounded-full shadow-md">
+                  {currentUser?.plan} Member
+                </p>
+              )}
             </h1>
           </div>
 

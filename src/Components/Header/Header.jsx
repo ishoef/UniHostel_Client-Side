@@ -5,12 +5,14 @@ import { TiThMenu } from "react-icons/ti";
 import { AuthContext } from "../../Context/AuthProvider";
 import Logo from "../Logo/Logo";
 import { LuLayoutDashboard } from "react-icons/lu";
+import useUserByEmail from "../../Hooks/useUserByEmail/useUserByEmail";
 
 const Header = () => {
   const { user, setUser, logOut } = use(AuthContext);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null); // use it on the main parent div of the
   const location = useLocation();
+  const { data: currentUser } = useUserByEmail(user?.email);
 
   const handleLogOut = () => {
     Swal.fire({
@@ -118,6 +120,11 @@ const Header = () => {
                   alt=""
                 />
               </div>
+            )}
+            {currentUser?.isSubscribed && (
+              <p className="inline-block bg-yellow-400 text-white text-sm font-semibold px-3 py-1 rounded-full shadow-md">
+                {currentUser?.plan}
+              </p>
             )}
 
             {/* login & Logout Button */}
