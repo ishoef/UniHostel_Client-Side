@@ -109,6 +109,8 @@ const Profile = () => {
 
   const { role } = useUserRole();
 
+  console.log(role);
+
   return (
     <>
       <div className="p-3 md:p-5 w-full h-full flex flex-col gap-6 justify-center items-center border border-gray-300 rounded-xl shadow">
