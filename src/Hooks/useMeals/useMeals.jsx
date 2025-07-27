@@ -7,6 +7,7 @@ const useMeals = (filters = {}, page = 1, limit = 10) => {
   const [loading, setLoading] = useState(true);
   const [totalPages, setTotalPages] = useState(1);
   const [error, setError] = useState(null);
+  const [totalMeals, setTotalMeals] = useState(0);
 
   useEffect(() => {
     const fetchMeals = async () => {
@@ -21,8 +22,9 @@ const useMeals = (filters = {}, page = 1, limit = 10) => {
         });
 
         setMeals(res.data.data || []);
-        const total = res.data.totalMeals || 0;
-        setTotalPages(Math.ceil(total / limit));
+        const totalMeals = res.data.totalMeals || 0;
+        setTotalPages(Math.ceil(totalMeals / limit));
+        setTotalMeals(totalMeals);
       } catch (err) {
         console.log("Error fetching Meals data", err);
         setError(err);
@@ -34,7 +36,7 @@ const useMeals = (filters = {}, page = 1, limit = 10) => {
     fetchMeals();
   }, [axiosSecure, filters, page, limit]); // ✅ filters is now memoized
 
-  return { meals, loading, setMeals, error, totalPages };
+  return { meals, loading, setMeals, error, totalPages, totalMeals };
 };
 
 export default useMeals;

@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
+  // baseURL: `https://hostel-management-server-eta.vercel.app`,
   baseURL: `http://localhost:5000`,
 });
 

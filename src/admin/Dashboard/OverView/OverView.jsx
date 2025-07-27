@@ -2,27 +2,41 @@ import React, { useEffect, useState } from "react";
 import State from "../State/State";
 import { LiaUsersSolid } from "react-icons/lia";
 import { FaLayerGroup } from "react-icons/fa";
-import axios from "axios";
 import useMeals from "../../../Hooks/useMeals/useMeals";
 import useUpcommingMeals from "../../../Hooks/useUpcommingMeals/useUpcommingMeals";
 import AllMeals from "../AllMeals/AllMeals";
 import UpcommingMeals from "../UpcommingMeals/UpcommingMeals";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const OverView = () => {
-  const [usersCount, setUsersCount] = useState([]);
+  const [usersCount, setUsersCount] = useState(0);
+  const [servedMealsCount, setServedMealsCount] = useState(0);
   const { meals } = useMeals();
   const { upcommingMeals } = useUpcommingMeals();
 
+  const axiosSecure = useAxiosSecure();
+
   // Users Data
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/users")
-      .then((res) => setUsersCount(res.data.length))
+    axiosSecure
+      .get("/users")
+      .then((res) => {
+        setUsersCount(res.data.users.length);
+        console.log(res.data.users.length);
+      })
       .catch((error) => {
         console.log("the error fetching the users", error);
         setUsersCount([]);
       });
-  }, []);
+  }, [axiosSecure]);
+
+  // Served Meals Data
+  useEffect(() => {
+    axiosSecure.get("/meal-requests").then((res) => {
+      console.log("Served Meals Count:", res.data.pagination.total);
+      setServedMealsCount(res.data.pagination.total);
+    });
+  }, [axiosSecure]);
 
   const stateInfo = [
     {
@@ -49,7 +63,7 @@ const OverView = () => {
     {
       icon: <FaLayerGroup />,
       title: "Served Meals",
-      count: `${usersCount || 0}`,
+      count: `${servedMealsCount || 0}`,
       parcent: "80% increase in 20 days",
     },
   ];

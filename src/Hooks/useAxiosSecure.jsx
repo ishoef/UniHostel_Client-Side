@@ -3,8 +3,8 @@ import React from "react";
 import { useNavigate } from "react-router";
 import useAuth from "./useAuth.jsx/useAuth";
 
-
 const axiosSecure = axios.create({
+  // baseURL: `https://hostel-management-server-eta.vercel.app`,
   baseURL: `http://localhost:5000`,
 });
 
@@ -14,7 +14,7 @@ const useAxiosSecure = () => {
 
   axiosSecure.interceptors.request.use(
     (config) => {
-      config.headers.Authorization = `Bearer ${user?.accessToken}`;
+      config.headers.authorization = `Bearer ${user?.accessToken}`;
       return config;
     },
     (error) => {

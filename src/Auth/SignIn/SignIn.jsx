@@ -119,7 +119,7 @@ const SignIn = () => {
         className="w-full border border-gray-300 rounded-md p-2 text-[#111827] focus:outline-none focus:ring-2 focus:ring-[#F97316] transition"
       />
       <select className="w-full border border-gray-300 rounded-md p-2 text-[#111827] focus:outline-none focus:ring-2 focus:ring-[#F97316] transition">
-        <option>Student</option>
+        <option>User</option>
 
         <option>Admin</option>
       </select>

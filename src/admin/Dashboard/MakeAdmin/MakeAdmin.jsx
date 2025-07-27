@@ -21,8 +21,8 @@ const MakeAdmin = () => {
       return res.data;
     },
   });
-    
-    console.log(emailQuery);
+
+  console.log(emailQuery);
 
   const { mutateAsync: updateRole } = useMutation({
     mutationFn: async ({ id, role }) =>
@@ -69,7 +69,11 @@ const MakeAdmin = () => {
           onChange={(e) => setEmailQuery(e.target.value)}
         />
       </div>
-      {users.length > 0 && <p className="mb-6 text-primary border-b text-2xl pb-2 w-fit">Total {users.length} Data Found</p>}
+      {users.length > 0 && (
+        <p className="mb-6 text-primary border-b text-2xl pb-2 w-fit">
+          Total {users.length} Data Found
+        </p>
+      )}
       {isFetching && <NormalLoader />}
 
       {!isFetching && users.length === 0 && emailQuery && (

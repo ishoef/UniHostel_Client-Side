@@ -9,11 +9,11 @@ const AllMeals = () => {
   const filters = useMemo(() => {
     return {}; // static or dynamic filters go here
   }, []);
-  const { meals, loading, setMeals, totalPages } = useMeals(filters, page, 10);
-
-  console.log("Meals:", meals);
-  console.log("Total Pages:", totalPages);
-  console.log("Loading:", loading);
+  const { meals, loading, setMeals, totalPages, totalMeals } = useMeals(
+    filters,
+    page,
+    10
+  );
 
   const className =
     "flex justify-center items-center min-h-screen md:min-h-[calc(100vh-300px)]";
@@ -38,6 +38,7 @@ const AllMeals = () => {
         setMeals={setMeals}
         buttonShow={true}
         meals={sortedMeals}
+        totalMeals={totalMeals}
       />
 
       <div className="flex justify-center mt-6 space-x-2">

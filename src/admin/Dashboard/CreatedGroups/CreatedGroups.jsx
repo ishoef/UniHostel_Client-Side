@@ -4,11 +4,13 @@ import GroupTableRow from "../../../Components/GroupTableRow/GroupTableRow";
 import Modal from "../../../Components/Modal/Modal";
 import AddMealForm from "../../../Components/AllForms/AddMeal/AddMeal";
 
-const CreatedGroups = ({ meals, setMeals, buttonShow }) => {
+const CreatedGroups = ({ meals, setMeals, buttonShow, totalMeals }) => {
   const [showModel, setShowModel] = useState();
   useEffect(() => {
     document.title = "My Groups | Hobby Shop";
   }, []);
+
+  console.log(meals);
 
   return (
     <div className="mx-auto">
@@ -16,7 +18,7 @@ const CreatedGroups = ({ meals, setMeals, buttonShow }) => {
         <h2 className="text-2xl sm:text-3xl font-extrabold my-5 text-gray-800">
           All{" "}
           <span className="bg-gradient-to-r from-orange-500 to-pink-500 text-transparent bg-clip-text">
-            Meals ({meals.length})
+            Meals ({totalMeals})
           </span>
         </h2>
         <button
