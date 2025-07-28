@@ -15,11 +15,15 @@ const AllMeals = () => {
   const filters = useMemo(() => ({}), []);
 
   // ✅ Prevent re-fetching by keeping object reference stable
-  const { meals, loading } = useMeals(filters, 1, 10); // Fetch all meals
+  const { meals, loading, totalMeals } = useMeals(filters, 1, 10); // Fetch all meals
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  useEffect(() => {
+    document.title = "Meals | UniHostel";
+  });
 
   useEffect(() => {
     let filtered = meals;
@@ -52,7 +56,7 @@ const AllMeals = () => {
       <h2 className="text-center text-3xl sm:text-4xl lg:text-5xl font-bold my-4">
         All{" "}
         <span className="bg-gradient-to-r from-orange-500 to-pink-500 text-transparent bg-clip-text">
-          Meals <span className="text-xl">({filteredMeals.length})</span>
+          Meals <span className="text-xl">({totalMeals})</span>
         </span>
       </h2>
 

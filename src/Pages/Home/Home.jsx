@@ -9,17 +9,20 @@ import MealsByCategory from "./MealsByCategory/MealsByCategory";
 import useMeals from "../../Hooks/useMeals/useMeals";
 
 const Home = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   useEffect(() => {
-      window.scrollTo(0, 0);
-    }, [])
+    document.title = "Home | UniHostel";
+  });
 
   const { meals } = useMeals();
   console.log(meals);
   return (
     <div>
       <Hero />
-      <MealsByCategory/>
+      <MealsByCategory />
       <OurImpact />
       <HowItWorks />
       <WhyChooseUs />

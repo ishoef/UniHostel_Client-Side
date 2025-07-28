@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { NavLink, Outlet } from "react-router";
 import { LuUserRound } from "react-icons/lu";
 import { VscLayersActive } from "react-icons/vsc";
@@ -6,10 +6,6 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { MdOutlinePrivacyTip } from "react-icons/md";
 
 const MyProfile = () => {
-  useEffect(() => {
-    document.title = "My Profile | RecSyS";
-  }, []);
-
   const navItems = [
     { name: "Profile", link: "profile", icon: <LuUserRound /> },
     {

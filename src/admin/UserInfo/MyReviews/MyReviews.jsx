@@ -38,7 +38,6 @@ const MyReviews = () => {
       }
     };
 
-
     fetchMyReviews();
   }, [user?.email, axiosSecure, currentPage, limit]);
 
@@ -109,8 +108,12 @@ const MyReviews = () => {
 
   return (
     <div className="p-5">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800">My Reviews</h2>
-
+      <h2 className=" text-3xl sm:text-3xl lg:text-4xl font-bold mb-4">
+        My{" "}
+        <span className="bg-gradient-to-r from-orange-500 to-pink-500 text-transparent bg-clip-text">
+          Reviews <span className="text-xl">({reviews.length})</span>
+        </span>
+      </h2>
       <div className="overflow-x-auto rounded shadow ring-1 ring-gray-200">
         <table className="min-w-full text-sm text-gray-800">
           <thead className="bg-orange-100 text-gray-700 text-left">
@@ -187,7 +190,6 @@ const MyReviews = () => {
           </tbody>
         </table>
       </div>
-
       <div className="flex justify-center gap-2 mt-4">
         {Array.from({ length: totalPages }, (_, idx) => (
           <button
@@ -203,7 +205,6 @@ const MyReviews = () => {
           </button>
         ))}
       </div>
-
       {showModal && (
         <Modal showModal={showModal} setShowModal={setShowModal}>
           <div className="mb-6">

@@ -8,7 +8,14 @@ import useAuth from "../../Hooks/useAuth.jsx/useAuth";
 
 const MealDetail = () => {
   const { id } = useParams();
-  console.log(id);
+
+  useEffect(() => {
+    document.title = "Meal Details | UniHostel";
+  });
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const [reviews, setReviews] = useState([]);
   const [newRating, setNewRating] = useState(0);
@@ -279,7 +286,7 @@ const MealDetail = () => {
 
   if (loading) {
     return (
-      <div className="text-center py-20 text-gray-500 text-xl">
+      <div className="text-center flex justify-center items-center h-[calc(100vh-200px)] text-gray-500 text-xl">
         Loading meal details...
       </div>
     );

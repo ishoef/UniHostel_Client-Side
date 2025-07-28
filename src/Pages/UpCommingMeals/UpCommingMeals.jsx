@@ -21,6 +21,10 @@ const UpcomingMeals = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  useEffect(() => {
+    document.title = "UpCommingMeals | UniHostel";
+  });
+
   // Clear filters handler
   const clearFilters = () => {
     setSelectedDate(null);

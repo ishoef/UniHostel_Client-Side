@@ -74,7 +74,12 @@ const MyRequestedMeals = () => {
 
   return (
     <div className="p-6">
-      <h2 className="text-xl font-semibold mb-4">My Requested Meals</h2>
+      <h2 className=" text-3xl sm:text-3xl lg:text-4xl font-bold mb-4">
+        My{" "}
+        <span className="bg-gradient-to-r from-orange-500 to-pink-500 text-transparent bg-clip-text">
+          Requested Meals <span className="text-xl">({requests.length})</span>
+        </span>
+      </h2>
       <table className="w-full border-collapse border text-center">
         <thead className="bg-gray-200">
           <tr>

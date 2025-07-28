@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router";
 
 const plans = [
@@ -46,6 +46,10 @@ const plans = [
 ];
 
 export default function Subscription() {
+  useEffect(() => {
+    document.title = "Subscription | UniHostel";
+  });
+
   return (
     <div
       id="pricing"

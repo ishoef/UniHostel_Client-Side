@@ -5,7 +5,6 @@ import useAuth from "./useAuth.jsx/useAuth";
 
 const axiosSecure = axios.create({
   baseURL: `https://hostel-management-black.vercel.app`,
-  // baseURL: `http://localhost:5000`,
 });
 
 const useAxiosSecure = () => {
