@@ -104,7 +104,14 @@ export const router = createBrowserRouter([
     ),
     children: [
       // { index: true, element: <OverView /> },
-      { path: "overview", element: <OverView /> },
+      {
+        path: "overview",
+        element: (
+          <AdminRoute>
+            <OverView />
+          </AdminRoute>
+        ),
+      },
       {
         path: "users",
         element: (

@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import SideBar from "./SideBar/SideBar";
 import DashBoardContent from "./DashBoardContent/DashBoardContent";
 import useAuth from "../../Hooks/useAuth.jsx/useAuth";
+import useUserRole from "../../Hooks/UseUserRole/UseUserRole";
+import { useLocation, useNavigate } from "react-router";
 
 const Dashboard = () => {
   // Set the document title
@@ -9,9 +11,32 @@ const Dashboard = () => {
     document.title = "Dashboard | Hobby Shop";
   }, []);
 
-  const { user } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  console.log(user);
+  const { user } = useAuth();
+  const { role, roleLoading } = useUserRole();
+
+
+  // Redirect to the appropriate dashboard section based on user role
+  // if the user is admin redirect to overview, otherwise to profile
+  // this effect runs only once when the component runs 
+  useEffect(() => {
+    if (!user || roleLoading) {
+      return;
+    }
+
+    
+    if (!roleLoading && location.pathname === "/admin_dashboard") {
+      if (role === "admin") {
+        navigate("overview", { replace: true });
+      } else {
+        navigate("dash_profile", { replace: true });
+      }
+    }
+  }, [user, roleLoading, location, role, navigate]);
+
+  console.log(user, role, roleLoading);
 
   return (
     <>
