@@ -17,16 +17,19 @@ const Dashboard = () => {
   const { user } = useAuth();
   const { role, roleLoading } = useUserRole();
 
-
   // Redirect to the appropriate dashboard section based on user role
   // if the user is admin redirect to overview, otherwise to profile
-  // this effect runs only once when the component runs 
+  // this effect runs only once when the component runs
   useEffect(() => {
     if (!user || roleLoading) {
       return;
     }
 
-    
+    if (!role) {
+      navigate("dash_profile", { replace: true });
+      return;
+    }
+
     if (!roleLoading && location.pathname === "/admin_dashboard") {
       if (role === "admin") {
         navigate("overview", { replace: true });

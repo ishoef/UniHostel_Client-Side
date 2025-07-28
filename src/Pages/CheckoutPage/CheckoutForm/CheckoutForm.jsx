@@ -16,7 +16,7 @@ const CheckoutForm = ({ plan }) => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  })
+  });
 
   console.log(user);
   const price = plan.price;
@@ -55,7 +55,7 @@ const CheckoutForm = ({ plan }) => {
     try {
       // Send paymentMethod + plan + user info to backend
       const res = await axios.post(
-        `http://localhost:5000/create-payment-intent`,
+        `https://hostel-management-black.vercel.app/create-payment-intent`,
         {
           userID: user?.uid,
           userName: user?.displayName,
@@ -102,9 +102,8 @@ const CheckoutForm = ({ plan }) => {
             text: "Payment successful!",
             icon: "success",
             timer: 3000, // 3 seconds
-            showConfirmButton: true, 
+            showConfirmButton: true,
           });
-
         } catch (updateError) {
           console.error("User update failed:", updateError);
           Swal.fire(

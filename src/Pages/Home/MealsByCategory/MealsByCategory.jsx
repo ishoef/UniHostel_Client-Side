@@ -18,6 +18,17 @@ export default function MealsByCategory() {
       ? sixMeals
       : sixMeals.filter((meal) => meal.category === activeCategory);
 
+  if (filteredMeals.length === 0) {
+    return (
+      <div className="text-center py-10">
+        <h2 className="text-2xl font-bold mb-4">No Meals Found</h2>
+        <p className="text-gray-500">
+          Please check back later or explore other categories.
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="py-12 px-4 max-w-7xl mx-auto">
       <h2 className="text-3xl sm:text-4xl font-extrabold text-center mb-3 text-gray-800">

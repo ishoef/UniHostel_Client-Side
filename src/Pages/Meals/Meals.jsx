@@ -15,7 +15,7 @@ const AllMeals = () => {
   const filters = useMemo(() => ({}), []);
 
   // ✅ Prevent re-fetching by keeping object reference stable
-  const { meals, loading } = useMeals(filters, 1, 1000); // Fetch all meals
+  const { meals, loading } = useMeals(filters, 1, 10); // Fetch all meals
 
   useEffect(() => {
     window.scrollTo(0, 0);
