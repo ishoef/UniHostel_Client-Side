@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import NormalLoader from "../../../Components/Loader copy/NormalLoader";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
-import useAuth from "../../../hooks/useAuth.jsx/useAuth";
+import useAuth from "../../../Hooks/useAuth.jsx/useAuth";
+import Swal from "sweetalert2";
 
 const MyRequestedMeals = () => {
   const axiosSecure = useAxiosSecure();
@@ -14,12 +15,12 @@ const MyRequestedMeals = () => {
     if (!user?.email) return;
 
     const fetchRequests = async () => {
+      setLoading(true);
       try {
-        const res = await axiosSecure.get("/meal-requests");
-        const myRequests = res.data.data.filter(
-          (req) => req.email === user.email
-        );
-        setRequests(myRequests);
+        const res = await axiosSecure.get("/user-meal-requests", {
+          params: { email: user.email },
+        });
+        setRequests(res.data.data);
       } catch (err) {
         console.error("Failed to fetch meal requests:", err);
         setError("Failed to load meal requests.");
@@ -34,24 +35,43 @@ const MyRequestedMeals = () => {
   console.log(requests);
 
   const handleCancel = async (id) => {
-    try {
-      await axiosSecure.patch(`/meal-requests/${id}`, {
-        status: "cancelled",
-      });
+    const confirmResult = await Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to cancel this request?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, cancel it!",
+    });
 
-      // Remove cancelled request from table
-      setRequests((prev) => prev.filter((req) => req._id !== id));
+    if (confirmResult.isConfirmed) {
+      try {
+        await axiosSecure.patch(`/meal-requests/${id}`, {
+          status: "cancelled",
+        });
 
-      // ✅ Optionally: trigger button enable on details page (set flag in localStorage or Context)
-      // localStorage.setItem(`mealRequestCancelled-${mealId}`, true);
-    } catch (err) {
-      console.error("Failed to cancel request:", err);
+        // ✅ Update the status in state
+        setRequests((prev) =>
+          prev.map((req) =>
+            req._id === id ? { ...req, status: "cancelled" } : req
+          )
+        );
+
+        // ✅ Show success alert
+        Swal.fire("Cancelled!", "Your request has been cancelled.", "success");
+      } catch (err) {
+        console.error("Failed to cancel request:", err);
+        Swal.fire("Error", "Failed to cancel the request.", "error");
+      }
     }
   };
 
+  console.log(requests);
+
   if (loading) return <NormalLoader />;
   if (error) return <p className="text-red-500">{error}</p>;
-    
+
   return (
     <div className="p-6">
       <h2 className="text-xl font-semibold mb-4">My Requested Meals</h2>

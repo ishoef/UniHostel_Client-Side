@@ -1,14 +1,17 @@
 import React from "react";
 import SideBar from "./SideBar/SideBar";
 import DashBoardContent from "./DashBoardContent/DashBoardContent";
+import useAuth from "../../Hooks/useAuth.jsx/useAuth";
 
 const Dashboard = () => {
   // Set the document title
   React.useEffect(() => {
-    document.title = "Admin Dashboard | Hobby Shop";
+    document.title = "Dashboard | Hobby Shop";
   }, []);
 
-  
+  const { user } = useAuth();
+
+  console.log(user);
 
   return (
     <>

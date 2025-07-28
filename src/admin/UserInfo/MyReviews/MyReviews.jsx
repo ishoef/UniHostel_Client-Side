@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import useAuth from "../../../hooks/useAuth.jsx/useAuth";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Modal from "../../../Components/Modal/Modal";
+import useAuth from "../../../Hooks/useAuth.jsx/useAuth";
 
 const MyReviews = () => {
   const axiosSecure = useAxiosSecure();
@@ -27,7 +27,7 @@ const MyReviews = () => {
     const fetchMyReviews = async () => {
       try {
         const res = await axiosSecure.get(
-          `/user/my-reviews/${user.email}?page=${currentPage}&limit=${limit}`
+          `/user/my-reviews/${user?.email}?page=${currentPage}&limit=${limit}`
         );
         setReviews(res.data.reviews);
         setTotalPages(res.data.totalPages);

@@ -4,6 +4,7 @@ import NormalLoader from "../../../Components/Loader copy/NormalLoader";
 
 const ServeMeals = () => {
   const [requests, setRequests] = useState([]);
+  const [requestsCount, setRequestsCount] = useState(0);
   const axiosSecure = useAxiosSecure();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -20,6 +21,7 @@ const ServeMeals = () => {
         );
         setRequests(res.data.data);
         setTotalPages(res.data.pagination.totalPages);
+        setRequestsCount(res.data.pagination.total);
       } catch (err) {
         console.error("Failed to fetch requests:", err);
         setError("Failed to load meal requests");
@@ -46,6 +48,14 @@ const ServeMeals = () => {
       });
   };
 
+  console.log(requests);
+
+  const request = requests.sort(
+    (a, b) => new Date(b.requestTime) - new Date(a.requestTime)
+  );
+
+  console.log(request);
+
   const formatDate = (dateString) =>
     dateString ? new Date(dateString).toLocaleString() : "N/A";
 
@@ -55,13 +65,14 @@ const ServeMeals = () => {
   return (
     <div className="p-6 max-w-7xl mx-auto">
       <h2 className="text-2xl md:text-3xl font-bold mb-6 text-orange-500">
-        Meal Serve Requests
+        Meal Serve Requests <span>({requestsCount})</span>
       </h2>
 
       <div className="overflow-x-auto shadow-lg rounded-xl bg-white">
         <table className="min-w-full text-sm text-left">
           <thead className="bg-gray-100 text-gray-600 uppercase tracking-wider">
             <tr>
+              <th className="px-6 py-3">#</th>
               <th className="px-6 py-3">Title</th>
               <th className="px-6 py-3">Email</th>
               <th className="px-6 py-3">Name</th>
@@ -82,11 +93,12 @@ const ServeMeals = () => {
                 </td>
               </tr>
             ) : (
-              requests.map((req) => (
+              request.map((req, ind) => (
                 <tr
                   key={req._id}
                   className="hover:bg-orange-50 transition-all duration-200"
                 >
+                  <td className="px-6 py-4 font-medium">{ind + 1 || "N/A"}</td>
                   <td className="px-6 py-4 font-medium">
                     {req.mealName || "N/A"}
                   </td>
@@ -111,14 +123,14 @@ const ServeMeals = () => {
                     <button
                       onClick={() => updateStatus(req._id, "delivered")}
                       disabled={req.status !== "pending"}
-                      className="bg-orange-500 hover:bg-orange-600 text-white px-3 py-1 rounded-md text-sm disabled:opacity-50"
+                      className="cursor-pointer disabled:cursor-not-allowed bg-orange-500 hover:bg-orange-600 text-white px-3 py-1 rounded-md text-sm disabled:opacity-50"
                     >
                       Serve
                     </button>
                     <button
                       onClick={() => updateStatus(req._id, "cancelled")}
                       disabled={req.status !== "pending"}
-                      className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md text-sm disabled:opacity-50"
+                      className="cursor-pointer disabled:cursor-not-allowed bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md text-sm disabled:opacity-50"
                     >
                       Cancel
                     </button>

@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 // import useMeals from "../../Hooks/useMeals/useMeals";
 import useAxios from "../../Hooks/useAxios";
 import { useParams } from "react-router";
-import useAuth from "../../hooks/useAuth.jsx/useAuth";
 import Swal from "sweetalert2";
 import useUserByEmail from "../../Hooks/useUserByEmail/useUserByEmail";
+import useAuth from "../../Hooks/useAuth.jsx/useAuth";
 
 const MealDetail = () => {
   const { id } = useParams();
@@ -203,7 +203,7 @@ const MealDetail = () => {
 
       // 📛 Check subscription
       if (!isSubscribed) {
-        Swal.fire({
+        await Swal.fire({
           title: "Subscription Required",
           text: "You need to subscribe to Silver, Gold, or Platinum to request a meal.",
           icon: "warning",

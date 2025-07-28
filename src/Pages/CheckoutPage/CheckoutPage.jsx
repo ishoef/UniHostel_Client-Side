@@ -170,7 +170,7 @@ const CheckoutPage = () => {
             whileTap={{ scale: 0.95 }}
             whileHover={{ scale: 1.02 }}
             onClick={handlePayment}
-            className="mt-6 w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 rounded-xl transition duration-300 shadow"
+            className="cursor-pointer mt-6 w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 rounded-xl transition duration-300 shadow"
           >
             Confirm and Pay
           </motion.button>
