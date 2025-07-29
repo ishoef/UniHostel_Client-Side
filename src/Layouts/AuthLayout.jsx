@@ -19,7 +19,6 @@ export default function AuthPage() {
   const location = useLocation();
   const axiosInstance = useAxios();
 
-  console.log(location);
   // Google Login
   const provider = new GoogleAuthProvider();
 
@@ -27,7 +26,6 @@ export default function AuthPage() {
     signInWithPopup(auth, provider)
       .then((result) => {
         const user = result.user;
-        console.log(user.email);
 
         // user info in the database
         const userInfo = {

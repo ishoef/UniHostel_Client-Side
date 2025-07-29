@@ -32,7 +32,6 @@ const MyRequestedMeals = () => {
     fetchRequests();
   }, [axiosSecure, user?.email]);
 
-  console.log(requests);
 
   const handleCancel = async (id) => {
     const confirmResult = await Swal.fire({
@@ -67,7 +66,6 @@ const MyRequestedMeals = () => {
     }
   };
 
-  console.log(requests);
 
   if (loading) return <NormalLoader />;
   if (error) return <p className="text-red-500">{error}</p>;

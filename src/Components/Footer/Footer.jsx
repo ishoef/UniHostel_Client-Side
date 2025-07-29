@@ -46,7 +46,7 @@ export default function Footer() {
               </a>
             </li>
             <li>
-              <a href="#" className="hover:underline">
+              <a href="/auth" className="hover:underline">
                 Join Us
               </a>
             </li>
@@ -111,7 +111,10 @@ export default function Footer() {
         <p>
           Developed by{" "}
           <span className="text-primary underline cursor-pointer">
-            <a href="https://portfolio-rose-two-uimck3sec9.vercel.app/" target="_blank">
+            <a
+              href="https://portfolio-rose-two-uimck3sec9.vercel.app/"
+              target="_blank"
+            >
               Ismail Nayef
             </a>
           </span>

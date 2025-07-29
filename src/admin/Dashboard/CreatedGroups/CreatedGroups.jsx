@@ -10,8 +10,6 @@ const CreatedGroups = ({ meals, setMeals, buttonShow, totalMeals }) => {
     document.title = "My Groups | Hobby Shop";
   }, []);
 
-  console.log(meals);
-
   return (
     <div className="mx-auto">
       <div className="flex items-center justify-between ">

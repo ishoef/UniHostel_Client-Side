@@ -7,6 +7,7 @@ import { RxCross2 } from "react-icons/rx";
 import ProfilePhoto from "../../../Components/ProfilePhoto/ProfilePhoto";
 import useUserRole from "../../../Hooks/UseUserRole/UseUserRole";
 import useUserByEmail from "../../../Hooks/useUserByEmail/useUserByEmail";
+import Swal from "sweetalert2";
 
 const Profile = () => {
   const { user, updateUser, setUser } = use(AuthContext);
@@ -17,8 +18,6 @@ const Profile = () => {
   const [bio, setBio] = useState(user?.bio || "");
 
   const { data: currentUser } = useUserByEmail(user?.email);
-  console.log(currentUser);
-  console.log(currentUser?.plan);
 
   const date = new Date(user.metadata.creationTime);
   const formatted = date.toLocaleDateString("en-US", {
@@ -102,14 +101,16 @@ const Profile = () => {
       alert("Profile Updated successfully");
       setIsEditing(false);
     } catch (error) {
-      alert("Failed to update profile" + error.message);
       console.log(error.message);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Failed to update profile. Please try again Later.",
+      });
     }
   };
 
   const { role } = useUserRole();
-
-  console.log(role);
 
   return (
     <>

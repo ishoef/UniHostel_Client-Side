@@ -106,9 +106,7 @@ const Register = () => {
     setShowError(null);
 
     signInWithPopup(auth, provider)
-      .then((result) => {
-        console.log(result);
-        console.log(result.user.displayName);
+      .then(() => {
         navigate(`${location.state ? location.state : "/"}`);
         Swal.fire({
           title: "Congratulations! Welcome to Our World",

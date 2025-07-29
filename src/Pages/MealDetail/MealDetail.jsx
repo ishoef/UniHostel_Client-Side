@@ -26,10 +26,8 @@ const MealDetail = () => {
   const { user } = useAuth();
   const userId = user?.uid;
 
-  console.log(requested);
 
   const { data: currentUser } = useUserByEmail(user?.email);
-  console.log(currentUser);
 
   const [likes, setLikes] = useState([]);
   const [liked, setLiked] = useState(false);
@@ -41,7 +39,6 @@ const MealDetail = () => {
   const axiosInstance = useAxios();
   const isSubscribed = currentUser?.isSubscribed === true;
 
-  console.log(meal);
 
   // Handle Review Submission
   const submitReview = async () => {
@@ -85,7 +82,7 @@ const MealDetail = () => {
         mealName: meal.title,
         likes: meal.likes,
       });
-      console.log(meal);
+
       if (response.data.success) {
         // 2️⃣ Re-fetch meal data to get updated reviews and rating
         const refreshedMeal = await axiosInstance.get(`/meals/${meal._id}`);
@@ -206,7 +203,6 @@ const MealDetail = () => {
     try {
       // 🔄 Fetch user data
       const isSubscribed = currentUser?.isSubscribed === true;
-      console.log(isSubscribed);
 
       // 📛 Check subscription
       if (!isSubscribed) {
@@ -245,8 +241,6 @@ const MealDetail = () => {
           email: user?.email,
           isSubscribed,
         });
-
-        console.log(`After Request successful:`, res.data);
 
         if (res.data.success) {
           Swal.fire({
@@ -292,7 +286,6 @@ const MealDetail = () => {
     );
   }
 
-  console.log(reviews);
 
   return (
     <div className="max-w-5xl mx-auto py-12 px-4">

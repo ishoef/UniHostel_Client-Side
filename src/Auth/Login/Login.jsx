@@ -61,7 +61,6 @@ const Login = () => {
 
     signInWithPopup(auth, provider)
       .then((result) => {
-        console.log(result);
         console.log(result.user.displayName);
         navigate(`${location.state ? location.state : "/"}`);
         Swal.fire({

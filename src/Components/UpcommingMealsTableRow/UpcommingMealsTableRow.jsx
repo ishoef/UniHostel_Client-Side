@@ -20,7 +20,6 @@ const UpcommingMealsTableRow = ({
 
   // Handle Delete
   const handleDelete = () => {
-    console.log(`Deleting upcommingMeal with ID: ${upcommingMeal._id}`);
     Swal.fire({
       title: "Are you sure?",
       text: "You want to delete this upcommingMeal!",
@@ -34,13 +33,12 @@ const UpcommingMealsTableRow = ({
         axiosSecure
           .delete(`/upcomming-meals/${upcommingMeal._id}`)
           .then((res) => {
-            console.log("delete response:", res.data);
             if (res.data.deletedCount > 0) {
               Swal.fire("Deleted!", "The meal has been deleted.", "success");
               const updatedMeals = upcommingMeals.filter(
                 (item) => item._id !== upcommingMeal._id
               );
-              console.log(updatedMeals);
+
               setUpcommingMeals(updatedMeals);
             } else {
               Swal.fire("Error!", "Failed to delete the meal.", "error");
@@ -55,8 +53,6 @@ const UpcommingMealsTableRow = ({
   };
 
   const handlePublish = async (id) => {
-    console.log(`Publish upcoming meal with ID: ${id}`);
-
     const result = await Swal.fire({
       title: "Are you sure?",
       text: "You want to publish this upcoming meal?",

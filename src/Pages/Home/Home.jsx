@@ -6,7 +6,6 @@ import WhyChooseUs from "./WhyChooseUs/WhyChooseUs";
 import MembershipPlans from "./MembershipPlans/MembershipPlans";
 import Hero from "./Hero/Hero";
 import MealsByCategory from "./MealsByCategory/MealsByCategory";
-import useMeals from "../../Hooks/useMeals/useMeals";
 
 const Home = () => {
   useEffect(() => {
@@ -17,8 +16,6 @@ const Home = () => {
     document.title = "Home | UniHostel";
   });
 
-  const { meals } = useMeals();
-  console.log(meals);
   return (
     <div>
       <Hero />

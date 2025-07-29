@@ -27,8 +27,6 @@ const AllReviewsTable = () => {
     fetchReviews();
   }, [axiosSecure, currentPage]);
 
-  console.log(reviews);
-
   const handleDeleteReview = async (
     mealId,
     index,

@@ -12,13 +12,11 @@ const CheckoutForm = ({ plan }) => {
   const { user } = useAuth();
   const [error, setError] = useState(null);
   const axiosSecure = useAxiosSecure();
-  console.log(plan);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   });
 
-  console.log(user);
   const price = plan.price;
   const priceInCents = Math.round(price * 100); //Convert to cents for stripe
 

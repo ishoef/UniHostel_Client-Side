@@ -9,7 +9,7 @@ const AllGroupssTable = () => {
   // const [loading, setLoading] = useState(true);
 
   const { meals, loading, setMeals } = useMeals();
-  console.log(meals);
+  
   const className =
     "flex justify-center items-center min-h-screen md:min-h-[calc(100vh-300px)]";
   // // Set the document title

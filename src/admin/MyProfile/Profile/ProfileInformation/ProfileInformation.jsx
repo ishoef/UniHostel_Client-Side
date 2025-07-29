@@ -11,7 +11,6 @@ const ProfileInformation = ({
 }) => {
   const { user } = useAuth();
   const { data: currentUser } = useUserByEmail(user?.email);
-  console.log(currentUser);
   console.log(currentUser?.plan);
   
   return (

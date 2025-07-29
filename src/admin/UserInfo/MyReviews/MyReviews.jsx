@@ -20,7 +20,6 @@ const MyReviews = () => {
   const [limit] = useState(10); // you can make it selectable if needed
   const [totalPages, setTotalPages] = useState(1);
 
-  console.log(user);
   useEffect(() => {
     if (!user?.email) return;
 
@@ -40,8 +39,6 @@ const MyReviews = () => {
 
     fetchMyReviews();
   }, [user?.email, axiosSecure, currentPage, limit]);
-
-  console.log(reviews);
 
   const handleDelete = async (mealId, index) => {
     const confirm = await Swal.fire({

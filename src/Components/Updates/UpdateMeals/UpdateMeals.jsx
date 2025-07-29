@@ -72,7 +72,6 @@ const UpdateMeals = ({ setShowModal, setMeals, meal }) => {
           confirmButtonColor: "#22c55e",
         });
 
-        console.log(response);
         reset();
 
         // update local meals list

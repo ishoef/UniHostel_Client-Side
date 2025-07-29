@@ -22,7 +22,6 @@ const OverView = () => {
       .get("/users")
       .then((res) => {
         setUsersCount(res.data.users.length);
-        console.log(res.data.users.length);
       })
       .catch((error) => {
         console.log("the error fetching the users", error);
@@ -33,7 +32,6 @@ const OverView = () => {
   // Served Meals Data
   useEffect(() => {
     axiosSecure.get("/meal-requests").then((res) => {
-      console.log("Served Meals Count:", res.data.pagination.total);
       setServedMealsCount(res.data.pagination.total);
     });
   }, [axiosSecure]);

@@ -1,6 +1,7 @@
 import { FaUtensils, FaPlay, FaUsers } from "react-icons/fa";
 import { FiSearch } from "react-icons/fi";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { Link } from "react-router";
 
 export default function Hero() {
   return (
@@ -12,7 +13,7 @@ export default function Hero() {
             🌍 World Flavors
           </span>
           <h1 className="text-5xl font-extrabold text-gray-900 leading-tight">
-            Global Cuisine <br /> Collection
+            Global Cuisine <br /> Collections
           </h1>
           <p className="text-lg text-gray-600 mt-4">
             Taste the World from Your Campus
@@ -40,10 +41,13 @@ export default function Hero() {
 
           {/* Buttons */}
           <div className="flex gap-4 mt-6">
-            <button className="bg-gradient-to-r from-orange-500 to-pink-500 text-white px-6 py-3 rounded-full text-sm font-semibold inline-flex items-center gap-2 shadow hover:scale-105 transition">
+            <Link
+              to="/meals"
+              className="bg-gradient-to-r from-orange-500 to-pink-500 text-white px-6 py-3 rounded-full text-sm font-semibold inline-flex items-center gap-2 shadow hover:scale-105 transition"
+            >
               <FaUtensils /> Explore Meals
-            </button>
-            <button className="border border-gray-300 px-6 py-3 rounded-full text-sm font-medium inline-flex items-center gap-2 shadow hover:bg-gray-100 transition">
+            </Link>
+            <button className="cursor-pointer border border-gray-300 px-6 py-3 rounded-full text-sm font-medium inline-flex items-center gap-2 shadow hover:bg-gray-100 transition">
               <FaPlay /> Watch Story
             </button>
           </div>

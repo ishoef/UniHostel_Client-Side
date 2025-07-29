@@ -19,9 +19,6 @@ const SignUp = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("i am clicked");
-
-    console.log("before create user", e.target.firstName.value);
 
     // Retrieve form field values
     const firstName = e.target.firstName.value;
@@ -31,8 +28,6 @@ const SignUp = () => {
     const tel = e.target.tel.value;
     const password = e.target.password.value;
     const agreed = e.target.agreed.checked;
-
-    console.log(name);
 
     console.log(firstName, lastName, email, tel, password, agreed);
 
@@ -69,7 +64,6 @@ const SignUp = () => {
     // Call createUser from AuthContext
     createUser(email, password)
       .then(async (result) => {
-        console.log("after create user", result);
         const user = result.user;
         setUser(user); // Set the current user in context
         navigate(from); // Redirect to home page
@@ -78,7 +72,7 @@ const SignUp = () => {
         const userInfo = {
           name: name,
           email: email,
-          role: "user", // default role
+          role: "user", 
           created_at: new Date().toISOString(),
           last_login: new Date().toISOString(),
         };

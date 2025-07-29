@@ -83,7 +83,6 @@ const UpdateUpcommingMeals = ({
           confirmButtonColor: "#22c55e",
         });
 
-        console.log(response);
         reset();
 
         // update local meals list

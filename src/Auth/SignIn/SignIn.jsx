@@ -7,9 +7,10 @@ import { sendPasswordResetEmail } from "firebase/auth";
 import useAxios from "../../Hooks/useAxios";
 
 const SignIn = () => {
-  const { logIn, auth, setUser } = use(AuthContext);
+  const { logIn, auth, setUser, loading, setLoading } = use(AuthContext);
   const emailRef = useRef();
   const [error, setError] = useState(null);
+  const [selectedRole, setSelectedRole] = useState("user");
 
   const axiosInstance = useAxios();
   useEffect(() => {
@@ -19,7 +20,6 @@ const SignIn = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Manual Login
   const handleLogin = (e) => {
     e.preventDefault();
 
@@ -29,27 +29,95 @@ const SignIn = () => {
 
     logIn(email, password)
       .then(async (result) => {
-        const user = result.user;
+        setLoading(true);
+        const isLogginUser = result.user;
 
-        setUser(user);
-        navigate(`${location.state ? location.state : "/"}`);
+        setUser(isLogginUser);
 
-        // user info in the database
-        const userInfo = {
-          email: email,
-          role: "user", // default role
-          created_at: new Date().toISOString(),
-          last_login: new Date().toISOString(),
-        };
+        const res = await axiosInstance.get(`/user/${email}`);
+        console.log("User data from the database:", res.data);
+        const dbUser = res.data;
 
-        // Send User Data to the back-end
-        const userRes = await axiosInstance.post("/users", userInfo);
-        console.log(userRes.data);
-        Swal.fire({
-          title: "Congratulations! Welcome to Our World",
-          icon: "success",
-          draggable: true,
-        });
+        if (!dbUser) {
+          Swal.fire({
+            title: "User not Found",
+            text: "Please Sign Up First",
+            icon: "error",
+            confirmButtonText: "Sign Up",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              navigate("/signup/auth/register");
+            }
+          });
+          setError("User not found in the database.");
+          setLoading(false);
+
+          return;
+        }
+
+        // check user role
+        if (!dbUser.role) {
+          Swal.fire({
+            title: "Role not assigned",
+            text: "Please contact the admin to assign a role.",
+            icon: "error",
+            confirmButtonText: "OK",
+          });
+
+          setLoading(false);
+          return;
+        }
+
+        if (dbUser.role !== selectedRole.toLowerCase()) {
+          Swal.fire({
+            title: "Role Mismatch",
+            text: `You are trying to log in as a ${selectedRole}, but your assigned role is ${dbUser?.role} `,
+            icon: "error",
+            confirmButtonText: "OK",
+          });
+          setLoading(false);
+
+          return;
+        }
+
+        // Redirect based on user role
+        if (dbUser.role === "admin") {
+          navigate("/admin_dashboard");
+          Swal.fire({
+            title: `Welcome back My Dear ${dbUser.role}!`,
+            icon: "success",
+            draggable: true,
+          });
+        } else if (dbUser.role === "user") {
+          navigate(`${location.state ? location.state : "/"}`);
+          Swal.fire({
+            title: `Welcome back My Dear ${dbUser.role}!`,
+            icon: "success",
+            draggable: true,
+          });
+        } else {
+          Swal.fire({
+            title: "Unknown Role",
+            text: "Your role is not recognized. Please contact support.",
+            icon: "error",
+            confirmButtonText: "OK",
+          });
+          setLoading(false);
+          return;
+        }
+
+        if (!dbUser) {
+          // user not in DB, create
+          const userInfo = {
+            email: email,
+            role: selectedRole.toLowerCase(),
+            last_login: new Date().toISOString(),
+          };
+
+          const userRes = await axiosInstance.post("/users", userInfo);
+          console.log(userRes.data);
+        }
+        setLoading(false);
       })
       .catch((error) => {
         const errorMessages = {
@@ -62,6 +130,7 @@ const SignIn = () => {
         const errorMessage = errorMessages[error.code] || errorMessages.default;
         setError(errorMessage);
         toast.error(errorMessage);
+        setLoading(false);
       });
   };
 
@@ -118,7 +187,11 @@ const SignIn = () => {
         placeholder="Enter your password"
         className="w-full border border-gray-300 rounded-md p-2 text-[#111827] focus:outline-none focus:ring-2 focus:ring-[#F97316] transition"
       />
-      <select className="w-full border border-gray-300 rounded-md p-2 text-[#111827] focus:outline-none focus:ring-2 focus:ring-[#F97316] transition">
+      <select
+        value={selectedRole}
+        onChange={(e) => setSelectedRole(e.target.value)}
+        className="w-full border border-gray-300 rounded-md p-2 text-[#111827] focus:outline-none focus:ring-2 focus:ring-[#F97316] transition"
+      >
         <option>User</option>
 
         <option>Admin</option>
@@ -137,8 +210,12 @@ const SignIn = () => {
         </Link>
       </div>
 
-      <button className="w-full bg-gradient-to-r from-orange-500 to-pink-500 text-white py-2 rounded-md font-semibold hover:opacity-90 transition">
-        Sign In
+      <button className="cursor-pointer w-full bg-gradient-to-r from-orange-500 to-pink-500 text-white py-2 rounded-md font-semibold hover:opacity-90 transition">
+        {loading ? (
+          <span className="animate-pulse">Signing in...</span>
+        ) : (
+          "Sign In"
+        )}
       </button>
     </form>
   );

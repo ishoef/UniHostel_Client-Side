@@ -39,7 +39,6 @@ const Dashboard = () => {
     }
   }, [user, roleLoading, location, role, navigate]);
 
-  console.log(user, role, roleLoading);
 
   return (
     <>

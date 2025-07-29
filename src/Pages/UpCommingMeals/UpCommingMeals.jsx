@@ -22,7 +22,7 @@ const UpcomingMeals = () => {
   }, []);
 
   useEffect(() => {
-    document.title = "UpCommingMeals | UniHostel";
+    document.title = "Upcomming Meals | UniHostel";
   });
 
   // Clear filters handler

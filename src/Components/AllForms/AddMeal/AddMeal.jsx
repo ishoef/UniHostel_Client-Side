@@ -51,8 +51,6 @@ const AddMealForm = ({ setMeals }) => {
     data.likes = 0;
     data.reviews_count = 0;
 
-    console.log("Form Submitted:", data);
-
     // Done: send to backend
     try {
       const response = await axiosSecure.post("/meals", data);

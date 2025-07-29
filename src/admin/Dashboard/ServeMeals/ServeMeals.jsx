@@ -48,13 +48,10 @@ const ServeMeals = () => {
       });
   };
 
-  console.log(requests);
 
   const request = requests.sort(
     (a, b) => new Date(b.requestTime) - new Date(a.requestTime)
   );
-
-  console.log(request);
 
   const formatDate = (dateString) =>
     dateString ? new Date(dateString).toLocaleString() : "N/A";

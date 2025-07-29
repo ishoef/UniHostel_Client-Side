@@ -17,7 +17,6 @@ const GroupTableRow = ({ meal, meals, setMeals, buttonShow }) => {
 
   // Handle Delete
   const handleDelete = () => {
-    console.log(`Deleting meal with ID: ${meal._id}`);
     Swal.fire({
       title: "Are you sure?",
       text: "You want to delete this meal!",
@@ -31,13 +30,12 @@ const GroupTableRow = ({ meal, meals, setMeals, buttonShow }) => {
         axiosSecure
           .delete(`/meals/${meal._id}`)
           .then((res) => {
-            console.log("delete response:", res.data);
             if (res.data.deletedCount > 0) {
               Swal.fire("Deleted!", "The meal has been deleted.", "success");
               const updatedMeals = meals.filter(
                 (item) => item._id !== meal._id
               );
-              console.log(updatedMeals);
+
               setMeals(updatedMeals);
             } else {
               Swal.fire("Error!", "Failed to delete the meal.", "error");
