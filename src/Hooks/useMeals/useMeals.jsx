@@ -1,42 +1,29 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import useAxios from "../useAxios";
+
+const fetchMeals = async (axiosInstance, filters, page, limit) => {
+  const response = await axiosInstance.get("/meals", {
+    params: { ...filters, page, limit },
+  });
+  return response.data;
+};
 
 const useMeals = (filters = {}, page = 1, limit = 10) => {
   const axiosInstance = useAxios();
-  const [meals, setMeals] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [totalPages, setTotalPages] = useState(1);
-  const [error, setError] = useState(null);
-  const [totalMeals, setTotalMeals] = useState(0);
 
-  useEffect(() => {
-    const fetchMeals = async () => {
-      setLoading(true);
-      try {
-        const res = await axiosInstance.get("/meals", {
-          params: {
-            ...filters,
-            page,
-            limit,
-          },
-        });
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ["meals", filters, page, limit],
+    queryFn: () => fetchMeals(axiosInstance, filters, page, limit),
+    keepPreviousData: true, // for pagination
+  });
 
-        setMeals(res.data.data || []);
-        const totalMeals = res.data.totalMeals || 0;
-        setTotalPages(Math.ceil(totalMeals / limit));
-        setTotalMeals(totalMeals);
-      } catch (err) {
-        console.log("Error fetching Meals data", err);
-        setError(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchMeals();
-  }, [axiosInstance, JSON.stringify(filters), page, limit]); // ✅ filters is now memoized
-
-  return { meals, loading, setMeals, error, totalPages, totalMeals };
+  return {
+    meals: data?.data || [],
+    totalMeals: data?.totalMeals || 0,
+    totalPages: Math.ceil((data?.totalMeals || 0) / limit),
+    loading: isLoading,
+    error: isError ? error : null,
+  };
 };
 
 export default useMeals;

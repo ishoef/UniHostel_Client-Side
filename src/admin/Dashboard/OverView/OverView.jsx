@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import State from "../State/State";
 import { LiaUsersSolid } from "react-icons/lia";
 import { FaLayerGroup } from "react-icons/fa";
@@ -7,74 +7,74 @@ import useUpcommingMeals from "../../../Hooks/useUpcommingMeals/useUpcommingMeal
 import AllMeals from "../AllMeals/AllMeals";
 import UpcommingMeals from "../UpcommingMeals/UpcommingMeals";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
 
 const OverView = () => {
-  const [usersCount, setUsersCount] = useState(0);
-  const [servedMealsCount, setServedMealsCount] = useState(0);
   const { meals } = useMeals();
   const { upcommingMeals } = useUpcommingMeals();
-
   const axiosSecure = useAxiosSecure();
 
-  // Users Data
-  useEffect(() => {
-    axiosSecure
-      .get("/users")
-      .then((res) => {
-        setUsersCount(res.data.users.length);
-      })
-      .catch((error) => {
-        console.log("the error fetching the users", error);
-        setUsersCount([]);
-      });
-  }, [axiosSecure]);
+  // ✅ Fetch Users Count
+  const { data: usersData = [], isLoading: usersLoading } = useQuery({
+    queryKey: ["users"],
+    queryFn: async () => {
+      const res = await axiosSecure.get("/users");
+      return res.data.users || [];
+    },
+  });
 
-  // Served Meals Data
-  useEffect(() => {
-    axiosSecure.get("/meal-requests").then((res) => {
-      setServedMealsCount(res.data.pagination.total);
-    });
-  }, [axiosSecure]);
+  // ✅ Fetch Served Meals Count
+  const { data: servedMealsCount = 0, isLoading: servedLoading } = useQuery({
+    queryKey: ["servedMealsCount"],
+    queryFn: async () => {
+      const res = await axiosSecure.get("/meal-requests");
+      return res.data.pagination.total || 0;
+    },
+  });
 
   const stateInfo = [
     {
       icon: <LiaUsersSolid />,
       title: "Total Users",
-      count: `${usersCount || 0}`,
+      count: `${usersData.length}`,
       parcent: "80% increase in 20 days",
     },
-
     {
       icon: <FaLayerGroup />,
       title: "Total Meals",
       count: `${meals.length}`,
       parcent: "80% increase in 20 days",
     },
-
     {
       icon: <FaLayerGroup />,
-      title: "Upcomming ",
+      title: "Upcomming",
       count: `${upcommingMeals.length}`,
       parcent: "80% increase in 20 days",
     },
-
     {
       icon: <FaLayerGroup />,
       title: "Served Meals",
-      count: `${servedMealsCount || 0}`,
+      count: `${servedMealsCount}`,
       parcent: "80% increase in 20 days",
     },
   ];
 
   return (
     <div>
-      <div className="space-y-5 ">
+      <div className="space-y-5">
         <h1 className="text-3xl font-semibold text-primary">Overview</h1>
-        <div className=" grid md:grid-cols-2 lg:grid-cols-4 gap-5">
-          {stateInfo.map((stat, index) => (
-            <State key={index} info={stat}></State>
-          ))}
-        </div>
+
+        {/* ✅ Loading UI (Optional) */}
+        {usersLoading || servedLoading ? (
+          <p>Loading overview data...</p>
+        ) : (
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+            {stateInfo.map((stat, index) => (
+              <State key={index} info={stat} />
+            ))}
+          </div>
+        )}
+
         <hr className="border border-gray-300 mt-10" />
         <AllMeals />
         <hr className="border border-gray-300 mt-10" />

@@ -1,48 +1,43 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router";
 import PreLoader from "../../../Components/Loader copy/PreLoader/PreLoader";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
 
 const Users = () => {
-  const [userData, setUserData] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
-  const [pages, setPages] = useState(1);
   const limit = 10;
-
   const axiosSecure = useAxiosSecure();
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      setLoading(true);
-      try {
-        const response = await axiosSecure.get(
-          `/users?page=${page}&limit=${limit}`
-        );
-        setUserData(response.data.users);
-        setPages(response.data.pages);
-      } catch (err) {
-        console.log("Error fetching user data", err);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchUsers = async ({ queryKey }) => {
+    const [_key, page, limit] = queryKey;
+    const res = await axiosSecure.get(`/users?page=${page}&limit=${limit}`);
+    return res.data;
+  };
 
-    fetchUsers();
-  }, [axiosSecure, page]);
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ["users", page, limit],
+    queryFn: fetchUsers,
+    keepPreviousData: true,
+  });
 
-  if (loading) {
+  if (isLoading) {
     return (
       <PreLoader className="flex justify-center items-center min-h-screen md:min-h-[calc(100vh-300px)]" />
     );
   }
 
-  // Style functions
-  const getRoleBadgeClass = (role) => {
-    return role === "admin"
+  if (isError) {
+    return <div className="text-red-500 text-center">{error.message}</div>;
+  }
+
+  const userData = data?.users || [];
+  const pages = data?.pages || 1;
+
+  const getRoleBadgeClass = (role) =>
+    role === "admin"
       ? "bg-orange-100 text-orange-700 font-bold"
       : "bg-blue-100 text-blue-700";
-  };
 
   const getSubscriptionBadgeClass = (plan) => {
     if (plan === "Pro") return "bg-purple-100 text-purple-700";
@@ -55,9 +50,7 @@ const Users = () => {
       <div className="space-y-6">
         <h1 className="text-3xl md:text-4xl font-bold text-orange-500">
           All Users{" "}
-          <span className="text-sm text-gray-500">
-            ({userData?.length || 0})
-          </span>
+          <span className="text-sm text-gray-500">({userData.length})</span>
         </h1>
 
         <hr className="border border-gray-300" />

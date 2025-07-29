@@ -1,68 +1,48 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import NormalLoader from "../../../Components/Loader copy/NormalLoader";
+import { useQuery } from "@tanstack/react-query";
 
 const ServeMeals = () => {
-  const [requests, setRequests] = useState([]);
-  const [requestsCount, setRequestsCount] = useState(0);
   const axiosSecure = useAxiosSecure();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
-  const [limit] = useState(10);
-  const [totalPages, setTotalPages] = useState(1);
+  const limit = 10;
 
-  useEffect(() => {
-    const fetchRequests = async () => {
-      setLoading(true);
-      try {
-        const res = await axiosSecure.get(
-          `/meal-requests?page=${page}&limit=${limit}`
-        );
-        setRequests(res.data.data);
-        setTotalPages(res.data.pagination.totalPages);
-        setRequestsCount(res.data.pagination.total);
-      } catch (err) {
-        console.error("Failed to fetch requests:", err);
-        setError("Failed to load meal requests");
-      } finally {
-        setLoading(false);
-      }
-    };
+  // ✅ Fetch paginated meal requests using TanStack Query
+  const { data, isLoading, isError, error, refetch, isFetching } = useQuery({
+    queryKey: ["meal-requests", page],
+    queryFn: async () => {
+      const res = await axiosSecure.get(
+        `/meal-requests?page=${page}&limit=${limit}`
+      );
+      return res.data;
+    },
+    keepPreviousData: true,
+  });
 
-    fetchRequests();
-  }, [axiosSecure, page, limit]);
-
-  const updateStatus = (id, newStatus) => {
-    axiosSecure
-      .patch(`/meal-requests/${id}`, { status: newStatus })
-      .then(() => {
-        setRequests((prev) =>
-          prev.map((req) =>
-            req._id === id ? { ...req, status: newStatus } : req
-          )
-        );
-      })
-      .catch((err) => {
-        console.error(`Failed to update status to ${newStatus}:`, err);
-      });
+  const updateStatus = async (id, newStatus) => {
+    try {
+      await axiosSecure.patch(`/meal-requests/${id}`, { status: newStatus });
+      refetch(); // 🔄 Refresh the data after update
+    } catch (err) {
+      console.error(`Failed to update status to ${newStatus}:`, err);
+    }
   };
-
-
-  const request = requests.sort(
-    (a, b) => new Date(b.requestTime) - new Date(a.requestTime)
-  );
 
   const formatDate = (dateString) =>
     dateString ? new Date(dateString).toLocaleString() : "N/A";
 
-  if (loading) return <NormalLoader />;
-  if (error) return <p className="text-red-500">{error}</p>;
+  const sortedRequests = data?.data?.sort(
+    (a, b) => new Date(b.requestTime) - new Date(a.requestTime)
+  );
+
+  if (isLoading || isFetching) return <NormalLoader />;
+  if (isError) return <p className="text-red-500">Error: {error.message}</p>;
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
       <h2 className="text-2xl md:text-3xl font-bold mb-6 text-orange-500">
-        Meal Serve Requests <span>({requestsCount})</span>
+        Meal Serve Requests <span>({data?.pagination?.total || 0})</span>
       </h2>
 
       <div className="overflow-x-auto shadow-lg rounded-xl bg-white">
@@ -80,25 +60,23 @@ const ServeMeals = () => {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
-            {requests.length === 0 ? (
+            {sortedRequests?.length === 0 ? (
               <tr>
                 <td
-                  colSpan="7"
+                  colSpan="8"
                   className="text-center p-6 text-gray-400 font-medium"
                 >
                   No meal requests found.
                 </td>
               </tr>
             ) : (
-              request.map((req, ind) => (
+              sortedRequests?.map((req, ind) => (
                 <tr
                   key={req._id}
                   className="hover:bg-orange-50 transition-all duration-200"
                 >
-                  <td className="px-6 py-4 font-medium">{ind + 1 || "N/A"}</td>
-                  <td className="px-6 py-4 font-medium">
-                    {req.mealName || "N/A"}
-                  </td>
+                  <td className="px-6 py-4 font-medium">{ind + 1}</td>
+                  <td className="px-6 py-4 font-medium">{req.mealName}</td>
                   <td className="px-6 py-4 text-blue-600">{req.email}</td>
                   <td className="px-6 py-4">{req.name}</td>
                   <td className="px-6 py-4">{formatDate(req.requestTime)}</td>
@@ -150,12 +128,16 @@ const ServeMeals = () => {
         </button>
 
         <span className="text-gray-700 font-medium">
-          Page {page} of {totalPages}
+          Page {page} of {data?.pagination?.totalPages || 1}
         </span>
 
         <button
-          onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
-          disabled={page === totalPages}
+          onClick={() =>
+            setPage((prev) =>
+              Math.min(prev + 1, data?.pagination?.totalPages || 1)
+            )
+          }
+          disabled={page === data?.pagination?.totalPages}
           className="px-4 py-2 bg-gray-200 text-gray-700 hover:bg-gray-300 rounded disabled:opacity-50"
         >
           Next
