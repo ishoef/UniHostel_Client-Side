@@ -134,8 +134,8 @@ UniHostel is a full-stack MERN (MongoDB, Express.js, React.js, Node.js) web appl
 
 ## 📁 GitHub Repositories
 
-- 🔗 **Client:** [GitHub Client Repo](https://github.com/your-username/unihostel-client)
-- 🔗 **Server:** [GitHub Server Repo](https://github.com/your-username/unihostel-server)
+- 🔗 **Client:** [GitHub Client Repo](https://github.com/ishoef/UniHostel_Client-Side)
+- 🔗 **Server:** [GitHub Server Repo](https://github.com/ishoef/UniHostel-Server-side)
 
 ---
 
