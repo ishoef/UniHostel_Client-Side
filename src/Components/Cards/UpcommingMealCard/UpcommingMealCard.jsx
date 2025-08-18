@@ -64,7 +64,7 @@ const UpcomingMealCard = ({ meal, user, refetch }) => {
   };
 
   return (
-    <div className="flex flex-col border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition min-h-[500px] bg-white">
+    <div className="flex flex-col border border-gray-200 dark:border-gray-700 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition min-h-[500px] bg-white dark:bg-gray-800">
       <div className="aspect-[4/3] overflow-hidden">
         <img
           src={meal.imageUrl}
@@ -76,20 +76,22 @@ const UpcomingMealCard = ({ meal, user, refetch }) => {
       <div className="flex flex-col flex-1 p-4">
         {/* Title and Likes */}
         <div className="flex items-center justify-between mb-2">
-          <h3 className="font-semibold text-lg text-gray-900">{meal.title}</h3>
-          <div className="flex items-center text-sm text-gray-600 gap-1">
+          <h3 className="font-semibold text-lg text-gray-900 dark:text-gray-100">
+            {meal.title}
+          </h3>
+          <div className="flex items-center text-sm text-gray-600 dark:text-gray-300 gap-1">
             <FaHeart className="text-red-500" />
             <span>{likesCount}</span>
           </div>
         </div>
 
         {/* Description */}
-        <p className="text-sm text-gray-500 mb-3 line-clamp-3">
+        <p className="text-sm text-gray-500 dark:text-gray-400 mb-3 line-clamp-3">
           {meal.description}
         </p>
 
         {/* Time and Servings */}
-        <div className="flex justify-between text-sm text-gray-600 mb-3">
+        <div className="flex justify-between text-sm text-gray-600 dark:text-gray-300 mb-3">
           <span className="flex items-center gap-1">
             <FaClock className="text-orange-500" />
             {new Date(meal.postTime).toLocaleString("en-US", {
@@ -109,7 +111,9 @@ const UpcomingMealCard = ({ meal, user, refetch }) => {
         </div>
 
         {/* Price */}
-        <p className="text-base font-bold text-gray-800 mb-4">${meal.price}</p>
+        <p className="text-base font-bold text-gray-800 dark:text-gray-200 mb-4">
+          ${meal.price}
+        </p>
 
         {/* Action Buttons */}
         <div className="mt-auto flex gap-2">
@@ -123,7 +127,7 @@ const UpcomingMealCard = ({ meal, user, refetch }) => {
 
           <button
             onClick={handleViewDetails}
-            className="px-3 py-2 rounded-md cursor-pointer bg-blue-100 text-blue-700 hover:bg-blue-200 transition"
+            className="px-3 py-2 rounded-md cursor-pointer bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-800 transition"
           >
             <FaEye />
           </button>
@@ -132,8 +136,8 @@ const UpcomingMealCard = ({ meal, user, refetch }) => {
             onClick={handleLike}
             className={`px-3 py-2 cursor-pointer rounded-md transition ${
               liked
-                ? "bg-red-100 text-red-600 hover:bg-red-200"
-                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                ? "bg-red-100 dark:bg-red-800 text-red-600 dark:text-red-400 hover:bg-red-200 dark:hover:bg-red-700"
+                : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
             }`}
           >
             {liked ? <FaHeart /> : <FaRegHeart />}

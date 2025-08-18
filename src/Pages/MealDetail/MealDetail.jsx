@@ -290,7 +290,7 @@ const MealDetail = () => {
   return (
     <div className="max-w-5xl mx-auto py-12 px-4">
       {/* Top Section */}
-      <div className="flex flex-col md:flex-row gap-6 bg-white p-6 rounded-lg shadow-sm">
+      <div className="flex flex-col md:flex-row gap-6 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm">
         {/* Image */}
         <div className="w-full md:w-1/2 h-80">
           <img
@@ -302,36 +302,42 @@ const MealDetail = () => {
 
         {/* Details */}
         <div className="w-full md:w-1/2">
-          <span className="bg-gray-100 px-3 py-1 text-sm rounded mb-2 inline-block">
+          <span className="bg-gray-100 dark:bg-gray-700 px-3 py-1 text-sm rounded mb-2 inline-block text-gray-800 dark:text-gray-200">
             {meal.category}
           </span>
-          <h2 className="text-2xl font-semibold">{meal.title}</h2>
+          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">
+            {meal.title}
+          </h2>
 
           <div className="flex items-center gap-4 mt-2">
             <span className="text-yellow-500">⭐ {meal.rating || 0}</span>
-            <span className="text-red-600 font-semibold text-lg">
+            <span className="text-red-600 dark:text-red-400 font-semibold text-lg">
               ৳{meal.price}
             </span>
           </div>
 
-          <p className="mt-3 text-gray-600">
+          <p className="mt-3 text-gray-600 dark:text-gray-300">
             👨‍🍳 Distributor: <strong>{meal.distributorName}</strong>
           </p>
-          <p className="text-gray-600">📧 {meal.distributorEmail}</p>
-          <p className="text-gray-600">
+          <p className="text-gray-600 dark:text-gray-300">
+            📧 {meal.distributorEmail}
+          </p>
+          <p className="text-gray-600 dark:text-gray-300">
             📅 Posted: {new Date(meal.postTime).toLocaleString()}
           </p>
 
-          <p className="mt-4 text-gray-700">{meal.description}</p>
+          <p className="mt-4 text-gray-700 dark:text-gray-200">
+            {meal.description}
+          </p>
 
           <div className="flex gap-3 mt-5">
             <button
               onClick={handleLike}
               className={`cursor-pointer px-4 py-2 rounded border ${
                 liked
-                  ? "bg-red-100 text-red-600 border-red-300"
-                  : "bg-white text-black border-gray-300"
-              } hover:bg-gray-100`}
+                  ? "bg-red-100 text-red-600 border-red-300 dark:bg-red-800 dark:text-red-400 dark:border-red-600"
+                  : "bg-white text-black border-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600"
+              } hover:bg-gray-100 dark:hover:bg-gray-600`}
             >
               ❤️ Like ({likes?.length || 0})
             </button>
@@ -339,12 +345,11 @@ const MealDetail = () => {
             <button
               disabled={requested}
               onClick={handleRequestMeal}
-              className={`cursor-pointer px-4 py-2 rounded border 
-    ${
-      requested
-        ? "bg-gray-300 text-gray-600 border-gray-400 disabled:cursor-not-allowed"
-        : "bg-blue-100 text-blue-700 border-blue-300 hover:bg-blue-200"
-    }`}
+              className={`cursor-pointer px-4 py-2 rounded border ${
+                requested
+                  ? "bg-gray-300 text-gray-600 border-gray-400 disabled:cursor-not-allowed dark:bg-gray-600 dark:text-gray-400 dark:border-gray-500"
+                  : "bg-blue-100 text-blue-700 border-blue-300 hover:bg-blue-200 dark:bg-blue-900 dark:text-blue-300 dark:border-blue-700 dark:hover:bg-blue-800"
+              }`}
             >
               {requested ? "🍽️ Requested" : "🍽️ Request Meal"}
             </button>
@@ -353,13 +358,15 @@ const MealDetail = () => {
       </div>
 
       {/* Ingredients */}
-      <div className="mt-10 bg-white p-6 rounded shadow-sm">
-        <h3 className="text-xl font-semibold mb-4">Ingredients</h3>
+      <div className="mt-10 bg-white dark:bg-gray-800 p-6 rounded shadow-sm">
+        <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
+          Ingredients
+        </h3>
         <div className="flex flex-wrap gap-3">
           {meal.ingredients?.split(",").map((item) => (
             <span
               key={item.trim()}
-              className="px-3 py-1 bg-gray-100 rounded-full text-sm"
+              className="px-3 py-1 bg-gray-100 dark:bg-gray-700 rounded-full text-sm text-gray-800 dark:text-gray-200"
             >
               {item.trim()}
             </span>
@@ -368,21 +375,25 @@ const MealDetail = () => {
       </div>
 
       {/* Reviews */}
-      <div className="mt-10 bg-white p-6 rounded shadow-sm">
-        <h3 className="text-xl font-semibold mb-4">
+      <div className="mt-10 bg-white dark:bg-gray-800 p-6 rounded shadow-sm">
+        <h3 className="text-xl font-semibold mb-4 text-gray-900 dark:text-white">
           Reviews ({reviews.length})
         </h3>
 
         {/* Write Review */}
         <div className="mb-6">
-          <label className="block mb-1 font-medium">Write a Review</label>
+          <label className="block mb-1 font-medium text-gray-900 dark:text-white">
+            Write a Review
+          </label>
           <div className="flex gap-1 mb-2">
             {[1, 2, 3, 4, 5].map((num) => (
               <span
                 key={num}
                 onClick={() => setNewRating(num)}
                 className={`text-2xl cursor-pointer ${
-                  newRating >= num ? "text-yellow-400" : "text-gray-300"
+                  newRating >= num
+                    ? "text-yellow-400"
+                    : "text-gray-300 dark:text-gray-500"
                 }`}
               >
                 ★
@@ -392,14 +403,11 @@ const MealDetail = () => {
           <textarea
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
-            className="w-full border border-gray-300 focus:outline-primary rounded p-2 mb-2"
+            className="w-full border border-gray-300 dark:border-gray-600 focus:outline-primary dark:bg-gray-700 dark:text-gray-200 rounded p-2 mb-2"
             rows="3"
             placeholder="Share your thoughts about this meal..."
           />
-          <button
-            onClick={submitReview}
-            className="bg-black cursor-pointer text-white px-4 py-2 rounded hover:bg-gray-800"
-          >
+          <button className="bg-black dark:bg-gray-900 text-white px-4 py-2 rounded hover:bg-gray-800 dark:hover:bg-gray-700">
             Submit Review
           </button>
         </div>
@@ -409,28 +417,25 @@ const MealDetail = () => {
           {reviews.map((r, idx) => (
             <div
               key={idx}
-              className="border border-gray-200 rounded-lg p-4 shadow-sm hover:shadow-md transition"
+              className="border border-gray-200 dark:border-gray-600 rounded-lg p-4 shadow-sm hover:shadow-md transition"
             >
               {/* Reviewer info */}
               <div className="flex items-center gap-3 mb-2">
-                {/* Profile Initial */}
-                <div className="w-10 h-10 rounded-full borde bg-gray-100 flex items-center justify-center text-gray-600 font-bold text-lg">
-                  {/* {r.name?.charAt(0) || "U"} */}
+                <div className="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-600 dark:text-gray-300 font-bold text-lg">
                   <img
-                    className={
-                      "w-[40px] h-[40px] rounded-full border-2 border-green-600"
-                    }
-                    src={`${
+                    className="w-[40px] h-[40px] rounded-full border-2 border-green-600"
+                    src={
                       r.photoURL ||
                       "https://w7.pngwing.com/pngs/946/556/png-transparent-computer-icons-login-user-profile-client-smiley-%D0%B7%D0%BD%D0%B0%D1%87%D0%BA%D0%B8-windows-10-thumbnail.png"
-                    }`}
+                    }
                     alt=""
                   />
                 </div>
-
                 <div>
-                  <p className="font-semibold text-gray-800">{r.name}</p>
-                  <div className="text-sm text-gray-500">
+                  <p className="font-semibold text-gray-800 dark:text-gray-200">
+                    {r.name}
+                  </p>
+                  <div className="text-sm text-gray-500 dark:text-gray-400">
                     {new Date(r.date).toLocaleString("en-US", {
                       year: "numeric",
                       month: "long",
@@ -450,14 +455,17 @@ const MealDetail = () => {
                   </span>
                 ))}
                 {Array.from({ length: 5 - r.rating }, (_, i) => (
-                  <span key={i} className="text-gray-300 text-lg">
+                  <span
+                    key={i}
+                    className="text-gray-300 dark:text-gray-500 text-lg"
+                  >
                     ★
                   </span>
                 ))}
               </div>
 
               {/* Comment */}
-              <p className="text-gray-700">{r.comment}</p>
+              <p className="text-gray-700 dark:text-gray-200">{r.comment}</p>
             </div>
           ))}
         </div>
