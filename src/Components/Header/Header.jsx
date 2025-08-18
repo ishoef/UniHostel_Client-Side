@@ -59,68 +59,63 @@ const Header = () => {
   }, [location.pathname]);
 
   return (
-    <div className="sticky top-0 z-50 bg-white dark:bg-gray-900 ">
-      <header className=" relative py-2 md:py-5 border-b border-b-gray-300 shadow">
+    <div className="sticky top-0 z-50 bg-white dark:bg-gray-900">
+      <header className="relative py-2 md:py-5 border-b border-gray-300 dark:border-gray-700 shadow">
         <div className="flex items-center justify-between w-11/12 lg:w-9/12 mx-auto">
-          <Logo></Logo>
+          <Logo />
 
           <div className="middle hidden lg:block">
             <ul className="flex gap-1 text-[18px] font-semibold">
               <li>
-                {" "}
                 <NavLink
                   to="/"
                   className={({ isActive }) =>
                     isActive
                       ? "bg-primary text-white px-4 pb-2 pt-1 rounded"
-                      : "bg-none px-4 pb-2 pt-1 rounded"
+                      : "bg-none px-4 pb-2 pt-1 rounded text-gray-800 dark:text-gray-200"
                   }
                 >
                   Home
-                </NavLink>{" "}
+                </NavLink>
               </li>
               <li>
-                {" "}
                 <NavLink
                   to="/meals"
                   className={({ isActive }) =>
                     isActive
                       ? "bg-primary text-white px-4 pb-2 pt-1 rounded"
-                      : "bg-none px-4 pb-2 pt-1 rounded"
+                      : "bg-none px-4 pb-2 pt-1 rounded text-gray-800 dark:text-gray-200"
                   }
                 >
                   Meals
-                </NavLink>{" "}
+                </NavLink>
               </li>
               <li>
-                {" "}
                 <NavLink
                   to="/upcommingmeals"
                   className={({ isActive }) =>
                     isActive
                       ? "bg-primary text-white px-4 pb-2 pt-1 rounded"
-                      : "bg-none px-4 pb-2 pt-1 rounded"
+                      : "bg-none px-4 pb-2 pt-1 rounded text-gray-800 dark:text-gray-200"
                   }
                 >
                   Upcomming Meals
-                </NavLink>{" "}
+                </NavLink>
               </li>
             </ul>
           </div>
 
           <div className="flex gap-5 items-center">
-            {/* DarkMode */}
-
             <DarkModeToggle />
             {user && (
               <div onClick={() => setMenuOpen((prev) => !prev)}>
                 <img
                   className="cursor-pointer w-[40px] h-[40px] rounded-full border-2 border-green-600"
-                  src={`${
+                  src={
                     user.photoURL
                       ? user.photoURL
                       : "https://w7.pngwing.com/pngs/946/556/png-transparent-computer-icons-login-user-profile-client-smiley-%D0%B7%D0%BD%D0%B0%D1%87%D0%BA%D0%B8-windows-10-thumbnail.png"
-                  }`}
+                  }
                   alt=""
                 />
               </div>
@@ -131,10 +126,9 @@ const Header = () => {
               </p>
             )}
 
-            {/* login & Logout Button */}
             {!user && (
               <Link to="/auth/login">
-                <button className="btn btn-primary text-[16px] ">Join</button>
+                <button className="btn btn-primary text-[16px]">Join</button>
               </Link>
             )}
 
@@ -145,52 +139,49 @@ const Header = () => {
               </div>
               <ul
                 tabIndex={0}
-                className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm"
+                className="dropdown-content menu bg-white dark:bg-gray-800 rounded-box z-10 w-52 p-2 shadow-md"
               >
                 <li>
-                  {" "}
                   <NavLink
                     to="/"
                     className={({ isActive }) =>
                       isActive
                         ? "bg-primary text-white px-4 pb-2 pt-1 rounded"
-                        : "bg-none px-4 pb-2 pt-1 rounded"
+                        : "bg-none px-4 pb-2 pt-1 rounded text-gray-800 dark:text-gray-200"
                     }
                   >
                     Home
-                  </NavLink>{" "}
+                  </NavLink>
                 </li>
                 <li>
-                  {" "}
                   <NavLink
                     to="/meals"
                     className={({ isActive }) =>
                       isActive
                         ? "bg-primary text-white px-4 pb-2 pt-1 rounded"
-                        : "bg-none px-4 pb-2 pt-1 rounded"
+                        : "bg-none px-4 pb-2 pt-1 rounded text-gray-800 dark:text-gray-200"
                     }
                   >
                     Meals
-                  </NavLink>{" "}
+                  </NavLink>
                 </li>
                 <li>
-                  {" "}
                   <NavLink
                     to="/upcommingmeals"
                     className={({ isActive }) =>
                       isActive
                         ? "bg-primary text-white px-4 pb-2 pt-1 rounded"
-                        : "bg-none px-4 pb-2 pt-1 rounded"
+                        : "bg-none px-4 pb-2 pt-1 rounded text-gray-800 dark:text-gray-200"
                     }
                   >
                     Upcomming Meals
-                  </NavLink>{" "}
+                  </NavLink>
                 </li>
                 <li>
                   {user && (
                     <button
                       onClick={handleLogOut}
-                      className=" btn btn-primary mt-2"
+                      className="btn btn-primary mt-2 w-full"
                     >
                       Log Out
                     </button>
@@ -200,20 +191,21 @@ const Header = () => {
             </div>
           </div>
         </div>
+
         {menuOpen && (
           <div
             ref={menuRef}
-            className="absolute right-2 top-16 lg:right-60 lg:top-[70px] bg-white border border-gray-200 text-sm rounded shadow-md z-10"
+            className="absolute right-2 top-16 lg:right-60 lg:top-[70px] bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-sm rounded shadow-md z-10"
           >
-            <div className="border-b-2 border-b-gray-300 p-3 rounded-t">
+            <div className="border-b-2 border-gray-300 dark:border-gray-700 p-3 rounded-t">
               <p className="text-center text-primary text-xl">
                 {user.displayName}
               </p>
-              <p className="text-gray-400">{user.email}</p>
+              <p className="text-gray-400 dark:text-gray-300">{user.email}</p>
             </div>
 
             <ul className="p-4">
-              <li className="border border-gray-200 rounded hover:bg-gray-300 py-2 text-center text-xl">
+              <li className="border border-gray-200 dark:border-gray-700 rounded hover:bg-gray-300 dark:hover:bg-gray-700 py-2 text-center text-xl">
                 <Link
                   to={"/admin_dashboard"}
                   className="flex items-center justify-center"
@@ -228,7 +220,7 @@ const Header = () => {
                 {user && (
                   <button
                     onClick={handleLogOut}
-                    className=" btn btn-primary w-full mt-2"
+                    className="btn btn-primary w-full mt-2"
                   >
                     Log Out
                   </button>
