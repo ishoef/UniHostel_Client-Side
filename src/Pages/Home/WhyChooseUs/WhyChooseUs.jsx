@@ -7,7 +7,6 @@ import {
   FaShieldAlt,
   FaMobileAlt,
 } from "react-icons/fa";
-import FeatureCard from "../../../Components/FeatureCard/FeatureCard";
 
 export default function WhyChooseUs() {
   const features = [
@@ -50,15 +49,15 @@ export default function WhyChooseUs() {
   ];
 
   return (
-    <div className="py-20 px-4 sm:px-6 md:px-10 lg:px-16 text-center bg-gradient-to-b from-white to-orange-50">
-      <h2 className="text-4xl sm:text-5xl font-extrabold mb-4 text-gray-800">
+    <div className="py-20 px-4 sm:px-6 md:px-10 lg:px-16 text-center bg-gradient-to-b from-white to-orange-50 dark:from-gray-900 dark:to-gray-950 transition-colors duration-300">
+      <h2 className="text-4xl sm:text-5xl font-extrabold mb-4 text-gray-800 dark:text-white">
         Why Choose{" "}
         <span className="bg-gradient-to-r from-orange-500 to-pink-500 text-transparent bg-clip-text">
           UniHostel?
         </span>
       </h2>
 
-      <p className="text-gray-600 mb-12 max-w-2xl mx-auto text-base sm:text-lg">
+      <p className="text-gray-600 dark:text-gray-400 mb-12 max-w-2xl mx-auto text-base sm:text-lg">
         We're committed to providing the best dining experience for university
         students with innovative features and exceptional service.
       </p>
@@ -67,15 +66,15 @@ export default function WhyChooseUs() {
         {features.map((feature, index) => (
           <div
             key={index}
-            className="bg-white rounded-3xl shadow-xl p-8 border border-gray-100 hover:shadow-2xl transition duration-300 transform hover:-translate-y-2"
+            className="bg-white dark:bg-gray-800 rounded-3xl shadow-xl p-8 border border-gray-100 dark:border-gray-700 hover:shadow-2xl transition duration-300 transform hover:-translate-y-2"
           >
             <div className="flex items-center justify-center mb-6">
               {feature.icon}
             </div>
-            <h3 className="text-lg sm:text-xl font-semibold text-gray-800 mb-3">
+            <h3 className="text-lg sm:text-xl font-semibold text-gray-800 dark:text-gray-100 mb-3">
               {feature.title}
             </h3>
-            <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
+            <p className="text-gray-600 dark:text-gray-400 text-sm sm:text-base leading-relaxed">
               {feature.description}
             </p>
           </div>

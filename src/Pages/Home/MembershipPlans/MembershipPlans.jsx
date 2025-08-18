@@ -47,15 +47,18 @@ const plans = [
 
 export default function MembershipPlans() {
   return (
-    <div id="pricing" className=" bg-gradient-to-b from-orange-50 to-white py-16 px-4 sm:px-6 lg:px-8">
+    <div
+      id="pricing"
+      className="bg-gradient-to-b from-orange-50 to-white dark:from-gray-900 dark:to-gray-950 py-16 px-4 sm:px-6 lg:px-8 transition-colors duration-300"
+    >
       <div className="text-center mb-12">
-        <h2 className="text-4xl sm:text-5xl font-extrabold text-gray-900 leading-tight">
+        <h2 className="text-4xl sm:text-5xl font-extrabold text-gray-900 dark:text-white leading-tight">
           Choose Your{" "}
           <span className="bg-gradient-to-r from-orange-500 to-pink-500 text-transparent bg-clip-text">
             Membership
           </span>
         </h2>
-        <p className="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
+        <p className="mt-4 text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
           Upgrade your dining experience with our premium packages. Each tier
           offers enhanced features and exclusive benefits designed to delight
           your taste buds.
@@ -66,10 +69,10 @@ export default function MembershipPlans() {
         {plans.map((plan, idx) => (
           <div
             key={idx}
-            className={`relative flex flex-col h-full rounded-3xl shadow-2xl p-8 bg-white border transform hover:-translate-y-2 transition-all duration-300 ${
+            className={`relative flex flex-col h-full rounded-3xl shadow-2xl p-8 bg-white dark:bg-gray-800 border transform hover:-translate-y-2 transition-all duration-300 ${
               plan.featured
                 ? "border-orange-500 ring-2 ring-orange-400"
-                : "border-gray-200"
+                : "border-gray-200 dark:border-gray-700"
             }`}
           >
             {plan.featured && (
@@ -79,18 +82,18 @@ export default function MembershipPlans() {
             )}
 
             <div className="mt-8 text-center">
-              <h3 className="text-2xl font-bold text-gray-800 mb-2">
+              <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-2">
                 {plan.name}
               </h3>
-              <p className="text-4xl font-extrabold text-gray-900">
+              <p className="text-4xl font-extrabold text-gray-900 dark:text-white">
                 ${plan.price}
-                <span className="text-base font-medium text-gray-500">
+                <span className="text-base font-medium text-gray-500 dark:text-gray-400">
                   /month
                 </span>
               </p>
             </div>
 
-            <ul className="mt-8 space-y-4 text-gray-700 flex-grow">
+            <ul className="mt-8 space-y-4 text-gray-700 dark:text-gray-300 flex-grow">
               {plan.features.map((feature, i) => (
                 <li key={i} className="flex items-start space-x-3">
                   <span className="text-green-500 text-lg">✔</span>
@@ -100,12 +103,12 @@ export default function MembershipPlans() {
             </ul>
 
             <div className="mt-8 w-full">
-              <Link to={`/checkout/${plan.name.toLowerCase()}`}
-                
+              <Link
+                to={`/checkout/${plan.name.toLowerCase()}`}
                 className={`block text-center cursor-pointer w-full py-3 px-4 rounded-xl text-white text-sm font-semibold tracking-wide shadow-lg transition-colors duration-300 ${
                   plan.featured
                     ? "bg-orange-500 hover:bg-orange-600"
-                    : "bg-gray-900 hover:bg-gray-800"
+                    : "bg-gray-900 hover:bg-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600"
                 }`}
               >
                 {plan.buttonText}
@@ -115,7 +118,7 @@ export default function MembershipPlans() {
         ))}
       </div>
 
-      <p className="mt-12 text-center text-sm text-gray-600">
+      <p className="mt-12 text-center text-sm text-gray-600 dark:text-gray-400">
         Cancel anytime • No hidden fees •{" "}
         <strong>30-day money-back guarantee</strong>
       </p>

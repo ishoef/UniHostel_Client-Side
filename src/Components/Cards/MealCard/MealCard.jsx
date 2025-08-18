@@ -24,11 +24,7 @@ const MealCard = ({ meal }) => {
 
   const handleLike = async () => {
     if (!user?.uid) {
-      return Swal.fire(
-        "Error",
-        "You must be logged in to like meals.",
-        "info"
-      );
+      return Swal.fire("Error", "You must be logged in to like meals.", "info");
     }
 
     try {
@@ -46,7 +42,8 @@ const MealCard = ({ meal }) => {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow flex flex-col hover:shadow-lg transition h-full">
+    <div className="bg-white dark:bg-gray-800 rounded-xl shadow flex flex-col hover:shadow-lg transition h-full">
+      {/* Image */}
       <div className="h-58 rounded-t-xl overflow-hidden">
         <img
           src={
@@ -58,33 +55,42 @@ const MealCard = ({ meal }) => {
         />
       </div>
 
+      {/* Content */}
       <div className="flex flex-col flex-grow p-4">
+        {/* Title + Likes */}
         <div className="flex justify-between items-center mb-2">
-          <h3 className="font-semibold text-lg text-gray-800">{meal.title}</h3>
+          <h3 className="font-semibold text-lg text-gray-800 dark:text-gray-200">
+            {meal.title}
+          </h3>
           <span
             className={`flex items-center gap-1 text-xs ${
-              liked ? "text-red-500" : "text-gray-500"
+              liked ? "text-red-500" : "text-gray-500 dark:text-gray-400"
             }`}
           >
             ❤️ {likes}
           </span>
         </div>
 
-        <p className="text-gray-500 text-sm mb-3 flex-grow">
+        {/* Description */}
+        <p className="text-gray-500 dark:text-gray-400 text-sm mb-3 flex-grow">
           {meal.description}
         </p>
 
+        {/* Rating + Price */}
         <div className="flex justify-between items-center text-sm mb-4">
           <span className="flex items-center gap-1 text-yellow-500 font-semibold">
             ⭐ {meal.rating}
           </span>
-          <span className="text-orange-600 font-bold">${meal.price}</span>
+          <span className="text-orange-600 dark:text-orange-400 font-bold">
+            ${meal.price}
+          </span>
         </div>
 
+        {/* Actions */}
         <div className="flex items-center justify-between gap-3">
           <Link
             to={`/meal_details/${meal._id}`}
-            className="bg-black w-full text-white text-sm py-[10px] rounded-lg mt-auto text-center hover:opacity-90"
+            className="bg-black dark:bg-white dark:text-black w-full text-white text-sm py-[10px] rounded-lg mt-auto text-center hover:opacity-90"
           >
             View Details
           </Link>

@@ -11,11 +11,11 @@ const AllMeals = () => {
   const [price, setPrice] = useState(500);
   const [filteredMeals, setFilteredMeals] = useState([]);
 
-  // ✅ Memoize the filters object to prevent re-renders
+  // Memoize filters object
   const filters = useMemo(() => ({}), []);
 
-  // ✅ Prevent re-fetching by keeping object reference stable
-  const { meals, loading, totalMeals } = useMeals(filters, 1, 10); // Fetch all meals
+  // Fetch meals
+  const { meals, loading, totalMeals } = useMeals(filters, 1, 10);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -23,20 +23,17 @@ const AllMeals = () => {
 
   useEffect(() => {
     document.title = "Meals | UniHostel";
-  });
+  }, []);
 
   useEffect(() => {
     let filtered = meals;
 
-    // Filter by category
     if (category !== "All Categories") {
       filtered = filtered.filter((meal) => meal.category === category);
     }
 
-    // Filter by price
     filtered = filtered.filter((meal) => Number(meal.price) <= price);
 
-    // Filter by search
     if (search.trim() !== "") {
       const lower = search.toLowerCase();
       filtered = filtered.filter(
@@ -52,7 +49,7 @@ const AllMeals = () => {
   if (loading) return <NormalLoader />;
 
   return (
-    <div className="max-w-7xl mx-auto p-5">
+    <div className="max-w-7xl mx-auto p-5 transition-colors duration-300 dark:bg-gray-900 dark:text-gray-100">
       <h2 className="text-center text-3xl sm:text-4xl lg:text-5xl font-bold my-4">
         All{" "}
         <span className="bg-gradient-to-r from-orange-500 to-pink-500 text-transparent bg-clip-text">
@@ -60,14 +57,14 @@ const AllMeals = () => {
         </span>
       </h2>
 
-      <p className="w-11/12 md:w-7/12 mx-auto text-center text-gray-500">
+      <p className="w-11/12 md:w-7/12 mx-auto text-center text-gray-500 dark:text-gray-300">
         Explore a wide variety of delicious meals prepared by our talented
         chefs. Browse by category, discover new flavors, and pre-order your
         favorites.
       </p>
 
       {/* Filters */}
-      <div className="border border-gray-300 rounded-md bg-white p-5 flex gap-4 justify-between items-center my-6">
+      <div className="border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 p-5 flex gap-4 justify-between items-center my-6 transition-colors duration-300">
         <div className="w-full grid grid-cols-2 md:grid-cols-3 gap-5">
           {/* Search Input */}
           <input
@@ -75,14 +72,14 @@ const AllMeals = () => {
             placeholder="Search Meals"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="p-2 shadow rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
+            className="p-2 shadow rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-500"
           />
 
           {/* Category Dropdown */}
           <select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-            className="p-2 shadow rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
+            className="p-2 shadow rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-500"
           >
             <option>All Categories</option>
             <option>Breakfast</option>
@@ -91,8 +88,10 @@ const AllMeals = () => {
           </select>
 
           {/* Price Slider */}
-          <div className="border p-2 col-span-2 md:col-span-1 border-gray-300 shadow rounded flex items-center gap-3">
-            <span className="text-sm">Price: Up to ${price}</span>
+          <div className="border p-2 col-span-2 md:col-span-1 border-gray-300 dark:border-gray-600 shadow rounded flex items-center gap-3 bg-white dark:bg-gray-800 transition-colors duration-300">
+            <span className="text-sm text-gray-700 dark:text-gray-300">
+              Price: Up to ${price}
+            </span>
             <input
               type="range"
               min="2"
@@ -120,7 +119,7 @@ const AllMeals = () => {
         </div>
       )}
 
-      <div className="text-center mt-10 text-xs text-gray-400">
+      <div className="text-center mt-10 text-xs text-gray-400 dark:text-gray-500">
         You’ve seen all available meals.
       </div>
     </div>

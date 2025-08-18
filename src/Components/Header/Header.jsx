@@ -6,6 +6,7 @@ import { AuthContext } from "../../Context/AuthProvider";
 import Logo from "../Logo/Logo";
 import { LuLayoutDashboard } from "react-icons/lu";
 import useUserByEmail from "../../Hooks/useUserByEmail/useUserByEmail";
+import DarkModeToggle from "../DarkModeToggle/DarkModeToggle";
 
 const Header = () => {
   const { user, setUser, logOut } = use(AuthContext);
@@ -58,7 +59,7 @@ const Header = () => {
   }, [location.pathname]);
 
   return (
-    <div className="sticky top-0 z-50 bg-white">
+    <div className="sticky top-0 z-50 bg-white dark:bg-gray-900 ">
       <header className=" relative py-2 md:py-5 border-b border-b-gray-300 shadow">
         <div className="flex items-center justify-between w-11/12 lg:w-9/12 mx-auto">
           <Logo></Logo>
@@ -108,6 +109,9 @@ const Header = () => {
           </div>
 
           <div className="flex gap-5 items-center">
+            {/* DarkMode */}
+
+            <DarkModeToggle />
             {user && (
               <div onClick={() => setMenuOpen((prev) => !prev)}>
                 <img

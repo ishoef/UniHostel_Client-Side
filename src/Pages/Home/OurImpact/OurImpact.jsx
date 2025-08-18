@@ -44,14 +44,14 @@ const stats = [
 
 export default function OurImpact() {
   return (
-    <div className="bg-gradient-to-br from-orange-50 via-white to-orange-100 py-16 px-4 sm:px-6 md:px-10 lg:px-16 text-center">
-      <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4">
+    <div className="bg-gradient-to-br from-orange-50 via-white to-orange-100 dark:from-gray-900 dark:via-gray-950 dark:to-gray-900 py-16 px-4 sm:px-6 md:px-10 lg:px-16 text-center transition-colors duration-300">
+      <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 text-gray-900 dark:text-white">
         Our{" "}
         <span className="bg-gradient-to-r from-orange-500 to-pink-500 text-transparent bg-clip-text">
           Impact
         </span>
       </h2>
-      <p className="text-gray-600 mb-10 max-w-2xl mx-auto text-sm sm:text-base">
+      <p className="text-gray-600 dark:text-gray-400 mb-10 max-w-2xl mx-auto text-sm sm:text-base">
         Numbers that speak for our commitment to excellence and student
         satisfaction
       </p>
@@ -63,15 +63,15 @@ export default function OurImpact() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <div className="rounded-2xl shadow-lg p-6 transition-all bg-white">
+            <div className="rounded-2xl shadow-lg p-6 transition-all bg-white dark:bg-gray-800">
               <div className="flex flex-col items-center">
-                <div className="mb-4 p-4 rounded-full bg-gray-100">
+                <div className="mb-4 p-4 rounded-full bg-gray-100 dark:bg-gray-700">
                   {stat.icon}
                 </div>
-                <h3 className="text-xl sm:text-2xl font-bold mb-1">
+                <h3 className="text-xl sm:text-2xl font-bold mb-1 text-gray-900 dark:text-gray-100">
                   {stat.value}
                 </h3>
-                <p className="text-gray-500 text-sm sm:text-base">
+                <p className="text-gray-500 dark:text-gray-400 text-sm sm:text-base">
                   {stat.label}
                 </p>
               </div>

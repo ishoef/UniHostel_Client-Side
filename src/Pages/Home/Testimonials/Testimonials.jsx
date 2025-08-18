@@ -38,14 +38,14 @@ export default function Testimonials() {
   };
 
   return (
-    <section className="bg-gradient-to-b from-orange-50 to-white py-16 px-4 text-center">
-      <h2 className="text-4xl font-bold mb-4 text-gray-800">
+    <section className="bg-gradient-to-b from-orange-50 to-white dark:from-gray-900 dark:to-gray-950 py-16 px-4 text-center transition-colors duration-300">
+      <h2 className="text-4xl font-bold mb-4 text-gray-800 dark:text-gray-100">
         What Students{" "}
         <span className="bg-gradient-to-r from-orange-500 to-pink-500 text-transparent bg-clip-text">
           Say
         </span>
       </h2>
-      <p className="text-gray-600 text-lg mb-12 max-w-2xl mx-auto">
+      <p className="text-gray-600 dark:text-gray-300 text-lg mb-12 max-w-2xl mx-auto">
         Don't just take our word for it. Here's what our students have to say
         about their experience.
       </p>
@@ -54,7 +54,7 @@ export default function Testimonials() {
         <Slider {...settings}>
           {testimonials.map((t, index) => (
             <div key={index} className="px-4">
-              <div className="bg-white rounded-3xl shadow-2xl p-10 border border-gray-100 hover:shadow-3xl transition duration-300 transform hover:scale-105 ">
+              <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-10 border border-gray-100 dark:border-gray-700 hover:shadow-3xl transition duration-300 transform hover:scale-105">
                 <FaQuoteLeft className="text-orange-500 text-4xl mb-6 mx-auto" />
 
                 <div className="flex justify-center mb-4">
@@ -66,17 +66,21 @@ export default function Testimonials() {
                   ))}
                 </div>
 
-                <p className="text-gray-700 text-lg italic mb-8 leading-relaxed">
+                <p className="text-gray-700 dark:text-gray-300 text-lg italic mb-8 leading-relaxed">
                   "{t.quote}"
                 </p>
 
                 <div className="flex items-center justify-center gap-4">
-                  <div className="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center text-lg font-bold text-orange-600 shadow-inner">
+                  <div className="w-14 h-14 bg-orange-100 dark:bg-orange-900 rounded-full flex items-center justify-center text-lg font-bold text-orange-600 dark:text-orange-300 shadow-inner">
                     {t.initial}
                   </div>
                   <div className="text-left">
-                    <p className="font-bold text-gray-800 text-lg">{t.name}</p>
-                    <p className="text-gray-500 text-sm">{t.role}</p>
+                    <p className="font-bold text-gray-800 dark:text-gray-100 text-lg">
+                      {t.name}
+                    </p>
+                    <p className="text-gray-500 dark:text-gray-400 text-sm">
+                      {t.role}
+                    </p>
                   </div>
                 </div>
               </div>

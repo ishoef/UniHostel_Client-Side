@@ -3,6 +3,8 @@
 @plugin "daisyui";
 
 
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
 /* Custom Theme Color */
 @plugin "daisyui/theme" {
   name: "light";
@@ -16,3 +18,13 @@
   --color-muted: #7D7D7D;       /* Gray Text */
 }
 
+@plugin "daisyui/theme" {
+  name: "dark";
+  --color-primary: #ff6b35; /* Keep the same bright orange for buttons */
+  --color-secondary: #4db6ac; /* Softer teal, less harsh */
+  --color-accent: #ff8c42; /* Slightly lighter accent for hover */
+  --color-neutral: #e0e0e0; /* Light gray text, softer than pure white */
+  --color-base-100: #121212; /* Almost black background - easy on eyes */
+  --color-base-200: #1e1e1e; /* Slightly lighter card background */
+  --color-muted: #9e9e9e; /* Muted gray for less important text */
+}
