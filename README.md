@@ -2,9 +2,9 @@
 
 UniHostel is a full-stack MERN (MongoDB, Express.js, React.js, Node.js) web application that manages university hostel meals and reviews. Students can log in, request meals, give feedback, and upgrade packages, while admins handle all operations efficiently.
 
-🔗 **Live Site:** [https://unihostel.web.app](https://unihostel.web.app)  
-🔒 **Admin Email:** `admin@unihostel.com`  
-🔑 **Admin Password:** `Admin@1234`
+🔗 **Live Site:** [https://unihostel.web.app](https://hostel-managementp12.netlify.app)  
+🔒 **Admin Email:** `ismailnayef155@gmail.com`  
+🔑 **Admin Password:** `155@Gmail.com`
 
 ---
 
