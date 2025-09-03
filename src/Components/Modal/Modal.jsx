@@ -21,10 +21,10 @@ const Modal = ({ showModal, setShowModal, children }) => {
   }, [showModal, setShowModal]);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#15315199] px-4 overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#15315199] dark:bg-[#0e1b2caa] px-4 overflow-y-auto">
       <div
         ref={modalRef}
-        className="w-full max-w-lg md:max-w-2xl lg:max-w-3xl border border-gray-300 shadow-xl bg-white rounded-2xl p-6 my-10"
+        className="w-full max-w-lg md:max-w-2xl lg:max-w-3xl border border-gray-300 dark:border-gray-700 shadow-xl bg-white dark:bg-gray-900 rounded-2xl p-6 my-10 text-gray-900 dark:text-gray-100"
       >
         {children}
       </div>

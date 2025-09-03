@@ -60,9 +60,11 @@ const OverView = () => {
   ];
 
   return (
-    <div>
-      <div className="space-y-5">
-        <h1 className="text-3xl font-semibold text-primary">Overview</h1>
+    <div className="bg-white dark:bg-gray-900 min-h-screen text-gray-900 dark:text-gray-100">
+      <div className="space-y-5 px-4 md:px-8 py-6">
+        <h1 className="text-3xl font-semibold text-primary dark:text-orange-400">
+          Overview
+        </h1>
 
         {/* ✅ Loading UI (Optional) */}
         {usersLoading || servedLoading ? (
@@ -75,9 +77,9 @@ const OverView = () => {
           </div>
         )}
 
-        <hr className="border border-gray-300 mt-10" />
+        <hr className="border-gray-300 dark:border-gray-700 mt-10" />
         <AllMeals />
-        <hr className="border border-gray-300 mt-10" />
+        <hr className="border-gray-300 dark:border-gray-700 mt-10" />
         <UpcommingMeals />
       </div>
       <div className="mt-10"></div>

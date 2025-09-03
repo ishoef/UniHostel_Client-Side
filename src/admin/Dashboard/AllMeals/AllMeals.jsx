@@ -16,7 +16,7 @@ const AllMeals = () => {
   );
 
   const className =
-    "flex justify-center items-center min-h-screen md:min-h-[calc(100vh-300px)]";
+    "flex justify-center items-center min-h-screen md:min-h-[calc(100vh-300px)] dark:bg-gray-900 dark:text-gray-200";
 
   if (loading) return <PreLoader className={className} />;
 
@@ -33,7 +33,7 @@ const AllMeals = () => {
   }
 
   return (
-    <div>
+    <div className="dark:bg-gray-900 dark:text-gray-200">
       <CreatedGroups
         setMeals={setMeals}
         buttonShow={true}
@@ -45,7 +45,7 @@ const AllMeals = () => {
         <button
           onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
           disabled={page === 1}
-          className="cursor-pointer disabled:cursor-not-allowed px-3 py-1 rounded bg-gray-300 hover:bg-gray-400 disabled:opacity-50"
+          className="cursor-pointer disabled:cursor-not-allowed px-3 py-1 rounded bg-gray-300 hover:bg-gray-400 disabled:opacity-50 dark:bg-gray-700 dark:hover:bg-gray-600"
         >
           Prev
         </button>
@@ -55,8 +55,8 @@ const AllMeals = () => {
             onClick={() => setPage(num + 1)}
             className={`px-3 py-1 rounded ${
               page === num + 1
-                ? "bg-orange-500 cursor-pointer disabled:cursor-not-allowed text-white"
-                : "bg-gray-200 cursor-pointer disabled:cursor-not-allowed hover:bg-gray-300"
+                ? "bg-orange-500 cursor-pointer text-white"
+                : "bg-gray-200 cursor-pointer hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600"
             }`}
           >
             {num + 1}
@@ -65,7 +65,7 @@ const AllMeals = () => {
         <button
           onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
           disabled={page === totalPages}
-          className="cursor-pointer disabled:cursor-not-allowed px-3 py-1 rounded bg-gray-300 hover:bg-gray-400 disabled:opacity-50"
+          className="cursor-pointer disabled:cursor-not-allowed px-3 py-1 rounded bg-gray-300 hover:bg-gray-400 disabled:opacity-50 dark:bg-gray-700 dark:hover:bg-gray-600"
         >
           Next
         </button>

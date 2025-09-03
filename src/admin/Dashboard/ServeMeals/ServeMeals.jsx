@@ -41,13 +41,13 @@ const ServeMeals = () => {
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
-      <h2 className="text-2xl md:text-3xl font-bold mb-6 text-orange-500">
+      <h2 className="text-2xl md:text-3xl font-bold mb-6 text-orange-500 dark:text-orange-400">
         Meal Serve Requests <span>({data?.pagination?.total || 0})</span>
       </h2>
 
-      <div className="overflow-x-auto shadow-lg rounded-xl bg-white">
-        <table className="min-w-full text-sm text-left">
-          <thead className="bg-gray-100 text-gray-600 uppercase tracking-wider">
+      <div className="overflow-x-auto shadow-lg rounded-xl bg-white dark:bg-gray-800">
+        <table className="min-w-full text-sm text-left text-gray-700 dark:text-gray-300">
+          <thead className="bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-200 uppercase tracking-wider">
             <tr>
               <th className="px-6 py-3">#</th>
               <th className="px-6 py-3">Title</th>
@@ -59,12 +59,12 @@ const ServeMeals = () => {
               <th className="px-6 py-3">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-100">
+          <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
             {sortedRequests?.length === 0 ? (
               <tr>
                 <td
                   colSpan="8"
-                  className="text-center p-6 text-gray-400 font-medium"
+                  className="text-center p-6 text-gray-400 dark:text-gray-400 font-medium"
                 >
                   No meal requests found.
                 </td>
@@ -73,11 +73,13 @@ const ServeMeals = () => {
               sortedRequests?.map((req, ind) => (
                 <tr
                   key={req._id}
-                  className="hover:bg-orange-50 transition-all duration-200"
+                  className="hover:bg-orange-50 dark:hover:bg-gray-700 transition-all duration-200"
                 >
                   <td className="px-6 py-4 font-medium">{ind + 1}</td>
                   <td className="px-6 py-4 font-medium">{req.mealName}</td>
-                  <td className="px-6 py-4 text-blue-600">{req.email}</td>
+                  <td className="px-6 py-4 text-blue-600 dark:text-blue-400">
+                    {req.email}
+                  </td>
                   <td className="px-6 py-4">{req.name}</td>
                   <td className="px-6 py-4">{formatDate(req.requestTime)}</td>
                   <td className="px-6 py-4">{formatDate(req.approvedAt)}</td>
@@ -85,10 +87,10 @@ const ServeMeals = () => {
                     <span
                       className={`px-3 py-1 rounded-full text-xs font-semibold ${
                         req.status === "pending"
-                          ? "bg-yellow-100 text-yellow-700"
+                          ? "bg-yellow-100 text-yellow-700 dark:bg-yellow-800 dark:text-yellow-300"
                           : req.status === "delivered"
-                          ? "bg-green-100 text-green-700"
-                          : "bg-red-100 text-red-700"
+                          ? "bg-green-100 text-green-700 dark:bg-green-800 dark:text-green-300"
+                          : "bg-red-100 text-red-700 dark:bg-red-800 dark:text-red-300"
                       }`}
                     >
                       {req.status}
@@ -98,14 +100,14 @@ const ServeMeals = () => {
                     <button
                       onClick={() => updateStatus(req._id, "delivered")}
                       disabled={req.status !== "pending"}
-                      className="cursor-pointer disabled:cursor-not-allowed bg-orange-500 hover:bg-orange-600 text-white px-3 py-1 rounded-md text-sm disabled:opacity-50"
+                      className="cursor-pointer disabled:cursor-not-allowed bg-orange-500 hover:bg-orange-600 dark:bg-orange-600 dark:hover:bg-orange-500 text-white px-3 py-1 rounded-md text-sm disabled:opacity-50"
                     >
                       Serve
                     </button>
                     <button
                       onClick={() => updateStatus(req._id, "cancelled")}
                       disabled={req.status !== "pending"}
-                      className="cursor-pointer disabled:cursor-not-allowed bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md text-sm disabled:opacity-50"
+                      className="cursor-pointer disabled:cursor-not-allowed bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-500 text-white px-3 py-1 rounded-md text-sm disabled:opacity-50"
                     >
                       Cancel
                     </button>
@@ -122,12 +124,12 @@ const ServeMeals = () => {
         <button
           onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
           disabled={page === 1}
-          className="px-4 py-2 bg-gray-200 text-gray-700 hover:bg-gray-300 rounded disabled:opacity-50"
+          className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 rounded disabled:opacity-50"
         >
           Previous
         </button>
 
-        <span className="text-gray-700 font-medium">
+        <span className="text-gray-700 dark:text-gray-200 font-medium">
           Page {page} of {data?.pagination?.totalPages || 1}
         </span>
 
@@ -138,7 +140,7 @@ const ServeMeals = () => {
             )
           }
           disabled={page === data?.pagination?.totalPages}
-          className="px-4 py-2 bg-gray-200 text-gray-700 hover:bg-gray-300 rounded disabled:opacity-50"
+          className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 rounded disabled:opacity-50"
         >
           Next
         </button>

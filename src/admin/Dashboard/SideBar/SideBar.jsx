@@ -46,153 +46,145 @@ const SideBar = () => {
   };
   const { role, roleLoading } = useUserRole();
 
-  // Admin Sidebar Links
   const adminSidebarLinks = [
     {
       to: "overview",
-      icon: <AiOutlineDashboard size={22} color="#ff6b35" />,
+      icon: <AiOutlineDashboard size={22} />,
       label: "Overview",
       roleRequired: "admin",
     },
     {
       to: "users",
-      icon: <PiUsersThreeBold size={22} color="#ff6b35" />,
+      icon: <PiUsersThreeBold size={22} />,
       label: "All Users",
       roleRequired: "admin",
     },
     {
       to: "addmeal",
-      icon: <IoCreate size={22} color="#ff6b35" />,
+      icon: <IoCreate size={22} />,
       label: "Add Meal",
       roleRequired: "admin",
     },
     {
       to: "allMeals",
-      icon: <PiHamburgerFill size={22} color="#ff6b35" />,
+      icon: <PiHamburgerFill size={22} />,
       label: "All Meals",
       roleRequired: "admin",
     },
     {
       to: "all_reviews",
-      icon: <FaStar size={22} color="#ff6b35" />,
+      icon: <FaStar size={22} />,
       label: "All Reviews",
       roleRequired: "admin",
     },
     {
       to: "serve_meals",
-      icon: <ImSpoonKnife size={22} color="#ff6b35" />,
+      icon: <ImSpoonKnife size={22} />,
       label: "Serve Meals",
       roleRequired: "admin",
     },
     {
       to: "upcomming_meals",
-      icon: <TbComet size={22} color="#ff6b35" />,
+      icon: <TbComet size={22} />,
       label: "Upcomming Meals",
       roleRequired: "admin",
     },
     {
       to: "makeadmin",
-      icon: <MdAdminPanelSettings size={22} color="#ff6b35" />,
+      icon: <MdAdminPanelSettings size={22} />,
       label: "Make Admin",
       roleRequired: "admin",
     },
     {
       to: "dash_profile",
-      icon: <FaUser size={22} color="#ff6b35" />,
+      icon: <FaUser size={22} />,
       label: "My Profile",
       roleRequired: "user",
     },
   ];
 
-  // User Sidebar Links
   const userSidebarLinks = [
     {
       to: "dash_profile",
-      icon: <FaUser size={22} color="#ff6b35" />,
+      icon: <FaUser size={22} />,
       label: "My Profile",
       roleRequired: "user",
     },
     {
       to: "my_rquested_meals",
-      icon: <FaUtensils size={22} color="#ff6b35" />,
+      icon: <FaUtensils size={22} />,
       label: "Requested Meals",
       roleRequired: "user",
     },
     {
       to: "my_reviews",
-      icon: <FaStar size={22} color="#ff6b35" />,
+      icon: <FaStar size={22} />,
       label: "My Reviews",
       roleRequired: "user",
     },
     {
       to: "payments",
-      icon: <FaCreditCard size={22} color="#ff6b35" />,
+      icon: <FaCreditCard size={22} />,
       label: "Payment History",
       roleRequired: "user",
     },
   ];
 
   return (
-    <div className="sticky top-0 md:border h-screen overflow-y-auto border-gray-300 dark:border-primary/10  md:p-3 flex flex-col shadow-md">
-      <h1 className="text-primary mb-3 text-center text-2xl font-semibold ">
+    <div className="sticky top-0 md:border h-screen overflow-y-auto border-gray-300 dark:border-primary/20 md:p-3 flex flex-col shadow-md bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+      <h1 className="text-primary dark:text-yellow-400 mb-3 text-center text-2xl font-semibold">
         Dashboard Menu
       </h1>
-      <hr className="mb-4 border border-gray-300" />
+      <hr className="mb-4 border-gray-300 dark:border-primary/20" />
       <div className="flex flex-col h-full justify-between">
         <nav>
-          <ul className="flex flex-col items-center gap-3 ">
+          <ul className="flex flex-col items-center gap-3">
             {!roleLoading &&
               role === "admin" &&
               adminSidebarLinks.map((link, index) => (
                 <Link
                   key={index}
                   to={link.to}
-                  className="border w-full border-gray-300 dark:border-primary/10 rounded hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-primary p-2"
+                  className="border w-full border-gray-300 dark:border-primary/20 rounded hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-primary p-2"
                 >
                   <p className="flex items-center justify-center md:justify-start gap-3">
                     {link.icon}
-                    <span className="hover:text-primary hidden md:block">
-                      {link.label}
-                    </span>
+                    <span className="hidden md:block">{link.label}</span>
                   </p>
                 </Link>
               ))}
-
-            {role === "user" &&
+            {!roleLoading &&
+              role === "user" &&
               userSidebarLinks.map((link, index) => (
                 <Link
                   key={index}
                   to={link.to}
-                  className="border w-full border-gray-300 dark:border-primary/10 rounded hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-primary p-2"
+                  className="border w-full border-gray-300 dark:border-primary/20 rounded hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-primary p-2"
                 >
                   <p className="flex items-center justify-center md:justify-start gap-3">
                     {link.icon}
-                    <span className="hover:text-primary hidden md:block">
-                      {link.label}
-                    </span>
+                    <span className="hidden md:block">{link.label}</span>
                   </p>
                 </Link>
               ))}
           </ul>
         </nav>
 
-        <div className="space-y-4 ">
+        <div className="space-y-4 mt-4">
           <Link
             to={"/"}
-            className="bg-transparent text-primary w-full btn btn-primary flex justify-center items-center"
+            className="bg-transparent text-primary dark:text-yellow-400 w-full btn flex justify-center items-center hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:text-primary"
           >
             <p className="flex items-center gap-2">
-              {" "}
               <FaHome size={20} />
               <span className="hidden md:block">Go Home</span>
             </p>
           </Link>
           <button
             onClick={handleLogOut}
-            className=" w-full btn btn-primary flex justify-center items-center"
+            className="w-full btn flex justify-center items-center bg-primary text-white dark:bg-yellow-400 dark:text-gray-900 hover:bg-primary/90 dark:hover:bg-yellow-500"
           >
             <p className="flex items-center gap-2">
-              {" "}
               <MdLogout size={20} />
               <span className="hidden md:block">Log Out</span>
             </p>

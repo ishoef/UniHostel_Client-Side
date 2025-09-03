@@ -13,35 +13,10 @@ const AddMealForm = ({ setMeals }) => {
   } = useForm();
   const { user } = useContext(AuthContext);
   const axiosSecure = useAxiosSecure();
-  // const [loading, setLoading] = useState(false);
-  // const [imageUrl, setImageUrl] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const distributorName = user.displayName;
   const distributorEmail = user.email;
-  // const imageBB_API_KEY = "YOUR_IMAGE_BB_API_KEY"; // Replace with your key
-
-  // const handleImageUpload = async (e) => {
-  //   const image = e.target.files[0];
-  //   const form = new FormData();
-  //   form.append("image", image);
-
-  //   setLoading(true);
-  //   try {
-  //     const res = await axios.post(
-  //       `https://api.imgbb.com/1/upload?key=${imageBB_API_KEY}`,
-  //       form
-  //     );
-  //     const url = res.data.data.url;
-  //     setImageUrl(url);
-  //     setValue("image", url); // set in form data
-  //   } catch (err) {
-  //     console.error("Image upload failed", err);
-  //     alert("Image upload failed");
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
 
   const onSubmit = async (data) => {
     setIsSubmitting(true);
@@ -51,12 +26,10 @@ const AddMealForm = ({ setMeals }) => {
     data.likes = 0;
     data.reviews_count = 0;
 
-    // Done: send to backend
     try {
       const response = await axiosSecure.post("/meals", data);
 
       if (response.data.insertedId || response.data.success) {
-        // ✅ Show success alert
         Swal.fire({
           icon: "success",
           title: "Meal Submitted!",
@@ -65,11 +38,11 @@ const AddMealForm = ({ setMeals }) => {
         });
 
         const allMeals = await axiosSecure.get("/meals");
-        setMeals ? setMeals(allMeals.data) : '';
+        setMeals ? setMeals(allMeals.data) : "";
         reset();
       }
     } catch (error) {
-      console.error("Error Submiting meal:", error);
+      console.error("Error Submitting meal:", error);
       Swal.fire({
         icon: "error",
         title: "Submission Failed",
@@ -79,11 +52,10 @@ const AddMealForm = ({ setMeals }) => {
     } finally {
       setIsSubmitting(false);
     }
-    // setImageUrl(""); // optionally reset image preview
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-10 bg-white shadow-2xl rounded-3xl mt-12 border border-pink-100">
+    <div className="max-w-4xl mx-auto p-10 bg-white dark:bg-gray-900 shadow-2xl rounded-3xl mt-12 border border-pink-100 dark:border-gray-700">
       <h2 className="text-4xl font-extrabold text-center bg-gradient-to-r from-orange-500 via-pink-500 to-purple-500 text-transparent bg-clip-text mb-8 animate-pulse">
         🍽️ Add a Delicious New Meal
       </h2>
@@ -93,12 +65,12 @@ const AddMealForm = ({ setMeals }) => {
       >
         {/* Meal Title */}
         <div>
-          <label className="block font-semibold text-gray-700 mb-1">
+          <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-1">
             Meal Title
           </label>
           <input
             {...register("title", { required: true })}
-            className="w-full border border-gray-400 focus-within:outline-primary p-3 rounded hover:shadow-md transition"
+            className="w-full border border-gray-400 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus-within:outline-primary p-3 rounded hover:shadow-md transition"
             placeholder="e.g. Spicy Chicken Curry"
           />
           {errors.title && (
@@ -108,12 +80,12 @@ const AddMealForm = ({ setMeals }) => {
 
         {/* Meal Category */}
         <div>
-          <label className="block font-semibold text-gray-700 mb-1">
+          <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-1">
             Category
           </label>
           <select
             {...register("category", { required: true })}
-            className="w-full h-[52px] border border-gray-400 focus:outline-primary p-3 rounded hover:shadow-md transition bg-white"
+            className="w-full h-[52px] border border-gray-400 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-primary p-3 rounded hover:shadow-md transition"
           >
             <option value="" disabled>
               -- Select Category --
@@ -127,43 +99,15 @@ const AddMealForm = ({ setMeals }) => {
           )}
         </div>
 
-        {/* Upload Image
+        {/* Image URL */}
         <div className="md:col-span-2">
-          <label className="block font-semibold text-gray-700 mb-1">
-            Upload Image
-          </label>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleImageUpload}
-            className="w-fit file:mr-4 border file:py-2 cursor-pointer file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-pink-50 file:cursor-pointer file:text-pink-700 hover:file:bg-pink-100 transition"
-            // required
-          />
-          {loading && (
-            <p className="text-sm text-gray-500 mt-1">Uploading image...</p>
-          )}
-          {imageUrl && (
-            <img
-              src={imageUrl}
-              alt="Uploaded"
-              className="w-40 h-40 object-cover mt-4 rounded shadow-md hover:scale-105 transition-transform duration-300"
-            />
-          )}
-          {/* <input type="hidden" {...register("image", { required: true })} /> */}
-        {/* <input type="hidden" {...register("image")} />
-          {errors.image && (
-            <p className="text-red-500 text-sm mt-1">Image is required</p>
-          )}
-        </div> */}
-
-        <div className="md:col-span-2">
-          <label className="block font-semibold text-gray-700 mb-1">
+          <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-1">
             Image URL
           </label>
           <input
             type="url"
             {...register("imageUrl", { required: true })}
-            className="w-full border border-gray-400 focus-within:outline-primary p-3 rounded hover:shadow-md transition"
+            className="w-full border border-gray-400 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus-within:outline-primary p-3 rounded hover:shadow-md transition"
             placeholder="Enter image URL (e.g. https://...)"
           />
           {errors.imageUrl && (
@@ -173,12 +117,12 @@ const AddMealForm = ({ setMeals }) => {
 
         {/* Ingredients */}
         <div className="md:col-span-2">
-          <label className="block font-semibold text-gray-700 mb-1">
+          <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-1">
             Ingredients
           </label>
           <textarea
             {...register("ingredients", { required: true })}
-            className="w-full border border-gray-400 focus-within:outline-primary p-3 rounded hover:shadow-md transition"
+            className="w-full border border-gray-400 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus-within:outline-primary p-3 rounded hover:shadow-md transition"
             rows="3"
             placeholder="List ingredients separated by commas"
           />
@@ -189,12 +133,12 @@ const AddMealForm = ({ setMeals }) => {
 
         {/* Description */}
         <div className="md:col-span-2">
-          <label className="block font-semibold text-gray-700 mb-1">
+          <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-1">
             Description
           </label>
           <textarea
             {...register("description", { required: true })}
-            className="w-full border border-gray-400 focus-within:outline-primary p-3 rounded hover:shadow-md transition"
+            className="w-full border border-gray-400 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus-within:outline-primary p-3 rounded hover:shadow-md transition"
             rows="3"
             placeholder="Describe how the meal tastes and looks..."
           />
@@ -205,14 +149,14 @@ const AddMealForm = ({ setMeals }) => {
 
         {/* Price */}
         <div>
-          <label className="block font-semibold text-gray-700 mb-1">
+          <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-1">
             Price ($)
           </label>
           <input
             type="number"
             step="0.01"
             {...register("price", { required: true })}
-            className="w-full border border-gray-400 focus-within:outline-primary p-3 rounded hover:shadow-md transition"
+            className="w-full border border-gray-400 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus-within:outline-primary p-3 rounded hover:shadow-md transition"
           />
           {errors.price && (
             <p className="text-red-500 text-sm mt-1">Price required</p>
@@ -221,13 +165,13 @@ const AddMealForm = ({ setMeals }) => {
 
         {/* Post Time */}
         <div>
-          <label className="block font-semibold text-gray-700 mb-1">
+          <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-1">
             Post Time
           </label>
           <input
             type="datetime-local"
             {...register("postTime", { required: true })}
-            className="w-full border border-gray-400 focus-within:outline-primary p-3 rounded hover:shadow-md transition"
+            className="w-full border border-gray-400 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus-within:outline-primary p-3 rounded hover:shadow-md transition"
           />
           {errors.postTime && (
             <p className="text-red-500 text-sm mt-1">Post time required</p>
@@ -236,25 +180,25 @@ const AddMealForm = ({ setMeals }) => {
 
         {/* Distributor Name */}
         <div>
-          <label className="block font-semibold text-gray-700 mb-1">
+          <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-1">
             Distributor Name
           </label>
           <input
             value={distributorName}
             readOnly
-            className="w-full bg-gray-100 text-gray-600 p-3 border rounded"
+            className="w-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 p-3 border rounded"
           />
         </div>
 
         {/* Distributor Email */}
         <div>
-          <label className="block font-semibold text-gray-700 mb-1">
+          <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-1">
             Distributor Email
           </label>
           <input
             value={distributorEmail}
             readOnly
-            className="w-full bg-gray-100 text-gray-600 p-3 border rounded"
+            className="w-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 p-3 border rounded"
           />
         </div>
 

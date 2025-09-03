@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import { IoMdInformationCircleOutline } from "react-icons/io";
-import { Link } from "react-router-dom"; // 🛠️ FIXED: should be from react-router-dom
+import { Link } from "react-router-dom";
 
 const AllReviewsTable = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -35,24 +35,24 @@ const AllReviewsTable = () => {
     const confirm = await Swal.fire({
       title: "Delete This Review?",
       html: `
-      <div style="text-align:left; font-size:14px; line-height:1.6; padding: 0 4px;">
-        <p><strong style="color:#e76f51;">🍽️ Meal:</strong> <span style="font-weight:600;">${mealName}</span></p>
-        <p><strong style="color:#264653;">👤 Reviewer:</strong> ${name}</p>
-        <p><strong style="color:#f4a261;">⭐ Rating:</strong>
-          <span style="color:#facc15; font-size:16px;">${"★".repeat(
-            rating
-          )}</span>
-          <span style="color:#d1d5db; font-size:16px;">${"★".repeat(
-            5 - rating
-          )}</span>
-        </p>
-        <p><strong style="color:#2a9d8f;">💬 Comment:</strong><br>
-          <span style="display:inline-block; margin-top:4px; background:#f9fafb; padding:8px 10px; border-radius:6px; border:1px solid #e5e7eb;">
-            ${comment}
-          </span>
-        </p>
-      </div>
-    `,
+        <div style="text-align:left; font-size:14px; line-height:1.6; padding: 0 4px;">
+          <p><strong style="color:#e76f51;">🍽️ Meal:</strong> <span style="font-weight:600;">${mealName}</span></p>
+          <p><strong style="color:#264653;">👤 Reviewer:</strong> ${name}</p>
+          <p><strong style="color:#f4a261;">⭐ Rating:</strong>
+            <span style="color:#facc15; font-size:16px;">${"★".repeat(
+              rating
+            )}</span>
+            <span style="color:#d1d5db; font-size:16px;">${"★".repeat(
+              5 - rating
+            )}</span>
+          </p>
+          <p><strong style="color:#2a9d8f;">💬 Comment:</strong><br>
+            <span style="display:inline-block; margin-top:4px; background:#f9fafb; padding:8px 10px; border-radius:6px; border:1px solid #e5e7eb;">
+              ${comment}
+            </span>
+          </p>
+        </div>
+      `,
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#e3342f",
@@ -78,7 +78,7 @@ const AllReviewsTable = () => {
         timer: 2000,
         showConfirmButton: true,
       });
-      refetch(); // ✅ Refetch data after deletion
+      refetch();
     } catch (err) {
       console.error("Failed to delete review", err);
       Swal.fire({
@@ -91,7 +91,7 @@ const AllReviewsTable = () => {
 
   return (
     <div className="p-5">
-      <h2 className="text-3xl sm:text-3xl lg:text-4xl font-bold my-4">
+      <h2 className="text-3xl sm:text-3xl lg:text-4xl font-bold my-4 dark:text-white">
         All{" "}
         <span className="bg-gradient-to-r from-orange-500 to-pink-500 text-transparent bg-clip-text">
           Meals Review <span className="text-xl">({reviews.length})</span>
@@ -99,14 +99,18 @@ const AllReviewsTable = () => {
       </h2>
 
       {isLoading ? (
-        <p className="text-center text-gray-500">Loading reviews...</p>
+        <p className="text-center text-gray-500 dark:text-gray-400">
+          Loading reviews...
+        </p>
       ) : isError ? (
-        <p className="text-center text-red-500">Failed to load reviews.</p>
+        <p className="text-center text-red-500 dark:text-red-400">
+          Failed to load reviews.
+        </p>
       ) : (
         <>
-          <div className="overflow-x-auto rounded-lg shadow ring-1 ring-gray-200">
-            <table className="min-w-full text-sm text-gray-800">
-              <thead className="bg-gradient-to-r from-orange-100 to-pink-100 text-gray-700 text-left">
+          <div className="overflow-x-auto rounded-lg shadow ring-1 ring-gray-200 dark:ring-gray-700">
+            <table className="min-w-full text-sm text-gray-800 dark:text-gray-300">
+              <thead className="bg-gradient-to-r from-orange-100 to-pink-100 dark:from-gray-700 dark:to-gray-800 text-gray-700 dark:text-gray-300 text-left">
                 <tr>
                   <th className="px-5 py-3 font-semibold">Meal</th>
                   <th className="px-5 py-3 font-semibold">Reviewer</th>
@@ -119,17 +123,17 @@ const AllReviewsTable = () => {
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
+              <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                 {reviews.map((r, idx) => (
                   <tr
                     key={`${r.mealId}-${r.index}`}
                     className={
                       idx % 2 === 0
-                        ? "bg-white"
-                        : "bg-gray-50 hover:bg-orange-50 transition-all"
+                        ? "bg-white dark:bg-gray-800"
+                        : "bg-gray-50 hover:bg-orange-50 transition-all dark:bg-gray-900 dark:hover:bg-gray-700"
                     }
                   >
-                    <td className="px-5 py-3 font-medium hover:underline hover:text-blue-600">
+                    <td className="px-5 py-3 font-medium hover:underline hover:text-blue-600 dark:hover:text-blue-400">
                       <Link to={`/meal_details/${r.mealId}`}>
                         {r.mealName || "N/A"}
                       </Link>
@@ -139,7 +143,7 @@ const AllReviewsTable = () => {
                       {r.email ? (
                         <a
                           href={`mailto:${r.email}`}
-                          className="text-blue-600 hover:underline"
+                          className="text-blue-600 hover:underline dark:text-blue-400"
                         >
                           {r.email}
                         </a>
@@ -149,7 +153,7 @@ const AllReviewsTable = () => {
                     </td>
                     <td className="text-center">{r.rating}</td>
                     <td className="px-5 py-3">{r.comment}</td>
-                    <td className="px-5 py-3 text-gray-500">
+                    <td className="px-5 py-3 text-gray-500 dark:text-gray-400">
                       {new Date(r.date).toLocaleString("en-US", {
                         year: "numeric",
                         month: "short",
@@ -170,7 +174,7 @@ const AllReviewsTable = () => {
                             r.mealName || "N/A"
                           )
                         }
-                        className="bg-red-100 cursor-pointer text-red-600 px-3 py-1.5 rounded hover:bg-red-200 transition-all text-xs font-medium"
+                        className="bg-red-100 dark:bg-red-800 cursor-pointer text-red-600 dark:text-red-300 px-3 py-1.5 rounded hover:bg-red-200 dark:hover:bg-red-700 transition-all text-xs font-medium"
                       >
                         Delete
                       </button>
@@ -181,7 +185,7 @@ const AllReviewsTable = () => {
                   <tr>
                     <td
                       colSpan="7"
-                      className="text-center px-5 py-6 text-gray-500 italic"
+                      className="text-center px-5 py-6 text-gray-500 dark:text-gray-400 italic"
                     >
                       No reviews found.
                     </td>
@@ -191,7 +195,7 @@ const AllReviewsTable = () => {
             </table>
           </div>
 
-          <div className="flex items-center mt-6 gap-1 text-gray-500">
+          <div className="flex items-center mt-6 gap-1 text-gray-500 dark:text-gray-400">
             <IoMdInformationCircleOutline />
             Click on the Meal Name for Meal Details
           </div>
@@ -201,7 +205,7 @@ const AllReviewsTable = () => {
               <button
                 onClick={() => setCurrentPage(1)}
                 disabled={currentPage === 1}
-                className="cursor-pointer disabled:cursor-not-allowed px-2 py-1 rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
+                className="cursor-pointer disabled:cursor-not-allowed px-2 py-1 rounded bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 disabled:opacity-50"
               >
                 « First
               </button>
@@ -209,12 +213,12 @@ const AllReviewsTable = () => {
               <button
                 onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
                 disabled={currentPage === 1}
-                className="cursor-pointer disabled:cursor-not-allowed px-2 py-1 rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
+                className="cursor-pointer disabled:cursor-not-allowed px-2 py-1 rounded bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 disabled:opacity-50"
               >
                 ‹ Prev
               </button>
 
-              <span className="px-3">
+              <span className="px-3 text-gray-700 dark:text-gray-300">
                 Page <span className="font-bold">{currentPage}</span> of{" "}
                 <span className="font-bold">
                   {Math.ceil(totalReviews / reviewsPerPage)}
@@ -232,7 +236,7 @@ const AllReviewsTable = () => {
                 disabled={
                   currentPage >= Math.ceil(totalReviews / reviewsPerPage)
                 }
-                className="cursor-pointer disabled:cursor-not-allowed px-2 py-1 rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
+                className="cursor-pointer disabled:cursor-not-allowed px-2 py-1 rounded bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 disabled:opacity-50"
               >
                 Next ›
               </button>
@@ -244,7 +248,7 @@ const AllReviewsTable = () => {
                 disabled={
                   currentPage >= Math.ceil(totalReviews / reviewsPerPage)
                 }
-                className="cursor-pointer disabled:cursor-not-allowed px-2 py-1 rounded bg-gray-200 hover:bg-gray-300 disabled:opacity-50"
+                className="cursor-pointer disabled:cursor-not-allowed px-2 py-1 rounded bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 disabled:opacity-50"
               >
                 Last »
               </button>
